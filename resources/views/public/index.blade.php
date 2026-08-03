@@ -1,6 +1,6 @@
 <x-public.layout>
 
-  <section id="home" class="min-h-screen space-y-6">
+  <section id="home" class="min-h-full space-y-6">
     <h1 class="text-center text-2xl font-serif text-primary dark:text-sky-200 my-6">Good Shepherd Christian Academy of Batangas</h1>
 
     <img src="" alt="image" class="h-80 w-full bg-neutral-200">

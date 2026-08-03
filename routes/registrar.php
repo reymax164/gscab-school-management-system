@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
-  return view('user_registrar.dashboard');
-});
+  return view('portals.registrar.dashboard');
+})->name('dashboard');
