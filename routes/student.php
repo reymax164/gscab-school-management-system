@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 // student
+Route::redirect('/', 'dashboard');
+
 Route::get('/dashboard', function () {
   return view('portals.student.dashboard');
 })->name('dashboard');
@@ -22,7 +24,3 @@ Route::get('/balance', function () {
 Route::get('/feedback', function () {
   return view('portals.student.feedback');
 })->name('feedback');
-
-Route::get('/logout', function () {
-  return view('portals.student.logout');
-})->name('logout');
