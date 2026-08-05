@@ -5,17 +5,17 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', 'dashboard');
 
 Route::get('/dashboard', function () {
-  return view('portals.teacher.dashboard');
+  return view('users.teacher.dashboard');
 })->name('dashboard');
 
 Route::get('/schedule', function () {
-  return view('portals.teacher.schedule');
+  return view('users.teacher.schedule');
 })->name('schedule');
 
 Route::get('/student_list', function () {
-  return view('portals.teacher.student_list');
-})->name('student_list');
+  return view('users.teacher.student-list');
+})->name('student-list');
 
 Route::get('/student_grades', function () {
-  return view('portals.teacher.student_grades');
+  return view('users.teacher.student-grades');
 })->name('grades');

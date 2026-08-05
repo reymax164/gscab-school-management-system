@@ -3,24 +3,24 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-  return view('public.index');
+  return view('guest.index');
 })->name('home');
 
 Route::get('news', function () {
-  return view('public.news');
+  return view('guest.news');
 })->name('news');
 
 Route::get('/about', function () {
-  return view('public.about');
+  return view('guest.about');
 })->name('about');
 
 
 Route::get('/contact', function () {
-  return view('public.contact');
+  return view('guest.contact');
 })->name('contact');
 
 Route::get('/faqs', function () {
-  return view('public.faqs');
+  return view('guest.faqs');
 })->name('faqs');
 
 require __DIR__.'/auth.php';

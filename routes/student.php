@@ -6,21 +6,21 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', 'dashboard');
 
 Route::get('/dashboard', function () {
-  return view('portals.student.dashboard');
+  return view('users.student.dashboard');
 })->name('dashboard');
 
 Route::get('/schedule', function () {
-  return view('portals.student.schedule');
+  return view('users.student.schedule');
 })->name('schedule');
 
 Route::get('/grades', function () {
-  return view('portals.student.grades');
+  return view('users.student.grades');
 })->name('grades');
 
 Route::get('/balance', function () {
-  return view('portals.student.balance');
+  return view('users.student.balance');
 })->name('balance');
 
 Route::get('/feedback', function () {
-  return view('portals.student.feedback');
+  return view('users.student.feedback');
 })->name('feedback');
