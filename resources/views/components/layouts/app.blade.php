@@ -12,9 +12,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-50 dark:bg-neutral-900 min-h-screen">
+<body class="bg-gray-100 dark:bg-neutral-900 min-h-screen">
 
-  <header class="flex justify-between items-center w-full py-4 px-4 sm:px-8 md:pl-64 top-0 z-10">
+  <header
+    class="
+      bg-gray-100/90 dark:bg-neutral-900/90 backdrop-blur-sm
+      flex justify-between items-center
+      w-full py-4 px-4 sm:px-8 md:pl-64
+      top-0 left-0 right-0 sticky
+      z-10">
 
     <div class="flex items-center gap-3">
       <button 
@@ -53,7 +59,8 @@
   <!-- navigation -->
   <x-nav.bar />
 
-  <main class="min-h-screen md:ml-56 p-4 md:p-6 grow flex justify-between">
+  <main
+    {{ $attributes->merge(['class' => 'md:ml-56 min-h-screen grow'])}}>
     {{ $slot }}
   </main>
 
