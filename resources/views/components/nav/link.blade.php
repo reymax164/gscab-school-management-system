@@ -17,8 +17,8 @@
     onclick="toggleSidebar(false)"
     @class([
       'flex items-center gap-3 pl-6 py-2.5 transition-colors rounded-l-full font-medium w-full',
-      'text-blue-900 bg-white font-semibold shadow-sm' => $isActive,
-      'text-white hover:bg-blue-800/80' => !$isActive,
+      'text-blue-900 dark:text-slate-800 bg-white font-semibold shadow-sm' => $isActive,
+      'text-white hover:bg-blue-800/80 dark:hover:bg-slate-700/80' => !$isActive,
     ])
     @if($isActive) aria-current="page" @endif
   >

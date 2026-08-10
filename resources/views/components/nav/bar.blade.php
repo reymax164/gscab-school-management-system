@@ -16,7 +16,7 @@
 <nav 
   id="mobile-sidebar"
   aria-label="Sidebar Navigation"
-  class="h-full w-56 bg-blue-900 text-white fixed z-50 top-0 left-0 py-4 pl-4 pr-2 flex flex-col items-center gap-3 shadow-lg transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 overflow-y-auto">
+  class="h-full w-56 bg-blue-900 dark:bg-slate-800 text-white fixed z-50 top-0 left-0 py-4 pl-4 pr-2 flex flex-col items-center gap-3 shadow-lg transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 overflow-y-auto">
 
   <button 
     onclick="toggleSidebar(false)" 

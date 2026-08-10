@@ -1,10 +1,10 @@
 @props(['title' => ''])
 
 <div {{ $attributes->merge(['class' =>
-  'h-48 border-l-8 border-l-blue-900 rounded-md py-4 px-6 col-span-1 bg-white shadow-md hover:shadow-lg overflow-hidden'])
+  'h-48 border-l-8 border-l-blue-900 rounded-md py-4 px-6 col-span-1 bg-white shadow-md hover:shadow-lg overflow-hidden  dark:bg-neutral-800 dark:border-neutral-700 dark:border'])
 }}>
   @if($title)
-    <p class="mb-2 text-blue-900 font-semibold text-md md:text-lg">{{ $title }}</p>
+    <p class="mb-2 text-blue-900 font-semibold text-md md:text-lg dark:text-blue-400">{{ $title }}</p>
   @endif
   {{ $slot }}    
 </div>
