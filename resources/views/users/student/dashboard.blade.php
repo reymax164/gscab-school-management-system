@@ -1,7 +1,7 @@
 <x-layouts.app title="Student | Dashboard" header="Student Dashboard"
                class="grid grid-cols-2 md:grid-cols-3 gap-4 content-start p-4 md:p-6">
 
-  <div class=" border-l-8 border-l-blue-900 rounded-md p-4 md:px-6 col-span-2 bg-white shadow-md hover:shadow-lg flex overflow-hidden flex-col md:flex-row truncate dark:bg-neutral-800 dark:border-neutral-700 dark:border dark:text-neutral-100">
+  <div class=" border-l-8 border-l-blue-900 rounded-md p-4 md:px-6 col-span-2 bg-white shadow-md hover:shadow-lg flex overflow-hidden flex-col md:flex-row truncate dark:bg-neutral-800 dark:border-neutral-700 dark:border">
     <img src="" alt="" class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-neutral-200 mr-6 self-center mb-6 md:mb-0">
     <div class="flex flex-col flex-1">
       <p class="text-sm md:text-base dark:text-blue-400">Welcome Back,</p>

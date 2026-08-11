@@ -24,7 +24,7 @@
     </p>
   </div>
 
-  <a href="{{ $href }}" class="ml-auto text-sky-700 hover:text-sky-900 hover:underline text-xs md:text-sm font-medium transition-colors dark:text-neutral-100 dark:hover:text-sky-200">
+  <a href="{{ $href }}" class="ml-auto text-sky-700 hover:text-sky-900 hover:underline text-xs md:text-sm font-medium transition-colors  dark:text-neutral-100 dark:hover:text-gray-50/50">
     {{ $footer }}
   </a>
 </div>

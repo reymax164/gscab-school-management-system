@@ -21,7 +21,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-100 dark:bg-neutral-900 min-h-screen">
+<body class="bg-gray-100 dark:bg-neutral-900 dark:text-neutral-100 min-h-screen">
 
   <header
   class="

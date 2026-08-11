@@ -10,7 +10,7 @@
     <select 
         name="{{ $name }}" 
         id="{{ $name }}" 
-        {{ $attributes->merge(['class' => 'bg-white w-32 border border-neutral-300 rounded-md px-2 py-1 text-sm focus:ring-blue-500 focus:border-blue-500']) }}
+        {{ $attributes->merge(['class' => 'bg-white w-32 border border-neutral-300 rounded-md px-2 py-1 text-sm dark:text-black focus:ring-blue-500 focus:border-blue-500']) }}
     >
         {{ $slot }}
     </select>
