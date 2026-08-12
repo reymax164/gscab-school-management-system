@@ -30,7 +30,7 @@
             <h3 class="font-semibold text-gray-800 dark:text-gray-200 px-1">Breakdown</h3>
             
             @forelse ($fees ?? [] as $fee)
-                <div class="bg-white dark:bg-slate-800 px-4 py-3 flex justify-between rounded-lg shadow-sm border border-sky-100 dark:border-slate-700">
+                <div class="bg-white dark:bg-slate-800 px-4 py-3 flex justify-between rounded-lg shadow-md hover:shadow-lg border border-sky-100 dark:border-slate-700">
                     <p class="text-slate-600 dark:text-slate-300 font-medium">{{ $fee->type ?? 'Tuition' }}</p>
                     <p class="text-slate-900 dark:text-slate-100 font-semibold">₱{{ number_format($fee->amount ?? 0, 2) }}</p>
                 </div>
@@ -46,7 +46,7 @@
             <h3 class="font-semibold text-gray-800 dark:text-gray-200 px-1">Due Dates</h3>
             
             @forelse ($dueDates ?? [] as $date)
-                <div class="bg-white dark:bg-slate-800 px-4 py-3 flex justify-between rounded-lg shadow-sm border border-sky-100 dark:border-slate-700">
+                <div class="bg-white dark:bg-slate-800 px-4 py-3 flex justify-between rounded-lg shadow-md hover:shadow-lg border border-sky-100 dark:border-slate-700">
                     <p class="text-slate-600 dark:text-slate-300 font-medium">{{ $date->formatted_date ?? 'N/A' }}</p>
                     <p class="text-slate-900 dark:text-slate-100 font-semibold">₱{{ number_format($date->amount ?? 0, 2) }}</p>
                 </div>
@@ -62,7 +62,7 @@
             <h3 class="font-semibold text-gray-800 dark:text-gray-200 px-1">Transaction History</h3>
             
             @forelse ($transactions ?? [] as $transaction)
-                <div class="bg-white dark:bg-slate-800 px-4 py-3 flex justify-between items-center rounded-lg shadow-sm border border-sky-100 dark:border-slate-700 gap-4">
+                <div class="bg-white dark:bg-slate-800 px-4 py-3 flex justify-between items-center rounded-lg shadow-md hover:shadow-lg border border-sky-100 dark:border-slate-700 gap-4">
                     <div class="flex flex-col">
                         <p class="text-slate-900 dark:text-slate-100 font-medium">{{ $transaction->type ?? 'Payment' }}</p>
                         <p class="text-xs text-slate-500 dark:text-slate-400">{{ $transaction->date ?? 'Date unavailable' }}</p>

@@ -1,10 +1,32 @@
-@props(['title' => ''])
+@props([
+    'title' => '',
+    'header' => false,
+])
 
 <div {{ $attributes->merge(['class' =>
-  'h-48 border-l-8 border-l-blue-900 rounded-md py-4 px-6 col-span-1 bg-white shadow-md hover:shadow-lg overflow-hidden  dark:bg-neutral-800 dark:border-neutral-700 dark:border'])
+  'flex flex-col
+  bg-white dark:bg-neutral-800
+  h-48 rounded-md
+  overflow-hidden col-span-1  
+  border border-neutral-400 dark:border-neutral-700
+  shadow-md hover:shadow-lg'])
 }}>
   @if($title)
-    <p class="mb-2 text-blue-900 font-semibold text-md md:text-lg dark:text-blue-400">{{ $title }}</p>
+    <div @class([
+      'flex items-center shrink-0 mb-2',
+      'bg-blue-900 text-white justify-center font-semibold p-2' => $header,
+      'pt-4 px-6' => !$header,
+    ])>
+      <p @class([
+        'text-md md:text-lg md:truncate',
+        'text-blue-900 font-semibold dark:text-blue-400' => !$header,
+      ])>
+        {{ $title }}
+      </p>
+    </div>
   @endif
-  {{ $slot }}    
+
+  <div class="flex-1 overflow-y-auto px-6 pb-4">
+    {{ $slot }}    
+  </div>
 </div>
