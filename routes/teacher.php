@@ -16,6 +16,10 @@ Route::get('/student_list', function () {
   return view('users.teacher.student-list');
 })->name('student-list');
 
+Route::get('student_list/view', function () {
+  return view('users.teacher.view-student-list');
+})->name('student-list.view');
+
 Route::get('/student_grades', function () {
   return view('users.teacher.student-grades');
 })->name('grades');

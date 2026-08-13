@@ -22,6 +22,8 @@ return [
     ],
     'cashier' => [
         ['route' => 'cashier.dashboard', 'label' => 'Dashboard', 'icon' => 'icons/dashboard.png'],
+        ['route' => 'cashier.finance', 'label' => 'Dashboard', 'icon' => 'icons/finance.png'],
+        ['route' => 'cashier.reports', 'label' => 'Dashboard', 'icon' => 'icons/dashboard.png'],
     ],
     'admin' => [
         ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'icons/dashboard.png'],

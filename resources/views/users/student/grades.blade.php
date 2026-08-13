@@ -2,7 +2,7 @@
 
     {{-- S.Y. filter --}}
     <form action="{{ url()->current() }}" method="GET" class="mb-8 max-w-xs">
-        <x-form.select name="sy" label="School Year" onchange="this.form.submit()">
+        <x-form.select name="sy" label="S.Y." onchange="this.form.submit()">
             @for ($i = 2020; $i <= now()->year; $i++)
                 @php $sy = "{$i}-" . ($i + 1); @endphp
                 <option value="{{ $sy }}" @selected(request('sy') === $sy)>

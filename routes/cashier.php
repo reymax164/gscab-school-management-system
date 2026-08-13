@@ -3,6 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
-  return view('portals.cashier.dashboard');
+  return view('users.cashier.dashboard');
 })->name('dashboard');
 
