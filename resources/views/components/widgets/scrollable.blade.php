@@ -39,7 +39,7 @@
     </p>
   </div>
 
-  <!-- Content Wrapper -->
+  <!-- wrapper -->
   <div class="flex flex-col flex-1 overflow-hidden px-4 md:px-6 pb-4">
     <ul class="flex-1 overflow-y-auto my-1 pr-1 divide-y divide-gray-100 text-sm text-gray-800">
       @forelse ($items as $item)
@@ -60,9 +60,14 @@
         @endphp
 
         <li class="py-1.5 px-2 rounded transition-colors">
+          @php
+              // col count
+              $colCount = count($cols);
+          @endphp
+
           @if($url)
             {{-- clickable list --}}
-            <a href="{{ $url }}" class="flex items-center justify-between gap-3 hover:bg-slate-100 -mx-2 -my-1.5 p-1.5 rounded transition-colors">
+            <a href="{{ $url }}" class="grid items-center gap-3 hover:bg-slate-100 -mx-2 -my-1.5 p-1.5 rounded transition-colors" style="grid-template-columns: repeat({{ $colCount }}, minmax(0, 1fr));">
               @foreach($cols as $col)
                 <span class="truncate {{ $loop->last ? 'text-right text-xs text-gray-500 font-normal' : 'font-medium text-gray-800' }}">
                   {{ $col }}
@@ -71,7 +76,7 @@
             </a>
           @else
             {{-- read only list --}}
-            <div class="flex items-center justify-between gap-3">
+            <div class="grid items-center gap-3" style="grid-template-columns: repeat({{ $colCount }}, minmax(0, 1fr));">
               @foreach($cols as $col)
                 <span class="truncate {{ $loop->last ? 'text-right text-xs text-gray-500 font-normal' : 'font-medium text-gray-800' }}">
                   {{ $col }}

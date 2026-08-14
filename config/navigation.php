@@ -11,7 +11,7 @@ return [
     'teacher' => [
         ['route' => 'teacher.dashboard', 'label' => 'Dashboard', 'icon' => 'icons/dashboard.png'],
         ['route' => 'teacher.schedule',  'label' => 'Class Schedule',  'icon' => 'icons/schedule.png'],
-        ['route' => 'teacher.student-list',  'label' => 'Student List',  'icon' => 'icons/feedback.png'],
+        ['route' => 'teacher.students',  'label' => 'Student List',  'icon' => 'icons/feedback.png'],
         ['route' => 'teacher.grades',    'label' => 'Student Grades',    'icon' => 'icons/grades.png'],
     ],
     'registrar' => [

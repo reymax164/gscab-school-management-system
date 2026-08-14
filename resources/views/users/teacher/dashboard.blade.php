@@ -4,12 +4,13 @@
   <x-widgets.number
     title="Total Students"
     footer="View Student List"
-    :href="route('teacher.student-list')"
+    :href="route('teacher.students')"
   />
 
   <x-widgets.number
     title="Pending Grades"
     footer="View Student Grades"
+    :href="route('teacher.grades')"
   />
 
   <x-widgets.blank
@@ -20,8 +21,9 @@
 
   <x-widgets.scrollable
     title="Today's Schedule"
-    footer="View Full Schedule"
     empty="No Classes for Today"
+    footer="View Full Schedule"
+    :href="route('teacher.schedule')"
   />
 
   <x-widgets.scrollable

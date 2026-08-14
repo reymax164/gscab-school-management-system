@@ -21,6 +21,7 @@
   <x-widgets.number
     title="Balance"
     num="₱0.00"
+    :href="route('student.balance')"
   />
 
   <x-widgets.blank
@@ -31,14 +32,16 @@
 
   <x-widgets.scrollable
     title="Today's Classes"
-    footer="View Schedule"
     empty="No Classes Today"
+    footer="View Schedule"
+    :href="route('student.schedule')"
   />
 
   <x-widgets.scrollable
     title="Latest Grades"
-    footer="View Grades"
     empty="No Recent Grades"
+    footer="View Grades"
+    :href="route('student.grades')"
   />
    
   <x-widgets.blank
@@ -50,13 +53,8 @@
   <x-widgets.scrollable
     title="Today's Classes"
     footer="View Schedule"
+    :href="route('student.schedule')"
     empty="No Classes Today"
-  />
-
-  <x-widgets.scrollable
-    title="Latest Grades"
-    footer="View Grades"
-    empty="No Recent Grades"
   />
    
   <x-widgets.blank

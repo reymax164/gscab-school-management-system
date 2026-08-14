@@ -23,7 +23,7 @@
             rows="6"
             placeholder="Tell us what's on your mind..."
             required
-            class="w-full px-3 py-2 rounded-md bg-white border outline-none transition-colors resize-none dark:placeholder-gray-500 dark:text-black
+            class="w-full px-3 py-2 rounded-md bg-white border outline-none transition-colors resize-none dark:placeholder-gray-500 dark:text-white
                   @error('message') border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-200 
                   @else border-gray-300 focus:border-blue-900 focus:ring-1 focus:ring-sky-200 @enderror"
         >{{ old('message') }}</textarea>

@@ -1,7 +1,7 @@
 {{-- nav bar of authenticaed users --}}
 @php
     // gets user role
-    $role = auth()->user()->role ?? 'cashier';
+    $role = auth()->user()->role ?? 'registrar';
     
     // gets the nav links from config/navigation.php
     $links = config("navigation.{$role}", []);

@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 // student
-Route::redirect('/student', 'student.dashboard');
-Route::redirect('/', 'dashboard');
+Route::redirect('/', '/student/dashboard');
 
 Route::get('/dashboard', function () {
   return view('users.student.dashboard');
