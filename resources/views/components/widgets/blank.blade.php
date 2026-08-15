@@ -9,7 +9,7 @@
   h-48 rounded-md
   overflow-hidden col-span-1  
   border border-neutral-400 dark:border-neutral-700
-  shadow-md hover:shadow-lg'])
+  shadow-sm hover:shadow-md'])
 }}>
   @if($title)
     <div @class([

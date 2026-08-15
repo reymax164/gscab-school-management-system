@@ -6,7 +6,7 @@
     flex overflow-hidden flex-col md:flex-row truncate
     border border-neutral-400 dark:border dark:border-neutral-700
     rounded-md p-4 md:px-6 col-span-2
-    shadow-md hover:shadow-lg">
+    shadow-sm hover:shadow-md">
 
     <img src="" alt="" class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-neutral-200 mr-6 self-center mb-6 md:mb-0">
     <div class="flex flex-col flex-1">

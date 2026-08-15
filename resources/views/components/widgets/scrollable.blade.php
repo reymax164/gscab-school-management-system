@@ -17,7 +17,7 @@
   bg-white dark:bg-neutral-800
   h-48 rounded-lg
   border border-neutral-400
-  shadow-md hover:shadow-lg transition-shadow
+  shadow-sm hover:shadow-md transition-shadow
   dark:border-neutral-700 dark:border'
 ])}}>
   

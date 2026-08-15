@@ -18,7 +18,7 @@
   bg-white dark:bg-neutral-800 
   h-72 rounded-lg 
   border border-neutral-400 
-  shadow-md hover:shadow-lg transition-shadow 
+  shadow-md hover:shadow-md transition-shadow 
   dark:border-neutral-700 dark:border'
 ])}}>
   
@@ -42,11 +42,14 @@
 
   <!-- multi column list -->
   <div class="flex-1 overflow-y-auto relative">
-    <table class="w-full text-sm text-left text-gray-800 dark:text-gray-200">
+    <table class="w-full text-sm text-left">
       
       <!-- column headers-->
       @if(!empty($columns))
-      <thead class="sticky top-0 bg-white dark:bg-neutral-800 shadow-[0_1px_0_0_rgba(0,0,0,0.1)] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.1)] z-10">
+      <thead class="sticky top-0 z-10
+           bg-white dark:bg-neutral-800
+             shadow-[0_1px_0_0_rgba(0,0,0,0.1)] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.1)]
+             text-blue-900 dark:text-blue-500">
         <tr>
           @foreach($columns ?? [] as $col)
             <th scope="col" class="px-4 py-2.5 font-semibold whitespace-nowrap {{ $loop->last ? 'text-right' : '' }}">
@@ -58,7 +61,7 @@
       @endif
 
       <!-- body -->
-      <tbody class="divide-y divide-gray-100 dark:divide-neutral-700">
+      <tbody class="divide-y divide-gray-100 dark:divide-neutral-700 text-gray-800 dark:text-gray-200">
         @forelse ($rows ?? [] as $row)
           @php
             // get url

@@ -17,7 +17,7 @@
   flex flex-col overflow-hidden col-span-1
   h-48 rounded-lg
   border border-neutral-400
-  shadow-md hover:shadow-lg transition-shadow
+  shadow-sm hover:shadow-md transition-shadow
   dark:border dark:border-neutral-700'
 ])}}>
 

@@ -8,7 +8,7 @@
         @for ($i = 2020; $i <= now()->year; $i++)
             @php $syOption = "{$i}-" . ($i + 1); @endphp
             <option value="{{ $syOption }}" @selected($selectedSy === $syOption)>
-                S.Y. {{ $syOption }}
+              {{ $syOption }}
             </option>
         @endfor
       </x-form.select>
