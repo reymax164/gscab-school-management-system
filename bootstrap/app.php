@@ -42,6 +42,11 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('cashier')
                 ->name('cashier.')
                 ->group(base_path('routes/cashier.php'));
+
+            // guest routes
+            Route::middleware(['web'])
+                ->name('auth.')
+                ->group(base_path('routes/auth.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

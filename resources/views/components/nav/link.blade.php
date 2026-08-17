@@ -2,8 +2,7 @@
 @props([
   'route',
   'label',
-  'src' => null,
-  'alt' => null
+  'icon' => null
 ])
 
 @php
@@ -23,8 +22,9 @@
     @if($isActive) aria-current="page" @endif
   >
 
-    @if($src)
-      <img src="{{ $src }}" alt="{{ $alt ?? $label }}" class="w-5 h-5 shrink-0 object-contain" />
+    {{-- Render the Heroicon dynamically --}}
+    @if($icon)
+      <x-dynamic-component :component="$icon" class="w-5 h-5 shrink-0" />
     @endif
 
     <span>{{ $label }}</span>

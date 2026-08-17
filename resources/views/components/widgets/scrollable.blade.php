@@ -3,6 +3,7 @@
     'header' => false,
     
     'icon' => null,
+    'heroicon' => null,
     'alt' => '',
 
     'footer' => 'View Details',
@@ -27,7 +28,10 @@
     'bg-blue-900 text-white justify-center font-semibold p-2' => $header,
     'pt-4 px-4 md:px-6' => !$header,
   ])>
-    @if($icon)
+    {{-- Render Heroicon if provided, otherwise fallback to image icon --}}
+    @if($heroicon)
+      <x-dynamic-component :component="$heroicon" class="w-6 h-6 shrink-0" />
+    @elseif($icon)
       <img src="{{ $icon }}" alt="{{ $alt }}" class="w-6 h-6 object-contain">
     @endif
     
@@ -45,43 +49,30 @@
       @forelse ($items as $item)
         @php
           // get url
-          $url = is_array($item) ?
-            ($item['url'] ?? null) : (is_object($item) ?
+          $url = is_array($item) ? 
+            ($item['url'] ?? null) : (is_object($item) ? 
             ($item->url ?? null) : null);
 
-          // get columns
-          if (is_array($item) && isset($item['cols'])) {
-              $cols = $item['cols'];
-          } elseif (is_array($item)) {
-              $cols = array_filter($item, fn($k) => $k !== 'url', ARRAY_FILTER_USE_KEY);
+          // get text (finds the first available string if it's an array/object)
+          if (is_array($item)) {
+              $text = $item['label'] ?? $item['title'] ?? $item['name'] ?? head(array_filter($item, fn($k) => $k !== 'url', ARRAY_FILTER_USE_KEY));
+          } elseif (is_object($item)) {
+              $text = $item->label ?? $item->title ?? $item->name ?? '';
           } else {
-              $cols = [$item];
+              $text = $item;
           }
         @endphp
 
         <li class="py-1.5 px-2 rounded transition-colors">
-          @php
-              // col count
-              $colCount = count($cols);
-          @endphp
-
           @if($url)
             {{-- clickable list --}}
-            <a href="{{ $url }}" class="grid items-center gap-3 hover:bg-slate-100 -mx-2 -my-1.5 p-1.5 rounded transition-colors" style="grid-template-columns: repeat({{ $colCount }}, minmax(0, 1fr));">
-              @foreach($cols as $col)
-                <span class="truncate {{ $loop->last ? 'text-right text-xs text-gray-500 font-normal' : 'font-medium text-gray-800' }}">
-                  {{ $col }}
-                </span>
-              @endforeach
+            <a href="{{ $url }}" class="block truncate hover:bg-slate-100 -mx-2 -my-1.5 p-1.5 rounded transition-colors font-medium text-gray-800">
+                {{ $text }}
             </a>
           @else
             {{-- read only list --}}
-            <div class="grid items-center gap-3" style="grid-template-columns: repeat({{ $colCount }}, minmax(0, 1fr));">
-              @foreach($cols as $col)
-                <span class="truncate {{ $loop->last ? 'text-right text-xs text-gray-500 font-normal' : 'font-medium text-gray-800' }}">
-                  {{ $col }}
-                </span>
-              @endforeach
+            <div class="block truncate font-medium text-gray-800">
+                {{ $text }}
             </div>
           @endif
         </li>

@@ -16,7 +16,7 @@
 <nav 
   id="mobile-sidebar"
   aria-label="Sidebar Navigation"
-  class="h-full w-56 bg-blue-900 dark:bg-slate-800 text-white fixed z-50 top-0 left-0 py-4 pl-4 pr-2 flex flex-col items-center gap-3 shadow-lg transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 overflow-y-auto">
+  class="h-full w-56 bg-blue-900 dark:bg-slate-800 text-white fixed z-50 top-0 left-0 py-6 pl-4 pr-2 flex flex-col items-center gap-3 shadow-lg transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 overflow-y-auto">
 
   <button 
     onclick="toggleSidebar(false)" 
@@ -31,7 +31,7 @@
   </button>
 
   <a href="{{ url('/') }}" class="mb-2 focus:outline-none shrink-0">
-    <img src="{{ asset('images/logo.png') }}" alt="GSCAB logo" class="h-12 md:h-24 w-auto object-contain" />
+    <img src="{{ asset('images/gscab-logo.svg') }}" alt="GSCAB logo" class="h-12 md:h-24 w-auto object-contain" />
   </a>
 
   <ul class="flex flex-col gap-2 w-full">
@@ -41,7 +41,7 @@
       <x-nav.link 
         :route="$link['route']" 
         :label="$link['label']" 
-        :src="isset($link['icon']) ? asset($link['icon']) : null" 
+        :icon="$link['icon'] ?? null" 
       />
     @endforeach
 

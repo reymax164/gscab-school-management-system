@@ -12,9 +12,13 @@ Route::get('/records', function () {
   return view('users.registrar.records');
 })->name('records');
 
-Route::get('/admisisons', function () {
-  return view('users.registrar.admissions');
-})->name('admissions');
+Route::get('/applications', function () {
+  return view('users.registrar.applications');
+})->name('applications');
+
+Route::get('/finalization', function () {
+  return view('users.registrar.finalization');
+})->name('finalization');
 
 Route::get('/reports', function () {
   return view('users.registrar.reports');
