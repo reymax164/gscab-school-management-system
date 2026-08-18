@@ -27,17 +27,29 @@
           <x-guest.nav-link route="home" label="Home" />
           <x-guest.nav-link route="faqs" label="FAQs" />
           <x-guest.nav-link route="news" label="News" />
-          {{-- <x-guest.nav-link route="contact" label="Contact" /> --}}
           <x-guest.nav-link route="auth.enroll" label="Enroll" />
         </ul>
       </nav>
 
       <div class="flex items-center gap-3 order-2 md:order-3">
 
-        {{-- login btn --}}
-        <a href="{{ route('auth.login') }}" class="bg-white text-blue-900 font-semibold py-1 px-5 rounded-full hover:bg-neutral-200 transition-colors text-sm md:text-base">
-          Log in
-        </a>
+        <!-- unauthenticaled login -->
+        @guest
+            <button 
+              x-data 
+              @click="$dispatch('open-login-modal')" 
+              class="bg-white text-blue-900 font-semibold py-1 px-5 rounded-full hover:bg-neutral-200 transition-colors text-sm md:text-base cursor-pointer">
+              Login
+            </button>
+        @endguest
+
+        <!-- authenticated login -->
+        @auth
+            <a href="{{ url('/' . Auth::user()->user_type . '/dashboard') }}" 
+              class="bg-white text-blue-900 font-semibold py-1 px-5 rounded-full hover:bg-neutral-200 transition-colors text-sm md:text-base cursor-pointer inline-block text-center border border-transparent">
+              Login
+            </a>
+        @endauth
 
         {{-- burger btn --}}
         <button id="menu-btn" class="block md:hidden focus:outline-none ml-2">

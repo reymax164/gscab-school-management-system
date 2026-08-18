@@ -1,10 +1,10 @@
 {{-- nav bar of authenticaed users --}}
 @php
     // gets user role
-    $role = auth()->user()->role ?? 'registrar';
+    $user_type = auth()->user()->user_type ?? 'registrar';
     
     // gets the nav links from config/navigation.php
-    $links = config("navigation.{$role}", []);
+    $links = config("navigation.{$user_type}", []);
 @endphp
 
 <div 
@@ -24,17 +24,23 @@
     class="absolute top-4 right-4 md:hidden text-white focus:outline-none" 
     aria-label="Close sidebar">
 
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-    </svg>
+        @svg('heroicon-s-x-mark', 'w-6 h-6 text-neutral-400')
 
   </button>
 
   <a href="{{ url('/') }}" class="mb-2 focus:outline-none shrink-0">
-    <img src="{{ asset('images/gscab-logo.svg') }}" alt="GSCAB logo" class="h-12 md:h-24 w-auto object-contain" />
+    <img 
+      src="{{ asset('images/gscab-logo.webp') }}" 
+      alt="GSCAB logo" 
+      class="h-12 md:h-24 w-auto object-contain"
+      fetchpriority="high"
+      loading="eager"
+      width="96" 
+      height="96"
+    />
   </a>
 
-  <ul class="flex flex-col gap-2 w-full">
+  <ul class="flex flex-col gap-2 w-full text-sm">
 
     {{-- loads links based on the user type --}}
     @foreach ($links as $link)

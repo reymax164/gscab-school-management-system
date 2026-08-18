@@ -24,7 +24,7 @@
 
     {{-- Render the Heroicon dynamically --}}
     @if($icon)
-      <x-dynamic-component :component="$icon" class="w-5 h-5 shrink-0" />
+      @svg($icon, 'w-5 h-5 shrink-0')
     @endif
 
     <span>{{ $label }}</span>

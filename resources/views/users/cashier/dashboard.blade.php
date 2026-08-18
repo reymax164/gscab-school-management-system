@@ -1,4 +1,4 @@
-<x-layouts.app title="Casher | Dashboard" header="Cashier Dashboard"
+<x-layouts.app title="Cashier | Dashboard" header="Cashier Dashboard"
                class="grid grid-cols-2 md:grid-cols-4 gap-4 content-start p-4 md:p-6">
   
   <x-widgets.number
@@ -29,4 +29,4 @@
       :rows="$paymentRows" 
       class="h-72 col-start-1 col-end-3 md:col-end-5"
   />
-</x-layouts.app>ks
+</x-layouts.app>

@@ -16,3 +16,15 @@ Route::get('/dashboard', function () {
 
   return view('users.cashier.dashboard', compact('tableColumns', 'paymentRows'));
 })->name('dashboard');
+
+Route::get('/balances', function () {
+  return view('users.cashier.balances');
+})->name('balances');
+
+Route::get('/reports', function () {
+  return view('users.cashier.reports');
+})->name('reports');
+
+Route::get('/history', function () {
+  return view('users.cashier.history');
+})->name('history');

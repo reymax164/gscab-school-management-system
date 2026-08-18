@@ -17,7 +17,7 @@
         document.documentElement.classList.remove('dark');
       }
     </script>
-
+    <link rel="preload" href="{{ asset('images/gscab-logo.webp') }}" as="image" type="image/webp">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -36,11 +36,10 @@
         onclick="toggleSidebar(true)" 
         type="button" 
         class="md:hidden text-blue-900 dark:text-neutral-100 focus:outline-none" 
-        aria-label="Open sidebar"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
+        aria-label="Open sidebar">
+
+        @svg('heroicon-s-bars-3', 'w-6 h-6 text-neutral-400 dark:neutral-700')
+
       </button>
 
       <h1 class="text-blue-900 dark:text-blue-400 font-bold text-xl">{{ $header }}</h1>
@@ -53,7 +52,7 @@
           {{ auth()->user()?->name ?? 'User' }}
         </strong>
         <p class="text-sm text-gray-600 dark:text-neutral-300">
-          {{ ucfirst(request('role') ?? auth()->user()?->role ?? 'user type') }}
+          {{ ucfirst(request('user_type') ?? auth()->user()?->user_type ?? 'user type') }}
         </p>
       </div>
 
@@ -96,13 +95,16 @@
             Toggle Dark Mode
           </button>
           
-          <!-- logout placeholder -->
-          <button 
-            type="button" 
-            class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors"
-          >
-            Logout
-          </button>
+          <!-- logout button -->
+          <form action="{{ route('auth.logout') }}" method="POST">
+            @csrf
+            <button
+              type="submit"
+              class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors"
+            >
+              Logout
+            </a>
+          </form>
         </div>
       </div>
     </div>

@@ -1,10 +1,11 @@
-<x-guest.layout class="bg-neutral-300 inset-0 fixed z-60 flex justify-center items-center">
+<x-layouts.auth title="Login">
 
   <div class="relative w-full max-w-md bg-white p-8 rounded-md shadow-lg border-t-blue-800 border-t-4">
     
-    <h1 class="text-2xl text-gray-800 font-semibold text-center mb-6">Login</h1>
+    <h1 class="text-2xl text-gray-800 font-semibold text-center mb-6">Student Portal</h1>
+    <img src="{{ asset('images/gscab-logo.webp') }}" alt="GSCAB Logo" class="mx-auto block h-24 w-auto mb-6 object-contain">
 
-    <form action="{{ route('auth.login') }}" method="POST" class="space-y-4">
+    <form action="{{ route('auth.authenticate') }}" method="POST" class="space-y-4">
       @csrf 
 
       {{-- LRN field --}}
@@ -13,7 +14,7 @@
             Learner Reference Number (LRN)
         </label>
         <input type="text" 
-               name="LRN" 
+               name="student_number" 
                id="LRN" 
                value="{{ old('LRN') }}" 
                required 
@@ -53,4 +54,4 @@
     </form>
   </div>
 
-</x-guest.layout>
+</x-layouts.auth>

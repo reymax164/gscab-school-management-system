@@ -52,3 +52,4 @@ Route::get('/news', function () {
 Route::get('/feedbacks', function () {
   return view('users.admin.feedbacks');
 })->name('feedbacks');
+

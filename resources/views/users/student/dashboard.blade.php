@@ -1,6 +1,7 @@
 <x-layouts.app title="Student | Dashboard" header="Student Dashboard"
                class="grid grid-cols-2 md:grid-cols-3 gap-4 content-start p-4 md:p-6">
 
+  {{-- Profile Section --}}
   <div class="
     bg-white dark:bg-neutral-800
     flex overflow-hidden flex-col md:flex-row truncate
@@ -8,13 +9,32 @@
     rounded-md p-4 md:px-6 col-span-2
     shadow-sm hover:shadow-md">
 
-    <img src="" alt="" class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-neutral-200 mr-6 self-center mb-6 md:mb-0">
+
+    @if(auth()->user()?->profile_photo_url)
+      <img 
+        src="{{ auth()->user()->profile_photo_url }}" 
+        alt="{{ auth()->user()->name ?? 'Profile' }}'s Avatar" 
+        class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full bg-neutral-200 mr-6 self-center mb-6 md:mb-0 shrink-0"
+      />
+    @else
+      <x-heroicon-s-user-circle 
+        class="w-24 h-24 md:w-32 md:h-32 text-gray-400 dark:text-neutral-500 mr-6 self-center mb-6 md:mb-0 shrink-0" 
+      />
+    @endif
+
     <div class="flex flex-col flex-1">
       <p class="text-sm md:text-base text-blue-900 dark:text-blue-400">Welcome Back,</p>
-      <p class="font-semibold text-base md:text-xl">Name</p>
+      
+      {{-- Dynamic Name --}}
+      <p class="font-semibold text-base md:text-xl dark:text-white">
+        {{ auth()->user()?->name ?? 'Student' }}
+      </p>
+      
       <p class="text-sm mb-0 md:mb-6 dark:text-neutral-300">Section</p>
 
-      <button class="self-end mt-0 md:mt-3 px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors dark:hover:bg-gray-100/10">Edit</button>
+      <button class="self-end mt-0 md:mt-3 px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors dark:hover:bg-gray-100/10 dark:text-neutral-200 dark:border-neutral-600">
+        Edit
+      </button>
     </div>
   </div>
 

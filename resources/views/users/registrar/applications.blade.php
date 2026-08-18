@@ -1,4 +1,3 @@
-<x-layouts.app title="Admissions" header="Admissions">
-  new applications
-  pending enrolments
+<x-layouts.app title="Registrar | Admissions" header="New Applications">
+  
 </x-layouts.app>

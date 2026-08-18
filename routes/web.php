@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/login', function () {
+    return 'Please submit your login form here.';
+})->name('login');
+
 Route::get('/', function () {
   return view('guest.index');
 })->name('home');
@@ -13,7 +17,6 @@ Route::get('news', function () {
 Route::get('/about', function () {
   return view('guest.about');
 })->name('about');
-
 
 Route::get('/contact', function () {
   return view('guest.contact');
