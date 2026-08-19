@@ -9,12 +9,12 @@ class Student extends Model
 {
     protected $fillable = [
         'user_id', 
-        'student_number',
+        'lrn',
         'grade_level', 
         'enrollment_status'
     ];
 
-    // links this profile back to the authentication account
+    // links this profile to the authentication account
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

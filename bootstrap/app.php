@@ -59,7 +59,7 @@ return Application::configure(basePath: dirname(__DIR__))
           
           // to student login
           if ($request->is('student*')) {
-              return route('auth.login');
+              return route('auth.student-login');
           }
           
           // to the staff login

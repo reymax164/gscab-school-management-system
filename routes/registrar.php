@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', 'dashboard');
+Route::redirect('/', 'registrar.dashboard');
 
 Route::get('/dashboard', function () {
   return view('users.registrar.dashboard');

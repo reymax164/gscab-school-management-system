@@ -1,5 +1,5 @@
 {{-- base layout for all user types --}}
-
+@php $user = auth()->user(); @endphp
 @props(['title' => 'Dashboard', 'header' => ''])
 
 <!DOCTYPE html>
@@ -48,11 +48,19 @@
     <div class="flex items-center gap-2 sm:gap-3 shrink-0">
 
       <div class="text-right hidden sm:block">
-        <strong class="block font-bold text-gray-900 dark:text-neutral-100">
-          {{ auth()->user()?->name ?? 'User' }}
+
+        {{-- name --}}
+        <strong class="block text-sm font-semibold text-gray-900 dark:text-neutral-100">
+          {{ $user?->first_name ?? 'User' }} {{ $user?->last_name ?? '' }}
         </strong>
+
+        {{-- user type --}}
         <p class="text-sm text-gray-600 dark:text-neutral-300">
-          {{ ucfirst(request('user_type') ?? auth()->user()?->user_type ?? 'user type') }}
+            @if($user?->user_type === 'student')
+                Grade {{ $user->student?->grade_level }}
+            @else
+                {{ ucfirst(request('user_type') ?? $user?->user_type ?? 'user type') }}
+            @endif
         </p>
       </div>
 
@@ -68,10 +76,10 @@
           class="flex items-center justify-center focus:outline-none rounded-full ring-2 ring-transparent hover:ring-gray-300 dark:hover:ring-neutral-600 transition-all w-9 h-9 sm:w-10 sm:h-10 shrink-0 overflow-hidden"
           aria-expanded="false"
         >
-          @if(auth()->user()?->profile_photo_url)
+          @if($user?->profile_photo_url)
 
             <img 
-              src="{{ auth()->user()->profile_photo_url }}" 
+              src="{{ $user->profile_photo_url }}" 
               alt="Profile" 
               class="w-full h-full object-cover bg-neutral-200"
             />

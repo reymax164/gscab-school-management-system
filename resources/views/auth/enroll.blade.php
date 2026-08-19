@@ -7,7 +7,8 @@
     <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg" 
       x-data="{ 
           step: 1, 
-          totalSteps: 5,
+          totalSteps: 6,
+          reviewData: [],
           validateAndNext() {
               let currentStepDiv = document.getElementById('step-' + this.step);
               let inputs = Array.from(currentStepDiv.querySelectorAll('input[required], select[required]'));
@@ -17,12 +18,29 @@
                   if (!input.checkValidity()) {
                       input.reportValidity();
                       isValid = false;
-                      break; // Stop at the first invalid input and show tooltip
+                      break; 
                   }
               }
               
               if (isValid) {
                   this.step++;
+                  if (this.step === this.totalSteps) {
+                      this.updateReviewDetails();
+                  }
+              }
+          },
+          updateReviewDetails() {
+              const form = document.getElementById('enrollment-form');
+              const formData = new FormData(form);
+              this.reviewData = [];
+              for (let [key, value] of formData.entries()) {
+                  if(key !== '_token' && value) {
+                      // Format the key to be more readable (e.g., 'first_name' -> 'First Name')
+                      let formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                      // Change checkbox 'on' values to 'Yes'
+                      let displayValue = value === 'on' ? 'Yes' : value;
+                      this.reviewData.push({ key: formattedKey, value: displayValue });
+                  }
               }
           }
       }" 
@@ -45,7 +63,7 @@
         </div>
       </div>
 
-        <form action="/enroll" method="POST">
+        <form id="enrollment-form" action="/enroll" method="POST">
           @csrf
 
           {{-- Section 1: ACADEMIC AND ONLINE ACCESS --}}
@@ -53,6 +71,25 @@
               <h2 class="text-xl font-bold text-gray-800 mb-6">Academic & Online Access</h2>
                 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+
+                  {{-- Student Status --}}
+                  <div class="md:col-span-2 border-b border-gray-200 pb-5">
+                      <label class="block text-sm font-semibold text-gray-800 mb-3">Student Type</label>
+                      <div class="flex items-center space-x-6">
+                          <label class="inline-flex items-center cursor-pointer">
+                              <input type="radio" name="student_status" value="new" required class="text-blue-600 border border-gray-400 focus:ring-blue-500 h-4 w-4">
+                              <span class="ml-2 text-sm text-gray-700">New</span>
+                          </label>
+                          <label class="inline-flex items-center cursor-pointer">
+                              <input type="radio" name="student_status" value="existing" required class="text-blue-600 border border-gray-400 focus:ring-blue-500 h-4 w-4">
+                              <span class="ml-2 text-sm text-gray-700">Existing</span>
+                          </label>
+                          <label class="inline-flex items-center cursor-pointer">
+                              <input type="radio" name="student_status" value="transferee" required class="text-blue-600 border border-gray-400 focus:ring-blue-500 h-4 w-4">
+                              <span class="ml-2 text-sm text-gray-700">Transferee</span>
+                          </label>
+                      </div>
+                  </div>
 
                   {{-- Email --}}
                   <div>
@@ -83,7 +120,6 @@
                   {{-- LRN --}}
                   <div>
                       <label for="lrn" class="block text-sm font-semibold text-gray-800 mb-2">Learner Reference Number (LRN)</label>
-                      
                       <input type="number" name="lrn" id="lrn" 
                           min="0" required
                           onwheel="this.blur()" 
@@ -91,7 +127,7 @@
                           class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                   </div>
 
-                  <p class="text-xs self-end">
+                  <p class="text-xs self-end text-gray-600">
                     For Grade 1 to Grade 10 Enrollees, LRN can be found on the pupil's report card (SF9). (For Preschoolers and Kindergarten Enrollees, use the cellphone number of the parent)
                   </p>
 
@@ -134,44 +170,36 @@
                               <input type="checkbox" name="smartphone" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Smartphone</span>
                           </label>
-                          
                           <label class="inline-flex items-center cursor-pointer">
                               <input type="checkbox" name="laptop" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Laptop</span>
                           </label>
-
                           <label class="inline-flex items-center cursor-pointer">
                               <input type="checkbox" name="pc" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">PC</span>
                           </label>
-
                           <label class="inline-flex items-center cursor-pointer">
                               <input type="checkbox" name="tablet" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Tablet</span>
                           </label>
-
                           <label class="inline-flex items-center cursor-pointer">
                               <input type="checkbox" name="ipad" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">iPad</span>
                           </label>
-
                           <label class="inline-flex items-center cursor-pointer">
                               <input type="checkbox" name="mac" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Mac</span>
                           </label>
-
                           <label class="inline-flex items-center cursor-pointer">
                               <input type="checkbox" name="smart_tv" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Smart TV</span>
                           </label>
-
                           <label class="inline-flex items-center cursor-pointer">
                               <input type="checkbox" name="others" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Others</span>
                           </label>
                       </div>
                   </div>
-                    
               </div>
           </div>
 
@@ -242,26 +270,18 @@
               <p class="text-sm font-semibold text-red-600 mb-6">* Please type names exactly as they appear on the Birth Certificate, in CAPITAL LETTERS.<br>(Magbase sa kung ano ang nakasulat sa Birth Certificate)</p>
               
               <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-6">
-                  
-                  {{-- last name --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Last Name</label>
                       <input type="text" name="last_name" required class="text-sm px-3 py-2 block w-full uppercase rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="DELA CRUZ">
                   </div>
-                  
-                  {{-- first name --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">First Name</label>
                       <input type="text" name="first_name" required class="text-sm px-3 py-2 block w-full uppercase rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="JUAN">
                   </div>
-                  
-                  {{-- middle name --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Middle Name</label>
                       <input type="text" name="middle_name" required class="text-sm px-3 py-2 block w-full uppercase rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="SANTOS">
                   </div>
-                  
-                  {{-- gender --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Gender</label>
                       <select name="gender" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
@@ -270,8 +290,6 @@
                           <option value="female">Female</option>
                       </select>
                   </div>
-                  
-                  {{-- birthdate (auto calculated) --}}
                   <div x-data="{ 
                       birthdate: '', 
                       calculateAge() { 
@@ -286,64 +304,44 @@
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Birthdate</label>
                       <input type="date" name="birthdate" required x-model="birthdate" @change="calculateAge()" class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                   </div>
-
-                  {{-- age --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Age</label>
                       <input type="number" name="age" required x-ref="ageInput" readonly class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm bg-gray-100 text-gray-600 focus:border-blue-500 focus:ring-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" placeholder="Auto-calculated">
                   </div>
-
-                  {{-- place of birth --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Place of Birth</label>
                       <input type="text" name="birthplace" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Municipality/City, Province">
                   </div>
-
-                  {{-- birth order --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Birth Order</label>
                       <input type="text" name="birth_order" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="e.g. 1st, 2nd, 3rd">
                   </div>
-
-                  {{-- nationality --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Nationality</label>
                       <input type="text" name="nationality" required value="Filipino" class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                   </div>
-                  
-                  {{-- house no. --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">House No.</label>
                       <input type="text" name="house_no" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                   </div>
-
-                  {{-- sitio/subdivision --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Sitio/Subdivision</label>
                       <input type="text" name="sitio_subdivision" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                   </div>
-
-                  {{-- barangay --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-2">Barangay</label>
                       <input type="text" name="barangay" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="e.g. Kumintang Ibaba">
                   </div>
-                  
-                  {{-- zip code --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-1">Zip Code</label>
                       <span class="text-xs text-gray-500 mb-2 block">*Input 4200 if Batangas City</span>
                       <input type="text" name="zip" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                   </div>
-
-                  {{-- religion --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-1">Religion</label>
-                      <span class="text-xs text-transparent mb-2 block pointer-events-none">&nbsp;</span> {{-- Invisible spacer to align grid --}}
+                      <span class="text-xs text-transparent mb-2 block pointer-events-none">&nbsp;</span>
                       <input type="text" name="religion" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                   </div>
-
-                  {{-- landline number --}}
                   <div>
                       <label class="block text-sm font-semibold text-gray-800 mb-1">Landline Number (if any)</label>
                       <span class="text-xs text-gray-500 mb-2 block">*No cellphones. Input "N/A" if none.</span>
@@ -357,13 +355,11 @@
               <h2 class="text-xl font-bold text-gray-800 mb-6">Family Background</h2>
               
               <div class="space-y-8">
-                  
                   {{-- father section --}}
                   <div class="p-5 border border-gray-300 rounded-lg bg-gray-50 shadow-sm" x-data="{ deceased: 'no' }">
                       <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-gray-300 pb-3 mb-5 gap-3">
                           <h3 class="text-lg font-bold text-gray-800">Father's Information</h3>
                           
-                          {{-- deceased --}}
                           <div class="flex items-center gap-4 bg-white px-3 py-1.5 rounded-md border border-gray-200">
                               <span class="text-sm font-semibold text-gray-800">Deceased?</span>
                               <label class="inline-flex items-center cursor-pointer">
@@ -414,7 +410,6 @@
                       <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-gray-300 pb-3 mb-5 gap-3">
                           <h3 class="text-lg font-bold text-gray-800">Mother's Information</h3>
                           
-                          {{-- deceased --}}
                           <div class="flex items-center gap-4 bg-white px-3 py-1.5 rounded-md border border-gray-200">
                               <span class="text-sm font-semibold text-gray-800">Deceased?</span>
                               <label class="inline-flex items-center cursor-pointer">
@@ -554,6 +549,23 @@
                           <input type="text" name="talent_skills" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                       </div>
 
+                  </div>
+              </div>
+          </div>
+
+          {{-- Section 6: REVIEW INFORMATION --}}
+          <div id="step-6" x-show="step === 6" x-transition.opacity.duration.300ms>
+              <h2 class="text-xl font-bold text-gray-800 mb-2">Review Your Information</h2>
+              <p class="text-sm font-semibold text-gray-600 mb-6">Please check if all the details below are correct before submitting the form.</p>
+              
+              <div class="p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-sm max-h-96 overflow-y-auto">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                      <template x-for="(item, index) in reviewData" :key="index">
+                          <div class="border-b border-gray-200 pb-2">
+                              <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider" x-text="item.key"></span>
+                              <span class="block text-sm font-medium text-gray-900 mt-1" x-text="item.value"></span>
+                          </div>
+                      </template>
                   </div>
               </div>
           </div>

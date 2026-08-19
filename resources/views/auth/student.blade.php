@@ -14,7 +14,7 @@
             Learner Reference Number (LRN)
         </label>
         <input type="text" 
-               name="student_number" 
+               name="lrn"ñ
                id="LRN" 
                value="{{ old('LRN') }}" 
                required 

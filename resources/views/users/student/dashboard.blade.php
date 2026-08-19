@@ -1,5 +1,6 @@
 <x-layouts.app title="Student | Dashboard" header="Student Dashboard"
                class="grid grid-cols-2 md:grid-cols-3 gap-4 content-start p-4 md:p-6">
+  @php $user = auth()->user(); @endphp
 
   {{-- Profile Section --}}
   <div class="
@@ -10,10 +11,10 @@
     shadow-sm hover:shadow-md">
 
 
-    @if(auth()->user()?->profile_photo_url)
+    @if($user?->profile_photo_url)
       <img 
-        src="{{ auth()->user()->profile_photo_url }}" 
-        alt="{{ auth()->user()->name ?? 'Profile' }}'s Avatar" 
+        src="{{ $user->profile_photo_url }}" 
+        alt="{{ $user->name ?? 'Profile' }}'s Avatar" 
         class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full bg-neutral-200 mr-6 self-center mb-6 md:mb-0 shrink-0"
       />
     @else
@@ -25,12 +26,16 @@
     <div class="flex flex-col flex-1">
       <p class="text-sm md:text-base text-blue-900 dark:text-blue-400">Welcome Back,</p>
       
-      {{-- Dynamic Name --}}
+      {{-- name --}}
       <p class="font-semibold text-base md:text-xl dark:text-white">
-        {{ auth()->user()?->name ?? 'Student' }}
+          {{ $user?->first_name ?? 'User' }} 
+          {{ $user?->last_name ?? '' }} 
+          {{ $user?->suffix ?? '' }}
       </p>
       
-      <p class="text-sm mb-0 md:mb-6 dark:text-neutral-300">Section</p>
+      <p class="text-sm mb-0 md:mb-6 dark:text-neutral-300">
+          Grade {{ $user?->student?->grade_level ?? '' }}
+      </p>
 
       <button class="self-end mt-0 md:mt-3 px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors dark:hover:bg-gray-100/10 dark:text-neutral-200 dark:border-neutral-600">
         Edit

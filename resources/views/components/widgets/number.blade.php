@@ -39,7 +39,7 @@
         <p @class([
           'text-sm',
           'text-blue-100' => $header,
-          'text-neutral-800 dark:text-blue-400' => !$header,
+          'text-neutral-800 dark:text-blue-200' => !$header,
         ])>
           {{ $subtitle }}
         </p>

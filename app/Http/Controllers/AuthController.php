@@ -13,8 +13,8 @@ class AuthController extends Controller
      */
     public function authenticate(Request $request): RedirectResponse
     {
-        // determine if the form submitted a 'student_number' or an 'email'
-        $loginType = $request->has('student_number') ? 'student_number' : 'email';
+        // determine if the form submitted a 'lrn' or an 'email'
+        $loginType = $request->has('lrn') ? 'lrn' : 'email';
 
         // validate the incoming request
         $credentials = $request->validate([
