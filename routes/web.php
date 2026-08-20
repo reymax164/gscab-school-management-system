@@ -1,6 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Applicant\EnrollmentController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/enrollment/apply', [EnrollmentController::class, 'create'])->name('enrollment.create');
+    Route::post('/enrollment/apply', [EnrollmentController::class, 'store'])->name('enrollment.store');
+});
+
+require __DIR__.'/auth.php';
 
 Route::get('/login', function () {
     return 'Please submit your login form here.';
@@ -25,5 +33,3 @@ Route::get('/contact', function () {
 Route::get('/faqs', function () {
   return view('guest.faqs');
 })->name('faqs');
-
-require __DIR__.'/auth.php';

@@ -47,19 +47,32 @@
       x-cloak>
         
       <!-- form header & progress indicator -->
-      <div class="mb-8 border-b pb-4">
-        <h1 class="text-3xl font-bold text-gray-800">Enrollment Form</h1>
+      <div class="mb-8 border-b pb-4 flex flex-col md:flex-row">
+        <img 
+          src="{{ asset('images/gscab-logo.webp') }}" 
+          alt="GSCAB logo" 
+          class="h-32 md:h-24 w-auto object-contain md:mr-4 mb-6 md:mb-0"
+          fetchpriority="high"
+          loading="eager"
+          height=64
+          width=64
+        />
+
+        <div>
+          <h1 class="text-3xl font-bold text-gray-800">Enrollment Form</h1>
         
-        <div class="mt-4 mb-1 flex items-center justify-between">
-          <span class="text-sm font-medium text-gray-500">
-            Step <span x-text="step"></span> of <span x-text="totalSteps"></span>
-          </span>
-            
-          <!--  progress bar -->
-          <div class="w-1/2 bg-gray-200 rounded-full h-2.5">
-              <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" 
-                :style="'width: ' + ((step / totalSteps) * 100) + '%'"></div>
-          </div>
+          <div class="mt-4 mb-1 flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-500">
+              Step <span x-text="step"></span> of <span x-text="totalSteps"></span>
+            </span>
+              
+            <!--  progress bar -->
+            <div class="w-1/2 bg-gray-200 rounded-full h-2.5">
+                <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" 
+                  :style="'width: ' + ((step / totalSteps) * 100) + '%'"></div>
+            </div>
+        </div>
+        
         </div>
       </div>
 

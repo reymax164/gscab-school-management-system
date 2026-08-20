@@ -100,12 +100,12 @@
           <div class="flex flex-col gap-3 w-full">
               
               <!-- user login -->
-              <a href="{{ route('auth.student-login') }}" class="w-full px-4 py-2 bg-blue-900 text-white font-medium rounded-full hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-offset-2 transition-colors text-center">
-                  Login
+              <a href="{{ route('auth.student-login') }}" class="w-full px-4 py-2 bg-blue-900 text-white font-medium rounded-full hover:bg-blue-900/90 focus:outline-none focus:ring focus:ring-blue-900 focus:ring-offset-2 transition-colors text-center">
+                  Student Login
               </a>
               
               <!-- staff login -->
-              <a href="{{ route('auth.staff-login') }}" class="w-full px-4 py-2 border-2 border-blue-900 text-blue-900 font-medium bg-transparent rounded-full hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-offset-2 transition-colors text-center">
+              <a href="{{ route('auth.staff-login') }}" class="w-full px-4 py-2 border-2 border-blue-900 text-blue-900 font-medium bg-transparent rounded-full hover:bg-sky-200/35 focus:outline-none focus:ring focus:ring-blue-900 focus:ring-offset-2 transition-colors text-center">
                   Staff Login
               </a>
               

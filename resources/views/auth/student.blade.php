@@ -5,7 +5,7 @@
     <h1 class="text-2xl text-gray-800 font-semibold text-center mb-6">Student Portal</h1>
     <img src="{{ asset('images/gscab-logo.webp') }}" alt="GSCAB Logo" class="mx-auto block h-24 w-auto mb-6 object-contain">
 
-    <form action="{{ route('auth.authenticate') }}" method="POST" class="space-y-4">
+      <form action="{{ route('auth.student.authenticate') }}" method="POST" class="space-y-4">
       @csrf 
 
       {{-- LRN field --}}
