@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\Student;
 use App\Models\Teacher;
-use App\Models\Enrollment;
+use App\Models\Enrollments\Enrollment;
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;

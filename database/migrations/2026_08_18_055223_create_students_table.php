@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('lrn')->unique()->nullable();
             $table->string('grade_level')->nullable();
-            $table->string('enrollment_status')->default('pending'); // pending, enrolled, dropped, graduated
+            $table->string('enrollment_status')->default('pending');
             $table->timestamps();
         });
     }

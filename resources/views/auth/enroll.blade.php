@@ -180,35 +180,35 @@
 
                       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                           <label class="inline-flex items-center cursor-pointer">
-                              <input type="checkbox" name="smartphone" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
+                              <input type="checkbox" name="gadgets[]" value="Smartphone" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Smartphone</span>
                           </label>
                           <label class="inline-flex items-center cursor-pointer">
-                              <input type="checkbox" name="laptop" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
+                              <input type="checkbox" name="gadgets[]" value="Laptop" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Laptop</span>
                           </label>
                           <label class="inline-flex items-center cursor-pointer">
-                              <input type="checkbox" name="pc" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
+                              <input type="checkbox" name="gadgets[]" value="PC" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">PC</span>
                           </label>
                           <label class="inline-flex items-center cursor-pointer">
-                              <input type="checkbox" name="tablet" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
+                              <input type="checkbox" name="gadgets[]" value="Tablet" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Tablet</span>
                           </label>
                           <label class="inline-flex items-center cursor-pointer">
-                              <input type="checkbox" name="ipad" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
+                              <input type="checkbox" name="gadgets[]" value="iPad" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">iPad</span>
                           </label>
                           <label class="inline-flex items-center cursor-pointer">
-                              <input type="checkbox" name="mac" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
+                              <input type="checkbox" name="gadgets[]" value="Mac" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Mac</span>
                           </label>
                           <label class="inline-flex items-center cursor-pointer">
-                              <input type="checkbox" name="smart_tv" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
+                              <input type="checkbox" name="gadgets[]" value="Smart TV" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Smart TV</span>
                           </label>
                           <label class="inline-flex items-center cursor-pointer">
-                              <input type="checkbox" name="others" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
+                              <input type="checkbox" name="gadgets[]" value="Others" class="rounded border border-gray-400 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 h-4 w-4">
                               <span class="ml-2 text-sm text-gray-700">Others</span>
                           </label>
                       </div>

@@ -19,8 +19,8 @@ class StaffAuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Redirect based on role (Admin, Registrar, Cashier)
-            return redirect()->intended('/' . Auth::user()->role . '/dashboard');
+            // redirect based on user_type
+            return redirect()->intended(Auth::user()->user_type . '/dashboard');
         }
 
         return back()->withErrors([

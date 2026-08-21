@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
-use App\Models\User;
+namespace App\Models\Enrollments;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 

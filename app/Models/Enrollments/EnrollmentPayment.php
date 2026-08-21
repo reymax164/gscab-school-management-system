@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Enrollments;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class EnrollmentPayment extends Model

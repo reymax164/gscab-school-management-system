@@ -12,7 +12,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('enrollment_id')->constrained()->cascadeOnDelete();
             
-            // Personal Info
+            $table->string('lrn');
+            $table->string('religion');
+            $table->string('email');
+
+            // personal Info
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
@@ -23,16 +27,16 @@ return new class extends Migration
             $table->string('birth_order');
             $table->string('nationality');
             
-            // Address Info
+            // address Info
             $table->string('house_no')->nullable();
             $table->string('sitio_subdivision')->nullable();
             $table->string('barangay');
-            $table->string('province');
+            $table->string('province')->nullable();
             $table->string('zip');
-            $table->string('region');
+            $table->string('region')->nullable();
             $table->string('landline')->nullable();
             
-            // Family Background (JSON to prevent massive column bloat)
+            // family Background (JSON to prevent massive column bloat)
             $table->json('father_details')->nullable();
             $table->json('mother_details')->nullable();
             $table->json('guardian_details')->nullable();

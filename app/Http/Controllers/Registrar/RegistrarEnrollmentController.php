@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
 namespace App\Http\Controllers\Registrar;
 
 use App\Http\Controllers\Controller;
-use App\Models\Enrollment;
+use App\Models\Enrollments\Enrollment;
 use Illuminate\Http\Request;
 
 class RegistrarEnrollmentController extends Controller
 {
     public function index()
     {
-        // Utilizing the Eloquent Scope defined earlier
         $pending = Enrollment::pendingRegistrar()->get();
         return view('users.registrar.applications', compact('pending'));
     }
