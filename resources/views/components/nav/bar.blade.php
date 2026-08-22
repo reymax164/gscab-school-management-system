@@ -42,15 +42,23 @@
 
   <ul class="flex flex-col gap-2 w-full text-sm">
 
-    {{-- loads links based on the user type --}}
-    @foreach ($links as $link)
-      <x-nav.link 
-        :route="$link['route']" 
-        :label="$link['label']" 
-        :icon="$link['icon'] ?? null" 
-      />
-    @endforeach
+      {{-- loads links based on the user type --}}
+      @foreach ($links as $link)
+          @if(isset($link['children']))
+              <x-nav.group 
+                  :label="$link['label']" 
+                  :icon="$link['icon'] ?? null" 
+                  :children="$link['children']" 
+              />
+          @else
+              <x-nav.link 
+                  :route="$link['route']" 
+                  :label="$link['label']" 
+                  :icon="$link['icon'] ?? null" 
+              />
+          @endif
+      @endforeach
 
-    {{ $slot }}
+      {{ $slot }}
   </ul>
 </nav>

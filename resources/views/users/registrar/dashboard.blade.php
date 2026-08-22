@@ -8,12 +8,9 @@
   />
 
   <x-widgets.number
-    title="Pending Enrollees"
-    subtitle="for evaluation"
-    footer="View"
+    title="New Applications"
   />
   <x-widgets.number
-    title="Enrollees with"
-    subtitle="Incomplete Documents"
+    title="For Final Verification"
   />
 </x-layouts.app>

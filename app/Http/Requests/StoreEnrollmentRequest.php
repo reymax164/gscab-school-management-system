@@ -90,7 +90,7 @@ class StoreEnrollmentRequest extends FormRequest
             'talent_skills' => ['nullable', 'string'], 
 
             // --- payment scheme ---
-            'payment_scheme' => ['required', 'string', Rule::in(['full', 'option1', 'option2', 'special'])], // FIX: Match blade options
+            'payment_scheme' => ['required', 'string', Rule::in(['full', 'option1', 'option2', 'special'])],
         ];
     }
 

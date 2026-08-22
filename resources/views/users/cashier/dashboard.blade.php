@@ -13,6 +13,7 @@
   <x-widgets.number
     title="OR Issued"
     subtitle="Today"
+    footer="View Transaction History"
   />
 
   <x-widgets.number
@@ -24,7 +25,7 @@
       title="Recent Payments" 
       :header="true" 
       footer="View All Transaction" 
-      href="/transactions" 
+      href="cashier.history" 
       :columns="$tableColumns"
       :rows="$paymentRows" 
       class="h-72 col-start-1 col-end-3 md:col-end-5"

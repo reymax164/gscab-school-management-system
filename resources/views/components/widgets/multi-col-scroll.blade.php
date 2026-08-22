@@ -102,7 +102,7 @@
 
   <!-- footer -->
   <div class="px-4 md:px-6 py-2 border-t border-gray-100 dark:border-neutral-700 shrink-0 bg-white dark:bg-neutral-800 flex justify-end">
-    <a href="{{ $href }}" class="text-sky-700 hover:text-sky-900 hover:underline text-xs md:text-sm font-medium transition-colors dark:text-neutral-100 dark:hover:text-gray-50/50">
+    <a href="{{ route($href) }}" class="text-sky-700 hover:text-sky-900 hover:underline text-xs md:text-sm font-medium transition-colors dark:text-neutral-100 dark:hover:text-gray-50/50">
       {{ $footer }}
     </a>
   </div>

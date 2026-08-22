@@ -1,6 +1,7 @@
 <?php
 
 return [
+    // student
     'student' => [
         ['route' => 'student.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
         ['route' => 'student.schedule',  'label' => 'Class Schedule',  'icon' => 'heroicon-s-calendar'],
@@ -8,25 +9,41 @@ return [
         ['route' => 'student.balance',   'label' => 'Balance',   'icon' => 'heroicon-s-credit-card'],
         ['route' => 'student.feedback',  'label' => 'Feedback',  'icon' => 'heroicon-s-chat-bubble-left-right'],
     ],
+
+    // teacher
     'teacher' => [
         ['route' => 'teacher.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
         ['route' => 'teacher.schedule',  'label' => 'Class Schedule',  'icon' => 'heroicon-s-calendar'],
         ['route' => 'teacher.students',  'label' => 'Student List',  'icon' => 'heroicon-s-user-group'],
         ['route' => 'teacher.grades',    'label' => 'Student Grades',    'icon' => 'heroicon-s-academic-cap'],
     ],
+
+    // registrar
     'registrar' => [
         ['route' => 'registrar.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
         ['route' => 'registrar.records',  'label' => 'Student Records',  'icon' => 'heroicon-s-academic-cap'],
-        ['route' => 'registrar.applications', 'label' => 'New Applications', 'icon' => 'heroicon-s-user-plus'],
-        ['route' => 'registrar.finalization', 'label' => 'For Finalization', 'icon' => 'heroicon-s-clipboard-document-check'],
+        
+        [
+            'label' => 'Enrollment', 
+            'icon' => 'heroicon-s-user-plus',
+            'children' => [
+                ['route' => 'registrar.applications', 'label' => 'Applications & Admission'],
+                ['route' => 'registrar.final-verification', 'label' => 'Final Verification'],
+            ]
+        ],
+        
         ['route' => 'registrar.reports',   'label' => 'Reports','icon' => 'heroicon-s-chart-bar'],
     ],
+
+    // cashier
     'cashier' => [
         ['route' => 'cashier.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
         ['route' => 'cashier.balances', 'label' => 'Student Balances', 'icon' => 'heroicon-s-credit-card'],
         ['route' => 'cashier.history', 'label' => 'Transaction History', 'icon' => 'heroicon-s-clipboard-document-list'],
         ['route' => 'cashier.reports', 'label' => 'Reports', 'icon' => 'heroicon-s-chart-bar'],
     ],
+
+    // admin
     'admin' => [
         ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
         ['route' => 'admin.students',  'label' => 'Manage Students',  'icon' => 'heroicon-s-calendar'],

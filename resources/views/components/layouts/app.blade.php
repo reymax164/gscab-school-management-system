@@ -18,6 +18,8 @@
       }
     </script>
     <link rel="preload" href="{{ asset('images/gscab-logo.webp') }}" as="image" type="image/webp">
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -120,7 +122,7 @@
   </header>
 
   <!-- navigation -->
-  <x-nav.bar />
+  <x-nav.bar/>
 
   <main
     {{ $attributes->merge(['class' => 'md:ml-56 min-h-screen grow'])}}>
