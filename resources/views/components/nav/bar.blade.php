@@ -24,7 +24,7 @@
     class="absolute top-4 right-4 md:hidden text-white focus:outline-none" 
     aria-label="Close sidebar">
 
-        @svg('heroicon-s-x-mark', 'w-6 h-6 text-neutral-400')
+        <x-heroicon-s-x-mark class="w-6 h-6 text-neutral-400" />
 
   </button>
 

@@ -13,15 +13,11 @@ Route::get('/records', function () {
     return view('users.registrar.records');
 })->name('records');
 
-Route::get('/applications', function () {
-    return view('users.registrar.applications');
-})->name('applications');
-
-// --- enrollment processing ---
-// Route::get('/applications', [RegistrarEnrollmentController::class, 'index'])->name('applications');
-// Route::get('/applications/{enrollment}', [RegistrarEnrollmentController::class, 'show'])->name('applications.show');
-// Route::patch('/applications/{enrollment}/approve', [RegistrarEnrollmentController::class, 'approve'])->name('applications.approve');
-// Route::patch('/applications/{enrollment}/reject', [RegistrarEnrollmentController::class, 'reject'])->name('applications.reject');
+Route::get('/applications', [RegistrarEnrollmentController::class, 'index'])->name('applications.index');
+Route::get('/applications/create', [RegistrarEnrollmentController::class, 'create'])->name('applications.create');
+Route::get('/applications/{enrollment}', [RegistrarEnrollmentController::class, 'show'])->name('applications.show');
+Route::patch('/applications/{enrollment}/admit', [RegistrarEnrollmentController::class, 'admit'])->name('applications.admit');
+Route::patch('/applications/{enrollment}/deny', [RegistrarEnrollmentController::class, 'deny'])->name('applications.deny');
 
 Route::get('/finalization', function () {
     return view('users.registrar.final-verification');

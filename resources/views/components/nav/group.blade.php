@@ -5,11 +5,23 @@
 ])
 
 @php
-    // check if any child route is active
-    $isActive = collect($children)->contains(fn($child) => request()->routeIs($child['route'], $child['route'] . '.*'));
+    $hasActiveChild = false;
+
+    foreach ($children as $child) {
+        $childRoute = $child['route'] ?? '';
+        
+        // Trim '.index' to get the base prefix, matching x-nav.link wildcard logic
+        $baseRoute = str_ends_with($childRoute, '.index') ? substr($childRoute, 0, -6) : $childRoute;
+        
+        // Flag active if current route matches child or any sub-route (e.g. .show, .edit)
+        if (request()->routeIs($childRoute, $baseRoute . '.*')) {
+            $hasActiveChild = true;
+            break;
+        }
+    }
 @endphp
 
-<li x-data="{ open: {{ $isActive ? 'true' : 'false' }} }" class="flex flex-col gap-1">
+<li x-data="{ open: {{ $hasActiveChild ? 'true' : 'false' }} }" class="flex flex-col gap-1">
     
     {{-- parent button --}}
     <button 
@@ -17,8 +29,8 @@
         type="button"
         @class([
             'flex items-center justify-between w-full pl-6 pr-4 py-2.5 transition-colors rounded-l-full font-medium',
-            'bg-blue-800/50 text-white' => $isActive, // Subtle highlight if a child is active
-            'text-white hover:bg-blue-800/80 dark:hover:bg-slate-700/80' => !$isActive,
+            'bg-blue-800/50 text-white' => $hasActiveChild,
+            'text-white hover:bg-blue-800/80 dark:hover:bg-slate-700/80' => !$hasActiveChild,
         ])
     >
         <div class="flex items-center gap-3">
@@ -28,10 +40,10 @@
             <span>{{ $label }}</span>
         </div>
         
-        {{-- animated chevron --}}
-        <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0l-4.25-4.25a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-        </svg>
+        {{-- animated chevron using Heroicon --}}
+        <span :class="{'rotate-180': open}" class="transition-transform duration-200 inline-flex items-center">
+            <x-heroicon-m-chevron-down class="w-4 h-4" />
+        </span>
     </button>
 
     {{-- children links --}}

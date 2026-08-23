@@ -27,7 +27,7 @@ return [
             'label' => 'Enrollment', 
             'icon' => 'heroicon-s-user-plus',
             'children' => [
-                ['route' => 'registrar.applications', 'label' => 'Applications & Admission'],
+                ['route' => 'registrar.applications.index', 'label' => 'Applications & Admission'],
                 ['route' => 'registrar.final-verification', 'label' => 'Final Verification'],
             ]
         ],
