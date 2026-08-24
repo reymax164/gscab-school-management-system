@@ -3,6 +3,7 @@
 namespace App\Models\Enrollments;
 
 use App\Models\User;
+use App\Models\Enrollments\DocumentRequirement;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -27,6 +28,16 @@ class Enrollment extends Model
     protected $casts = [
         'gadgets' => 'array',
     ];
+
+    public function submittedDocuments()
+    {
+        return $this->belongsToMany(
+            DocumentRequirement::class,
+            'document_requirement_enrollment', // explicit pivot table name
+            'enrollment_id',                  // foreign key on pivot table for Enrollment
+            'document_requirement_id'         // foreign key on pivot table for DocumentRequirement
+        );
+}
 
     public function studentProfile()
     {

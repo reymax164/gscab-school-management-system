@@ -19,13 +19,14 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 // --- enrollment payment processing ---
-Route::get('/admitted', [CashierEnrollmentController::class, 'index'])->name('admitted');
-Route::get('/admitted/{enrollment}', [CashierEnrollmentController::class, 'show'])->name('admitted.show');
-Route::patch('/admitted/{enrollment}/process', [CashierEnrollmentController::class, 'processPayment'])->name('admitted.process');
+// --- enrollment payment processing ---
+Route::get('/enrollment-payments', [CashierEnrollmentController::class, 'index'])->name('enrollment.index');
+Route::get('/enrollment-payments/{enrollment}', [CashierEnrollmentController::class, 'show'])->name('enrollment.show');
+Route::patch('/enrollment-payments/{enrollment}/process', [CashierEnrollmentController::class, 'processPayment'])->name('enrollment.process');
 
-Route::get('/balances', function () {
+Route::get('/student-balances', function () {
     return view('users.cashier.balances');
-})->name('balances');
+})->name('balances.index');
 
 Route::get('/reports', function () {
     return view('users.cashier.reports');

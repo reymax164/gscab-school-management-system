@@ -20,6 +20,16 @@
             confirmClass: '', 
             confirmText: '',
             
+            // Dynamic Checklist Logic (cast IDs to strings for strict array comparison)
+            requiredDocs: {{ json_encode($requirements->pluck('id')->map(fn($id) => (string)$id)) }},
+            checkedDocs: [],
+            
+            get canAdmit() {
+                // Returns true ONLY if every required document ID is inside the checkedDocs array
+                return this.requiredDocs.length > 0 && 
+                    this.requiredDocs.every(id => this.checkedDocs.includes(String(id)));
+            },
+
             openModal(type, url) {
                 this.actionUrl = url;
                 this.showModal = true;
@@ -179,22 +189,56 @@
 
         </div>
 
+        {{-- Section 5: Document Verification Checklist --}}
+        @if($requirements->isNotEmpty())
+        <section class="bg-blue-50/50 p-6 rounded-lg border border-blue-100">
+            <div class="flex items-center gap-2 mb-4 border-b-2 border-blue-200 pb-2">
+                @svg('heroicon-s-clipboard-document-check', 'w-5 h-5 text-blue-700')
+                <h3 class="text-lg font-semibold text-blue-900">Required Documents Checklist</h3>
+            </div>
+            
+            <p class="text-sm text-gray-600 mb-4">Please verify that the applicant has submitted the following physical documents before admitting them.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                @foreach($requirements as $doc)
+                <label class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-md cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-colors shadow-sm">
+                    {{-- x-model binds this checkbox to the checkedDocs array --}}
+                    <input type="checkbox" value="{{ $doc->id }}" x-model="checkedDocs" 
+                        class="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 transition-colors">
+                    <span class="text-sm font-medium text-gray-800">{{ $doc->name }}</span>
+                </label>
+                @endforeach
+            </div>
+        </section>
+        @endif
+
         {{-- footer action buttons --}}
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3">
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 items-center">
+            
+            {{-- Helper text that shows up if they haven't checked everything --}}
+            <span x-show="!canAdmit && requiredDocs.length > 0" class="text-sm font-medium text-red-500 mr-4 flex items-center gap-1" x-cloak>
+                @svg('heroicon-m-information-circle', 'w-4 h-4')
+                Complete checklist to admit
+            </span>
+
             <button type="button" 
                     @click="openModal('deny', '{{ route('registrar.applications.deny', $enrollment->id) }}')" 
-                    class="bg-white text-red-600 hover:bg-red-50 hover:text-red-700 border border-red-200 text-sm font-medium px-4 py-2 rounded-md transition-colors shadow-sm">
+                    class="bg-white text-red-600 hover:bg-red-50 hover:text-red-700 border border-red-200 font-medium px-5 py-2.5 rounded-md transition-colors shadow-sm">
                 Deny Application
             </button>
+            
+            {{-- Dynamic Admit Button --}}
             <button type="button" 
+                    :disabled="!canAdmit"
                     @click="openModal('admit', '{{ route('registrar.applications.admit', $enrollment->id) }}')" 
-                    class="bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-md transition-colors shadow-sm">
+                    :class="canAdmit ? 'bg-green-600 hover:bg-green-700 text-white cursor-pointer' : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
+                    class="font-medium px-5 py-2.5 rounded-md transition-colors shadow-sm flex items-center gap-2">
                 Admit Student
             </button>
         </div>
 
         {{-- alpine action modal --}}
-        <div x-cloak x-show="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-xs px-4"
+        <div x-show="showModal" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;" aria-labelledby="modal-title" role="dialog" aria-modal="true">
              x-transition:enter="transition ease-out duration-150"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
@@ -217,13 +261,14 @@
                 
                 <div class="px-6 py-4 text-gray-600" x-text="modalMessage"></div>
                 
-                <div class="px-6 py-4 bg-gray-50 flex justify-end gap-3 border-t border-gray-200">
-                    <button type="button" @click="showModal = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                        Cancel
-                    </button>
-                    
-                    <form :action="actionUrl" method="POST">
-                        @csrf
+                <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                        <form :action="actionUrl" method="POST">
+                            @csrf
+                            <input type="hidden" name="_method" :value="actionMethod">
+                            
+                            <template x-for="docId in checkedDocs" :key="docId">
+                                <input type="hidden" name="submitted_documents[]" :value="docId">
+                            </template>
                         @method('PATCH')
                         <button type="submit" :class="confirmClass" class="px-4 py-2 text-sm font-medium text-white rounded-md transition-colors shadow-sm" x-text="confirmText"></button>
                     </form>

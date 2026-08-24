@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Registrar;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enrollments\Enrollment;
+use App\Models\Enrollments\DocumentRequirement;
 use Illuminate\Http\Request;
 
 class RegistrarEnrollmentController extends Controller
 {
     public function index(Request $request)
     {
-        // start building the query for submitted applications
         $query = Enrollment::with('studentProfile')
             ->where('status', 'submitted')
             ->join('student_profiles', 'enrollments.id', '=', 'student_profiles.enrollment_id')
-            ->select('enrollments.*'); // fetch Enrollment columns only
+            ->select('enrollments.*');
 
         // handle Sorting
         $sortBy = $request->input('sort_by', 'last_name'); 
@@ -40,20 +40,32 @@ class RegistrarEnrollmentController extends Controller
         abort_if($enrollment->status !== 'submitted', 403, 'This application is no longer pending.');
 
         $enrollment->load(['studentProfile', 'educationalBackground', 'payment']);
+        $requirements = DocumentRequirement::where('is_active', true)->get();
 
-        return view('users.registrar.applications-show', compact('enrollment'));
+        return view('users.registrar.applications-show', compact('enrollment', 'requirements'));
     }
 
-    public function admit(Enrollment $enrollment)
+    public function admit(Request $request, Enrollment $enrollment)
     {
-        abort_if($enrollment->status !== 'submitted', 400, 'Invalid application status.');
+        // ensure the application is actually pending
+        abort_if($enrollment->status !== 'submitted', 403, 'Application cannot be modified.');
 
+        // validate the incoming document IDs
+        $request->validate([
+            'submitted_documents' => 'required|array',
+            'submitted_documents.*' => 'exists:document_requirements,id',
+        ]);
+
+        // save the checklist to the database
+        $enrollment->submittedDocuments()->sync($request->submitted_documents);
+
+        // advance the status so the Cashier can see it
         $enrollment->update([
-            'status' => 'registrar_approved',
+            'status' => 'registrar_approved'
         ]);
 
         return redirect()->route('registrar.applications.index')
-            ->with('success', 'Student admitted and forwarded to the Cashier.');
+            ->with('success', 'Student admitted and documents successfully verified.');
     }
 
     public function deny(Request $request, Enrollment $enrollment)

@@ -3,60 +3,68 @@
 namespace App\Http\Controllers\Cashier;
 
 use App\Http\Controllers\Controller;
+use App\Models\Enrollments\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
-use App\Models\Student;
-use App\Models\Enrollments\Enrollment;
 
 class CashierEnrollmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pending = Enrollment::pendingCashier()->get();
-        // the view where the cashier sees all student balances
-        return view('users.cashier.balances', compact('pending'));
+        $query = Enrollment::with(['studentProfile', 'payment'])
+            ->where('status', 'registrar_approved') // retrives registrar admitted applications
+            ->join('student_profiles', 'enrollments.id', '=', 'student_profiles.enrollment_id')
+            ->select('enrollments.*'); 
+
+        // sorting options
+        $sortBy = $request->input('sort_by', 'last_name'); 
+        $sortDir = $request->input('sort_dir', 'asc'); 
+
+        $profileFields = ['last_name', 'first_name', 'lrn'];
+
+        if (in_array($sortBy, $profileFields)) {
+            $query->orderBy('student_profiles.' . $sortBy, $sortDir);
+        } else {
+            $query->orderBy('enrollments.' . $sortBy, $sortDir);
+        }
+
+        $applications = $query->paginate(10)->withQueryString();
+
+        return view('users.cashier.enrollment', compact('applications'));
+    }
+ 
+
+    public function show(Enrollment $enrollment)
+    {
+        abort_if($enrollment->status !== 'registrar_approved', 403, 'Invalid status for payment.');
+        
+        $enrollment->load(['studentProfile', 'payment']);
+        
+        return view('users.cashier.enrollment-show', compact('enrollment'));
     }
 
     public function processPayment(Request $request, Enrollment $enrollment)
     {
-        // update the payment spoke record
-        $enrollment->payment()->update([
-            'payment_status' => 'paid',
-            'or_number' => $request->or_number,
-            'verified_by' => Auth::id(),
+        // validate the input
+        $request->validate([
+            'payment_method' => 'required|string|max:50',
+            'or_number'      => 'required|string|max:255',
         ]);
 
-        // update the central hub status
-        $enrollment->update(['status' => 'enrolled']);
+        // update the Payment Record with the new method
+        $enrollment->payment()->update([
+            'payment_status' => 'paid',
+            'payment_method' => $request->payment_method,
+            'or_number'      => $request->or_number,
+            'verified_by'    => Auth::id(), 
+        ]);
 
-        return back()->with('success', 'Payment verified. Student is officially enrolled.');
-    }
+        // advance to enrolled status
+        $enrollment->update([
+            'status' => 'enrolled',
+        ]);
 
-    public function finalizeEnrollment(Request $request, Enrollment $enrollment)
-    {
-        DB::transaction(function () use ($enrollment, $request) {
-            // update the transactional enrollment hub status
-            $enrollment->update(['status' => 'enrolled']);
-
-            // create or update the permanent Student record, finalize
-            Student::updateOrCreate(
-                ['user_id' => $enrollment->user_id], 
-                [
-                    'lrn' => $enrollment->studentProfile->lrn ?? $request->lrn, 
-                    'grade_level' => $enrollment->grade_level,
-                    'enrollment_status' => 'enrolled',
-                ]
-            );
-
-            // update the payment spoke
-            $enrollment->payment()->update([
-                'payment_status' => 'verified',
-                // 'verified_by' => auth()->id(),
-            ]);
-        });
-
-        return back()->with('success', 'Student is officially enrolled!');
+        return redirect()->route('cashier.enrollment.index')
+            ->with('success', 'Payment processed successfully! The student is now officially enrolled.');
     }
 }

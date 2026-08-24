@@ -12,8 +12,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('enrollment_id')->constrained()->cascadeOnDelete();
             $table->string('payment_scheme');
+            $table->string('payment_method')->nullable();
             
-            // Finance Tracking
+            // finance Tracking
             $table->decimal('tuition_fee', 10, 2)->nullable();
             $table->decimal('misc_fee', 10, 2)->nullable();
             $table->decimal('discount_amount', 10, 2)->nullable();
