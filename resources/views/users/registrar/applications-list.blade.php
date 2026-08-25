@@ -100,7 +100,7 @@
 
                                 {{-- view details --}}
                                 <a href="{{ route('registrar.applications.show', $application->id) }}" 
-                                class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md transition-colors shadow-sm">
+                                class="bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium px-4 py-2 rounded-md transition-colors shadow-sm">
                                     View Details
                                 </a>
                             </td>

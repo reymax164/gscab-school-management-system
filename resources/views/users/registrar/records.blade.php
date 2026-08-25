@@ -1,25 +1,47 @@
 <x-layouts.app title="Registrar | Student Records" header="Student Records" class="p-4 md:p-6">
 
-    {{-- Filter & Search Bar --}}
-    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <h2 class="text-lg font-semibold text-gray-800">Student Roster</h2>
-        
-        <form action="{{ route('registrar.records.index') }}" method="GET" class="flex items-center gap-2 w-full sm:w-auto">
-            <label for="grade_level" class="text-sm font-medium text-gray-700 sr-only">Filter by Grade</label>
-            <select name="grade_level" id="grade_level" 
-                    class="border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-md text-sm px-3 py-2 w-full sm:w-48"
-                    onchange="this.form.submit()">
-                <option value="">All Grades</option>
-                <option value="Kinder" {{ request('grade_level') == 'Kinder' ? 'selected' : '' }}>Kindergarten</option>
-                @for ($i = 1; $i <= 10; $i++)
-                    <option value="{{ $i }}" {{ request('grade_level') == $i ? 'selected' : '' }}>Grade {{ $i }}</option>
-                @endfor
-            </select>
+{{-- Filters & Sorting --}}
+    <div class="mb-6">
+        <form action="{{ route('registrar.records.index') }}" method="GET" class="flex flex-col sm:flex-row items-end gap-4 w-full">
             
-            @if(request()->filled('grade_level'))
-                <a href="{{ route('registrar.records.index') }}" class="text-sm text-red-600 hover:text-red-800 font-medium px-2">
-                    Clear
-                </a>
+            {{-- Grade Filter --}}
+            <div class="w-full sm:w-48">
+                <label for="grade_level" class="block text-sm font-medium text-gray-700 mb-1">Grade Level</label>
+                <x-form.select name="grade_level" id="grade_level" onchange="this.form.submit()">
+                    <option value="">All Grades</option>
+                    <option value="Kinder" {{ request('grade_level') == 'Kinder' ? 'selected' : '' }}>Kindergarten</option>
+                    @for ($i = 1; $i <= 10; $i++)
+                        <option value="{{ $i }}" {{ request('grade_level') == $i ? 'selected' : '' }}>Grade {{ $i }}</option>
+                    @endfor
+                </x-form.select>
+            </div>
+
+            {{-- Sort By --}}
+            <div class="w-full sm:w-48">
+                <label for="sort_by" class="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+                <x-form.select name="sort_by" id="sort_by" onchange="this.form.submit()">
+                    <option value="created_at" {{ request('sort_by') == 'created_at' ? 'selected' : '' }}>Enrollment Date</option>
+                    <option value="grade_level" {{ request('sort_by') == 'grade_level' ? 'selected' : '' }}>Grade Level</option>
+                </x-form.select>
+            </div>
+
+            {{-- Order --}}
+            <div class="w-full sm:w-48">
+                <label for="order" class="block text-sm font-medium text-gray-700 mb-1">Order</label>
+                <x-form.select name="order" id="order" onchange="this.form.submit()">
+                    <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>Descending</option>
+                    <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Ascending</option>
+                </x-form.select>
+            </div>
+
+            {{-- Clear Filters Button --}}
+            @if(request()->anyFilled(['grade_level', 'sort_by', 'order']))
+                <div class="w-full sm:w-auto">
+                    <a href="{{ route('registrar.records.index') }}" 
+                       class="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 hover:bg-red-200 border border-transparent rounded-md transition-colors w-full sm:w-auto h-fit">
+                        Clear Filters
+                    </a>
+                </div>
             @endif
         </form>
     </div>
@@ -44,11 +66,7 @@
                             <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $enrollment->studentProfile->last_name }}</td>
                             <td class="px-6 py-4 text-sm text-gray-700">{{ $enrollment->studentProfile->first_name }}</td>
                             <td class="px-6 py-4 text-sm text-gray-700">{{ $enrollment->studentProfile->middle_name ?? '-' }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-700">
-                                <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-semibold border border-blue-100">
-                                    {{ $enrollment->grade_level === 'Kinder' ? 'Kinder' : 'Grade ' . $enrollment->grade_level }}
-                                </span>
-                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{ $enrollment->grade_level === 'Kinder' ? 'Kinder' : 'Grade ' . $enrollment->grade_level }}</td>
                             <td class="px-6 py-4 text-sm text-gray-600 font-mono">{{ $enrollment->studentProfile->lrn }}</td>
                             <td class="px-6 py-4 text-center">
                                 <a href="{{ route('registrar.records.show', $enrollment->id) }}" 
