@@ -77,7 +77,19 @@
       </div>
 
         <form id="enrollment-form" action="/enroll" method="POST">
-          @csrf
+            @csrf
+
+            {{-- error block --}}
+            @if ($errors->any())
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+                    <h3 class="text-sm font-medium text-red-800">Oops! We found some errors:</h3>
+                    <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
           {{-- Section 1: ACADEMIC AND ONLINE ACCESS --}}
           <div id="step-1" x-show="step === 1" x-transition.opacity.duration.300ms>
@@ -474,23 +486,23 @@
                       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
                           <div>
                               <label class="block text-sm font-semibold text-gray-800 mb-2">Guardian's Name (If any)</label>
-                              <input type="text" name="guardian_name" required class="text-sm px-3 py-2 block w-full uppercase rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                              <input type="text" name="guardian_name"  class="text-sm px-3 py-2 block w-full uppercase rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                           </div>
                           <div>
                               <label class="block text-sm font-semibold text-gray-800 mb-2">Relation to Student</label>
-                              <input type="text" name="guardian_relation" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                              <input type="text" name="guardian_relation"  class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                           </div>
                           <div>
                               <label class="block text-sm font-semibold text-gray-800 mb-2">Address</label>
-                              <input type="text" name="guardian_address" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                              <input type="text" name="guardian_address"  class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                           </div>
                           <div>
                               <label class="block text-sm font-semibold text-gray-800 mb-2">Contact Number</label>
-                              <input type="number" name="guardian_number" required min="0" onwheel="this.blur()" onkeydown="if(event.key==='-' || event.key==='+') event.preventDefault();" class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                              <input type="number" name="guardian_number"  min="0" onwheel="this.blur()" onkeydown="if(event.key==='-' || event.key==='+') event.preventDefault();" class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                           </div>
                           <div>
                               <label class="block text-sm font-semibold text-gray-800 mb-2">Occupation</label>
-                              <input type="text" name="guardian_occupation" required class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                              <input type="text" name="guardian_occupation"  class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                           </div>
                       </div>
                   </div>
@@ -554,7 +566,7 @@
                       
                       <div>
                           <label class="block text-sm font-semibold text-gray-800 mb-2">General Average</label>
-                          <input type="number" name="gen_ave" required min="0" max="100" step="0.01" onwheel="this.blur()" onkeydown="if(event.key==='-' || event.key==='+') event.preventDefault();" class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                          <input type="number" name="gen_ave" min="0" max="100" step="0.01" onwheel="this.blur()" onkeydown="if(event.key==='-' || event.key==='+') event.preventDefault();" class="text-sm px-3 py-2 block w-full rounded-md border border-gray-400 shadow-sm focus:border-blue-500 focus:ring-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                       </div>
                       
                       <div>

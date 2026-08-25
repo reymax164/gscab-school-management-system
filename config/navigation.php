@@ -21,27 +21,26 @@ return [
     // registrar
     'registrar' => [
         ['route' => 'registrar.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
-        ['route' => 'registrar.records.index',  'label' => 'Student Records',  'icon' => 'heroicon-s-academic-cap'],
-        
-        // REPLACED the 'children' array with a single direct link
+        ['route' => 'registrar.enrolled.index',  'label' => 'Enrolled Students',  'icon' => 'heroicon-s-academic-cap'],
+
         ['route' => 'registrar.applications.index', 'label' => 'Applications & Admission', 'icon' => 'heroicon-s-user-plus'],
-        
-        ['route' => 'registrar.reports',   'label' => 'Reports','icon' => 'heroicon-s-chart-bar'],
+
+        ['route' => 'registrar.reports',   'label' => 'Reports', 'icon' => 'heroicon-s-chart-bar'],
     ],
 
     // cashier
     'cashier' => [
         ['route' => 'cashier.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
-        
+
         [
-            'label' => 'Payments', 
+            'label' => 'Payments',
             'icon' => 'heroicon-s-credit-card',
             'children' => [
                 ['route' => 'cashier.enrollment.index', 'label' => 'Pending Enrollments'],
                 ['route' => 'cashier.balances.index', 'label' => 'Student Balances'],
-            ]
+            ],
         ],
-        
+
         ['route' => 'cashier.history', 'label' => 'Transaction History', 'icon' => 'heroicon-s-clipboard-document-list'],
         ['route' => 'cashier.reports', 'label' => 'Reports', 'icon' => 'heroicon-s-chart-bar'],
     ],

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class EnrollmentPayment extends Model
 {
     protected $fillable = [
-        'enrollment_id', 'payment_scheme', 'tuition_fee', 'misc_fee', 
+        'enrollment_id', 'payment_scheme', 'payment_method', 'tuition_fee', 'misc_fee', 
         'discount_amount', 'total_amount', 'payment_status', 'or_number', 'verified_by'
     ];
 

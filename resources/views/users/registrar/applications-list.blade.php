@@ -1,10 +1,21 @@
 <x-layouts.app title="Registrar | Admissions" header="Applications List" class="p-4 md:p-6">
 
-    {{-- sort and walk-in button --}}
+{{-- sort, filter, and walk-in button --}}
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 px-2 md:px-0">
         
-        {{-- sort --}}
-        <form action="{{ route('registrar.applications.index') }}" method="GET" class="w-full sm:w-auto flex flex-col sm:flex-row gap-3">
+        {{-- filter & sort form --}}
+        <form action="{{ route('registrar.applications.index') }}" method="GET" class="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-end gap-3 flex-wrap">
+            
+            {{-- grade level filter --}}
+            <x-form.select label="Grade Level" name="grade_level" onchange="this.form.submit()">
+                <option value="">All Grades</option>
+                <option value="Kinder" {{ request('grade_level') == 'Kinder' ? 'selected' : '' }}>Kindergarten</option>
+                @for ($i = 1; $i <= 10; $i++)
+                    <option value="{{ $i }}" {{ request('grade_level') == $i ? 'selected' : '' }}>Grade {{ $i }}</option>
+                @endfor
+            </x-form.select>
+
+            {{-- Sort By --}}
             <x-form.select label="Sort by" name="sort_by" onchange="this.form.submit()">
                 <option value="last_name" {{ request('sort_by', 'last_name') == 'last_name' ? 'selected' : '' }}>Last Name</option>
                 <option value="first_name" {{ request('sort_by') == 'first_name' ? 'selected' : '' }}>First Name</option>
@@ -13,10 +24,19 @@
                 <option value="grade_level" {{ request('sort_by') == 'grade_level' ? 'selected' : '' }}>Grade Enrolling for</option>
             </x-form.select>
 
+            {{-- order --}}
             <x-form.select label="Order" name="sort_dir" onchange="this.form.submit()">
                 <option value="asc" {{ request('sort_dir', 'asc') == 'asc' ? 'selected' : '' }}>Ascending</option>
                 <option value="desc" {{ request('sort_dir') == 'desc' ? 'selected' : '' }}>Descending</option>
             </x-form.select>
+
+            {{-- clear button --}}
+            @if(request()->filled('grade_level') || request()->filled('sort_by') || request()->filled('sort_dir'))
+                <a href="{{ route('registrar.applications.index') }}" 
+                   class="inline-flex justify-center items-center text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 text-sm font-medium transition-colors rounded-md px-3 py-2.5 h-10.5 shrink-0">
+                    Clear
+                </a>
+            @endif
         </form>
 
         {{-- walk-in button --}}
@@ -82,27 +102,52 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $application->created_at->format('M d, Y h:i A') }}</td>
                             
                             {{-- action buttons --}}
-                            <td class="px-6 py-4 whitespace-nowrap flex items-center justify-end gap-2">
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div class="flex items-center justify-end gap-2">
+                                    
+                                    {{-- Three-Dot Menu (Admit & Deny) --}}
+                                    <div x-data="{ open: false }" class="relative inline-block text-left">
+                                        <button @click="open = !open" 
+                                                type="button" 
+                                                class="p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none transition-colors">
+                                            <x-heroicon-m-ellipsis-vertical class="w-5 h-5" />
+                                        </button>
 
-                                {{-- deny --}}
-                                <button type="button" 
-                                        @click="openModal('deny', '{{ route('registrar.applications.deny', $application->id) }}', '{{ addslashes($application->studentProfile->first_name . ' ' . $application->studentProfile->last_name) }}')" 
-                                        class="text-red-700 bg-white border border-red-300 hover:bg-red-50 text-xs font-medium px-2 py-1 rounded-sm transition-colors">
-                                    Deny
-                                </button>
+                                        <div x-cloak
+                                            x-show="open" 
+                                            @click.away="open = false" 
+                                            x-transition:enter="transition ease-out duration-100"
+                                            x-transition:enter-start="transform opacity-0 scale-95"
+                                            x-transition:enter-end="transform opacity-100 scale-100"
+                                            x-transition:leave="transition ease-in duration-75"
+                                            x-transition:leave-start="transform opacity-100 scale-100"
+                                            x-transition:leave-end="transform opacity-0 scale-95"
+                                            class="origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black/5 divide-y divide-gray-100 z-30">
+                                            <div class="py-1">
+                                                <button type="button" 
+                                                        @click="open = false; openModal('admit', '{{ route('registrar.applications.admit', $application->id) }}', '{{ addslashes($application->studentProfile->first_name . ' ' . $application->studentProfile->last_name) }}')" 
+                                                        class="group flex w-full items-center px-4 py-2 text-sm text-green-700 hover:bg-green-50 transition-colors">
+                                                    <x-heroicon-o-check-circle class="w-4 h-4 mr-2 text-green-600" />
+                                                    Admit
+                                                </button>
 
-                                {{-- admit --}}
-                                <button type="button" 
-                                        @click="openModal('admit', '{{ route('registrar.applications.admit', $application->id) }}', '{{ addslashes($application->studentProfile->first_name . ' ' . $application->studentProfile->last_name) }}')" 
-                                        class="text-green-700 bg-white border border-green-600 hover:bg-green-50 text-xs font-medium px-2 py-1 rounded-sm transition-colors">
-                                    Admit
-                                </button>
+                                                <button type="button" 
+                                                        @click="open = false; openModal('deny', '{{ route('registrar.applications.deny', $application->id) }}', '{{ addslashes($application->studentProfile->first_name . ' ' . $application->studentProfile->last_name) }}')" 
+                                                        class="group flex w-full items-center px-4 py-2 text-sm text-red-700 hover:bg-red-50 transition-colors">
+                                                    <x-heroicon-o-x-circle class="w-4 h-4 mr-2 text-red-600" />
+                                                    Deny
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                {{-- view details --}}
-                                <a href="{{ route('registrar.applications.show', $application->id) }}" 
-                                class="bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium px-4 py-2 rounded-md transition-colors shadow-sm">
-                                    View Details
-                                </a>
+                                    {{-- View Details Button --}}
+                                    <a href="{{ route('registrar.applications.show', $application->id) }}" 
+                                    class="bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium px-4 py-2 rounded-md transition-colors shadow-sm">
+                                        View Details
+                                    </a>
+
+                                </div>
                             </td>
                         </tr>
                     @empty

@@ -16,6 +16,7 @@ class Enrollment extends Model
     }
 
     protected $fillable = [
+        'reference_code',
         'user_id',
         'school_year',
         'grade_level',
@@ -36,7 +37,7 @@ class Enrollment extends Model
             'document_requirement_enrollment', // explicit pivot table name
             'enrollment_id',                  // foreign key on pivot table for Enrollment
             'document_requirement_id'         // foreign key on pivot table for DocumentRequirement
-        );
+        )->withTimestamps();
 }
 
     public function studentProfile()

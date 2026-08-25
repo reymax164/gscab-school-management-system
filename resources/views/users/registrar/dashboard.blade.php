@@ -4,7 +4,7 @@
   <x-widgets.number
     title="Enrolled Students"
     subtitle="S.Y."
-    footer="View Student Records"
+    footer="View Enrolled Students"
   />
 
   <x-widgets.number

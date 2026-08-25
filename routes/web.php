@@ -2,11 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Applicant\EnrollmentController;
+Route::post('/enroll', [EnrollmentController::class, 'store'])->name('enroll.store');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/enrollment/apply', [EnrollmentController::class, 'create'])->name('enrollment.create');
-    Route::post('/enrollment/apply', [EnrollmentController::class, 'store'])->name('enrollment.store');
 });
+
+// track
+Route::get('/track-status', [EnrollmentController::class, 'trackForm'])->name('track.form');
+Route::post('/track-status', [EnrollmentController::class, 'checkStatus'])->name('track.check');
 
 require __DIR__.'/auth.php';
 

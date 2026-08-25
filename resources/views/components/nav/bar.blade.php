@@ -28,17 +28,21 @@
 
   </button>
 
-  <a href="{{ url('/') }}" class="mb-2 focus:outline-none shrink-0">
-    <img 
-      src="{{ asset('images/gscab-logo.webp') }}" 
-      alt="GSCAB logo" 
-      class="h-12 md:h-24 w-auto object-contain"
-      fetchpriority="high"
-      loading="eager"
-      width="96" 
-      height="96"
-    />
-  </a>
+@php
+    $logoUrl = route("{$user_type}.dashboard");
+@endphp
+
+    <a href="{{ $logoUrl }}" class="mb-2 focus:outline-none shrink-0">
+        <img 
+        src="{{ asset('images/gscab-logo.webp') }}" 
+        alt="GSCAB logo" 
+        class="h-12 md:h-24 w-auto object-contain"
+        fetchpriority="high"
+        loading="eager"
+        width="96" 
+        height="96"
+        />
+    </a>
 
   <ul class="flex flex-col gap-2 w-full text-sm">
 

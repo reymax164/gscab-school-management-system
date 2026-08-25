@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Registrar\RegistrarEnrolledController;
 use App\Http\Controllers\Registrar\RegistrarEnrollmentController;
-use App\Http\Controllers\Registrar\RegistrarRecordController;
+use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/registrar/dashboard');
 
@@ -10,12 +10,8 @@ Route::get('/dashboard', function () {
     return view('users.registrar.dashboard');
 })->name('dashboard');
 
-Route::get('/records', [RegistrarRecordController::class, 'index'])->name('records.index');
-
-Route::get('/records/{enrollment}', function ($enrollment) {
-    $enrollment = \App\Models\Enrollments\Enrollment::with('studentProfile')->findOrFail($enrollment);
-    return view('users.registrar.records-show', compact('enrollment'));
-})->name('records.show');
+Route::get('/enrolled', [RegistrarEnrolledController::class, 'index'])->name('enrolled.index');
+Route::get('/enrolled/{enrollment}', [RegistrarEnrolledController::class, 'show'])->name('enrolled.show');
 
 Route::get('/applications', [RegistrarEnrollmentController::class, 'index'])->name('applications.index');
 Route::get('/applications/create', [RegistrarEnrollmentController::class, 'create'])->name('applications.create');

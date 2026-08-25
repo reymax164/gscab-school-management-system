@@ -1,8 +1,8 @@
-<x-layouts.app title="Registrar | Student Records" header="Student Records" class="p-4 md:p-6">
+<x-layouts.app title="Registrar | Enrolled Students" header="Enrolled Students" class="p-4 md:p-6">
 
 {{-- Filters & Sorting --}}
     <div class="mb-6">
-        <form action="{{ route('registrar.records.index') }}" method="GET" class="flex flex-col sm:flex-row items-end gap-4 w-full">
+        <form action="{{ route('registrar.enrolled.index') }}" method="GET" class="flex flex-col sm:flex-row items-end gap-4 w-full">
             
             {{-- Grade Filter --}}
             <div class="w-full sm:w-48">
@@ -37,7 +37,7 @@
             {{-- Clear Filters Button --}}
             @if(request()->anyFilled(['grade_level', 'sort_by', 'order']))
                 <div class="w-full sm:w-auto">
-                    <a href="{{ route('registrar.records.index') }}" 
+                    <a href="{{ route('registrar.enrolled.index') }}" 
                        class="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 hover:bg-red-200 border border-transparent rounded-md transition-colors w-full sm:w-auto h-fit">
                         Clear Filters
                     </a>
@@ -69,7 +69,7 @@
                             <td class="px-6 py-4 text-sm text-gray-700">{{ $enrollment->grade_level === 'Kinder' ? 'Kinder' : 'Grade ' . $enrollment->grade_level }}</td>
                             <td class="px-6 py-4 text-sm text-gray-600 font-mono">{{ $enrollment->studentProfile->lrn }}</td>
                             <td class="px-6 py-4 text-center">
-                                <a href="{{ route('registrar.records.show', $enrollment->id) }}" 
+                                <a href="{{ route('registrar.enrolled.show', $enrollment->id) }}" 
                                    class="inline-flex items-center justify-center px-3 py-1.5 text-sm font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors border border-blue-200">
                                     View Details
                                 </a>

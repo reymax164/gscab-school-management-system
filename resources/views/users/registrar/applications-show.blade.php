@@ -191,7 +191,7 @@
 
         {{-- Section 5: Document Verification Checklist --}}
         @if($requirements->isNotEmpty())
-        <section class="bg-blue-50/50 p-6 rounded-lg border border-blue-100">
+        <section class="bg-blue-50/50 p-6 rounded-lg border border-blue-100 m-6 mt-0">
             <div class="flex items-center gap-2 mb-4 border-b-2 border-blue-200 pb-2">
                 @svg('heroicon-s-clipboard-document-check', 'w-5 h-5 text-blue-700')
                 <h3 class="text-lg font-semibold text-blue-900">Required Documents Checklist</h3>
@@ -238,20 +238,31 @@
         </div>
 
         {{-- alpine action modal --}}
-        <div x-show="showModal" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-             x-transition:enter="transition ease-out duration-150"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-100"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0">
+        <div x-show="showModal" 
+             class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto px-4" 
+             style="display: none;" 
+             aria-labelledby="modal-title" 
+             role="dialog" 
+             aria-modal="true">
              
+            {{-- Background Overlay --}}
+            <div class="fixed inset-0 bg-gray-900 bg-opacity-50 transition-opacity"
+                 x-show="showModal"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"></div>
+             
+            {{-- Modal Panel --}}
             <div @click.away="showModal = false" 
-                 class="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden"
-                 x-transition:enter="transition ease-out duration-150 transform"
+                 class="relative bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden z-10"
+                 x-show="showModal"
+                 x-transition:enter="transition ease-out duration-300 transform"
                  x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave="transition ease-in duration-100 transform"
+                 x-transition:leave="transition ease-in duration-200 transform"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                 
@@ -261,16 +272,27 @@
                 
                 <div class="px-6 py-4 text-gray-600" x-text="modalMessage"></div>
                 
-                <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
-                        <form :action="actionUrl" method="POST">
-                            @csrf
-                            <input type="hidden" name="_method" :value="actionMethod">
-                            
-                            <template x-for="docId in checkedDocs" :key="docId">
-                                <input type="hidden" name="submitted_documents[]" :value="docId">
-                            </template>
-                        @method('PATCH')
-                        <button type="submit" :class="confirmClass" class="px-4 py-2 text-sm font-medium text-white rounded-md transition-colors shadow-sm" x-text="confirmText"></button>
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 items-center">
+                    
+                    <button type="button" 
+                            @click="showModal = false" 
+                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none transition-colors">
+                        Cancel
+                    </button>
+
+                    <form :action="actionUrl" method="POST" class="m-0">
+                        @csrf
+                        <input type="hidden" name="_method" :value="actionMethod">
+                        
+                        <template x-for="docId in checkedDocs" :key="docId">
+                            <input type="hidden" name="submitted_documents[]" :value="docId">
+                        </template>
+                        
+                        <button type="submit" 
+                                :class="confirmClass" 
+                                class="px-4 py-2 text-sm font-medium text-white rounded-md transition-colors shadow-sm" 
+                                x-text="confirmText">
+                        </button>
                     </form>
                 </div>
             </div>

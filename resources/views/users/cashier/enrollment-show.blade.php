@@ -69,7 +69,6 @@
                         <option value="" disabled selected>Select method...</option>
                         <option value="Cash">Cash</option>
                         <option value="Bank Transfer">Bank Transfer</option>
-                        <option value="Check">Check</option>
                         <option value="E-Wallet">E-Wallet</option>
                     </select>
                     @error('payment_method') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror

@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -155,6 +156,7 @@ class UserSeeder extends Seeder
 
             // create the central Enrollment Hub
             $enrollment = \App\Models\Enrollments\Enrollment::create([
+                'reference_code' => 'APP-' . date('Y') . '-' . strtoupper(Str::random(6)),
                 'user_id'        => $applicantUser->id,
                 'school_year'    => '2026-2027',
                 'grade_level'    => fake()->randomElement(['7', '8', '9', '10']),

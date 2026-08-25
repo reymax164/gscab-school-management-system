@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Registrar;
 
 use App\Http\Controllers\Controller;
-use App\Models\Enrollments\Enrollment;
 use App\Models\Enrollments\DocumentRequirement;
+use App\Models\Enrollments\Enrollment;
 use Illuminate\Http\Request;
 
 class RegistrarEnrollmentController extends Controller
@@ -16,17 +16,22 @@ class RegistrarEnrollmentController extends Controller
             ->join('student_profiles', 'enrollments.id', '=', 'student_profiles.enrollment_id')
             ->select('enrollments.*');
 
-        // handle Sorting
-        $sortBy = $request->input('sort_by', 'last_name'); 
-        $sortDir = $request->input('sort_dir', 'asc'); 
+        // Handle Grade Level Filter
+        if ($request->filled('grade_level')) {
+            $query->where('enrollments.grade_level', $request->grade_level);
+        }
+
+        // Handle Sorting
+        $sortBy = $request->input('sort_by', 'last_name');
+        $sortDir = $request->input('sort_dir', 'asc');
 
         $profileFields = ['last_name', 'first_name', 'lrn'];
 
         if (in_array($sortBy, $profileFields)) {
-            $query->orderBy('student_profiles.' . $sortBy, $sortDir);
+            $query->orderBy('student_profiles.'.$sortBy, $sortDir);
         } else {
             // grade_level and created_at
-            $query->orderBy('enrollments.' . $sortBy, $sortDir);
+            $query->orderBy('enrollments.'.$sortBy, $sortDir);
         }
 
         // paginate and append query strings
@@ -61,7 +66,7 @@ class RegistrarEnrollmentController extends Controller
 
         // advance the status so the Cashier can see it
         $enrollment->update([
-            'status' => 'registrar_approved'
+            'status' => 'registrar_approved',
         ]);
 
         return redirect()->route('registrar.applications.index')
