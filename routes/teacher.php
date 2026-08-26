@@ -13,9 +13,43 @@ Route::get('/schedule', function () {
     return view('users.teacher.schedule');
 })->name('schedule');
 
-Route::get('/student_list', function () {
-    return view('users.teacher.students');
+Route::get('/student_list', function (Request $request) {
+    $currentYear = now()->year;
+    $defaultSy = "{$currentYear}-" . ($currentYear + 1);
+    $selectedSy = $request->query('sy', $defaultSy);
+
+    $classes = [
+        (object) [
+            'id' => 1,
+            'grade_level' => '5',
+            'subject' => (object) ['name' => 'Mathematics'],
+            'students_count' => 35,
+        ],
+        (object) [
+            'id' => 2,
+            'grade_level' => '8',
+            'subject' => (object) ['name' => 'Physics'],
+            'students_count' => 40,
+        ],
+        (object) [
+            'id' => 3,
+            'grade_level' => '8',
+            'subject' => (object) ['name' => 'Biology'],
+            'students_count' => 28,
+        ],
+        (object) [
+            'id' => 4,
+            'grade_level' => '9',
+            'subject' => (object) ['name' => 'Earth Science'],
+            'students' => collect(array_fill(0, 30, 'student')), 
+        ],
+    ];
+
+    $classes = collect($classes);
+
+    return view('users.teacher.students', compact('selectedSy', 'classes'));
 })->name('students');
+
 
 Route::get('/student_list/{id}', function ($id) {
     return view('users.teacher.view-student-list', compact('id'));

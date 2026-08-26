@@ -8,7 +8,7 @@
       </div>
     @else
 
-      {{-- Chosen class header --}}
+      {{-- chosen class header --}}
       <div>
         <h1 class="text-2xl font-semibold text-blue-900">
           {{ $class->subject->name ?? 'Subject TBA' }}
@@ -40,7 +40,7 @@
             </thead>
 
             <tbody class="divide-y divide-neutral-200 bg-white">
-              {{-- Loop through students safely --}}
+              {{-- loop through students safely --}}
               @forelse ($class->students ?? [] as $student)
                 <tr class="transition-colors hover:bg-blue-50/50 even:bg-neutral-100">
                   

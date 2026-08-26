@@ -19,7 +19,6 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 // --- enrollment payment processing ---
-// --- enrollment payment processing ---
 Route::get('/enrollment-payments', [CashierEnrollmentController::class, 'index'])->name('enrollment.index');
 Route::get('/enrollment-payments/{enrollment}', [CashierEnrollmentController::class, 'show'])->name('enrollment.show');
 Route::patch('/enrollment-payments/{enrollment}/process', [CashierEnrollmentController::class, 'processPayment'])->name('enrollment.process');

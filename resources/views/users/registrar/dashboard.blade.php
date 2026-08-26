@@ -3,14 +3,15 @@
   
   <x-widgets.number
     title="Enrolled Students"
-    subtitle="S.Y."
     footer="View Enrolled Students"
+    :num="$enrolledCount"
+    :href="route('registrar.enrolled.index')"
   />
 
   <x-widgets.number
-    title="New Applications"
-  />
-  <x-widgets.number
-    title="For Final Verification"
+    title="Pending Applications"
+    footer="View Pending Applications"
+    :num="$pendingCount"
+    :href="route('registrar.applications.index')"
   />
 </x-layouts.app>

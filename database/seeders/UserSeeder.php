@@ -18,33 +18,32 @@ class UserSeeder extends Seeder
         User::create([
             'first_name' => 'System',
             'last_name' => 'Admin',
-            'email' => 'admin@school.edu',
+            'email' => 'admin@gscab.edu',
             'password' => Hash::make('password'),
             'user_type' => 'admin',
         ]);
 
         User::create([
-            'first_name' => 'Kimberly Joy',
-            'last_name' => 'Jaway',
-            'email' => 'registrar@school.edu',
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'email' => 'registrar@gscab.edu',
             'password' => Hash::make('password'),
             'user_type' => 'registrar',
         ]);
 
         User::create([
-            'first_name' => 'Kimberly Joy',
-            'last_name' => 'Jaway',
-            'email' => 'cashier@school.edu',
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'email' => 'cashier@gscab.edu',
             'password' => Hash::make('password'),
             'user_type' => 'cashier',
         ]);
 
         // Test Teacher
         $teacher = User::create([
-            'first_name' => 'Nashley Cedrick',
-            'middle_name' => 'Austria',
-            'last_name' => 'Almazan',
-            'email' => 'teacher@school.edu',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'email' => 'teacher@gscab.edu',
             'password' => Hash::make('password'),
             'user_type' => 'teacher',
         ]);
@@ -59,22 +58,21 @@ class UserSeeder extends Seeder
 
         // Test Student
         $student = User::create([
-            'first_name' => 'Nashley Cedrick',
-            'middle_name' => 'Austria',
-            'last_name' => 'Almazan',
-            'email' => 'student@school.edu',
+            'first_name' => 'Junior',
+            'last_name' => 'Doe',
+            'email' => 'student@gscab.edu',
             'password' => Hash::make('password'),
             'user_type' => 'student',
         ]);
 
         $student->student()->create([
-            'lrn' => '2026-0001',
+            'lrn' => '20260001',
             'grade_level' => '1',
             'enrollment_status' => 'enrolled',
         ]);
 
-        // DUMMY DATA GENERATION
-        for ($i = 0; $i < 10; $i++) {
+        // DUMMY DATA GENERATION - Staff halved to 5
+        for ($i = 0; $i < 5; $i++) {
             User::create([
                 'first_name' => fake()->firstName(),
                 'last_name' => fake()->lastName(),
@@ -84,7 +82,7 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             User::create([
                 'first_name' => fake()->firstName(),
                 'last_name' => fake()->lastName(),
@@ -94,7 +92,7 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             User::create([
                 'first_name' => fake()->firstName(),
                 'last_name' => fake()->lastName(),
@@ -104,7 +102,7 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $fakeTeacher = User::create([
                 'first_name' => fake()->firstName(),
                 'middle_name' => fake()->lastName(),
@@ -123,8 +121,8 @@ class UserSeeder extends Seeder
             }
         }
 
-        // Generate 10 Students + Master Records
-        for ($i = 0; $i < 10; $i++) {
+        // Generate 40 Students + Master Records (Quadrupled from 10)
+        for ($i = 0; $i < 40; $i++) {
             $fakeLrn = fake()->unique()->numerify('2026-####');
             
             $fakeStudent = User::create([
@@ -139,19 +137,19 @@ class UserSeeder extends Seeder
             $fakeStudent->student()->create([
                 'lrn' => $fakeLrn,
                 'grade_level' => fake()->randomElement(['1', '2', '3', '4', '5', '6']),
-                'enrollment_status' => fake()->randomElement(['enrolled', 'pending']),
+                'enrollment_status' => 'enrolled', // Forced to enrolled
             ]);
         }
 
         
-        // DUMMY PENDING ENROLLMENT APPLICATIONS
-        for ($i = 0; $i < 5; $i++) {
+        // DUMMY ENROLLMENT APPLICATIONS (Quadrupled from 5 to 20)
+        for ($i = 0; $i < 20; $i++) {
             $applicantUser = User::create([
                 'first_name' => fake()->firstName(),
                 'last_name' => fake()->lastName(),
                 'email' => fake()->unique()->safeEmail(),
                 'password' => Hash::make('password'),
-                'user_type' => 'student', // They start as a student user
+                'user_type' => 'student', 
             ]);
 
             // create the central Enrollment Hub
@@ -161,7 +159,7 @@ class UserSeeder extends Seeder
                 'school_year'    => '2026-2027',
                 'grade_level'    => fake()->randomElement(['7', '8', '9', '10']),
                 'student_status' => 'new',
-                'status'         => 'submitted', // 'submitted' goes to Registrar
+                'status'         => 'enrolled',
                 'online_access'  => 'wifi',
                 'gadgets'        => ['Smartphone', 'Laptop'],
             ]);
@@ -237,5 +235,8 @@ class UserSeeder extends Seeder
                 'payment_status' => 'pending',
             ]);
         }
+
+        // submitted
+        
     }
 }

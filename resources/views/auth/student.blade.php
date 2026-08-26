@@ -8,21 +8,21 @@
       <form action="{{ route('auth.student.authenticate') }}" method="POST" class="space-y-4">
       @csrf 
 
-      {{-- LRN field --}}
+    {{-- LRN field --}}
       <div>
         <label for="LRN" class="block text-sm font-medium text-gray-700 mb-1">
             Learner Reference Number (LRN)
         </label>
         <input type="text" 
-               name="lrn"ñ
+               name="lrn"
                id="LRN" 
-               value="{{ old('LRN') }}" 
+               value="{{ old('lrn') }}" 
                required 
                autofocus
                class="w-full border-gray-300 rounded-md shadow-sm px-3 py-2 border focus:outline-none focus:border-blue-900 focus:ring-1 focus:ring-blue-900">
         
         {{-- error --}}
-        @error('LRN')
+        @error('lrn')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>

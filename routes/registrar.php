@@ -2,12 +2,19 @@
 
 use App\Http\Controllers\Registrar\RegistrarEnrolledController;
 use App\Http\Controllers\Registrar\RegistrarEnrollmentController;
+use App\Models\Enrollments\Enrollment;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/registrar/dashboard');
 
 Route::get('/dashboard', function () {
-    return view('users.registrar.dashboard');
+    // count of pending applciations
+    $pendingCount = Enrollment::where('status', 'submitted')->count();
+    
+    // count of enrolled students
+    $enrolledCount = Enrollment::where('status', 'enrolled')->count();
+
+    return view('users.registrar.dashboard', compact('pendingCount', 'enrolledCount'));
 })->name('dashboard');
 
 Route::get('/enrolled', [RegistrarEnrolledController::class, 'index'])->name('enrolled.index');

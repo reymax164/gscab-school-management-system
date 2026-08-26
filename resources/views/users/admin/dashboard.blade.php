@@ -4,11 +4,13 @@
   <x-widgets.number
     title="Total Students"
     footer="View Students"
+    :num="$studentCount"
   />
 
   <x-widgets.number
     title="Total Staff"
     footer="View Staffs"
+    :num="$staffCount"
   />
 
   <x-widgets.number

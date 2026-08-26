@@ -26,3 +26,12 @@ __Migrations:__
 - `database\migrations\2026_08_19_101147_create_educational_backgrounds_table.php`
 - `database\migrations\2026_08_19_101158_create_enrollment_payments_table.php`
 - `database\migrations\2026_08_24_122913_create_document_requirements_table.php`
+
+__Routes:__
+- `routes\web.php`
+- `routes\admin.php`
+- `routes\auth.php`
+- `routes\cashier.php`
+- `routes\registrar.php`
+- `routes\student.php`
+- `routes\teacher.php`

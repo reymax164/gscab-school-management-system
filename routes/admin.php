@@ -1,13 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Student;
+use App\Models\User;
 
 Route::redirect('/', 'dashboard');
 
 Route::get('/dashboard', function () {
-  return view('users.admin.dashboard');
+    // count enrolled students
+    $studentCount = Student::where('enrollment_status', 'enrolled')->count();
+
+    // count staff
+    $staffCount = User::whereIn('user_type', ['admin', 'registrar', 'cashier', 'teacher'])->count();
+
+    return view('users.admin.dashboard', compact('studentCount', 'staffCount'));
 })->name('dashboard');
 
+// ... [Keep the rest of your routes exactly as they are] ...
 Route::get('/students', function () {
   return view('users.admin.students');
 })->name('students');
