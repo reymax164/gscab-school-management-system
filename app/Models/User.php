@@ -2,22 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\Student;
-use App\Models\Teacher;
 use App\Models\Enrollments\Enrollment;
-
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['first_name', 'middle_name', 'last_name', 'email', 'lrn', 'password', 'user_type'])]
+#[Fillable(['first_name', 'middle_name', 'last_name', 'email', 'lrn', 'password', 'role'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -54,26 +50,26 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->user_type === 'admin';
+        return $this->role === 'admin';
     }
 
     public function isRegistrar(): bool
     {
-        return $this->user_type === 'registrar';
+        return $this->role === 'registrar';
     }
 
     public function isCashier(): bool
     {
-        return $this->user_type === 'cashier';
+        return $this->role === 'cashier';
     }
 
     public function isTeacher(): bool
     {
-        return $this->user_type === 'teacher';
+        return $this->role === 'teacher';
     }
 
     public function isStudent(): bool
     {
-        return $this->user_type === 'student';
+        return $this->role === 'student';
     }
 }

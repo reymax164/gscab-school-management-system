@@ -4,18 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Teacher extends Model
 {
     protected $fillable = [
-        'user_id', 
-        'employee_id', 
-        'department_id', 
-        'hire_date'
+        'user_id',
+        'employee_id',
+        'department_id',
+        'hire_date',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    // schedule
+    public function classSchedules(): HasMany
+    {
+        return $this->hasMany(ClassSchedule::class);
     }
 }

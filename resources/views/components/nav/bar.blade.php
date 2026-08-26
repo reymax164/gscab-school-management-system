@@ -1,10 +1,10 @@
 {{-- nav bar of authenticaed users --}}
 @php
     // gets user role
-    $user_type = auth()->user()->user_type ?? 'registrar';
+    $role = auth()->user()->role ?? 'registrar';
     
     // gets the nav links from config/navigation.php
-    $links = config("navigation.{$user_type}", []);
+    $links = config("navigation.{$role}", []);
 @endphp
 
 <div 
@@ -29,7 +29,7 @@
   </button>
 
 @php
-    $logoUrl = route("{$user_type}.dashboard");
+    $logoUrl = route("{$role}.dashboard");
 @endphp
 
     <a href="{{ $logoUrl }}" class="mb-2 focus:outline-none shrink-0">
@@ -46,7 +46,7 @@
 
   <ul class="flex flex-col gap-2 w-full text-sm">
 
-      {{-- loads links based on the user type --}}
+    {{-- loads links based on the user role --}}
       @foreach ($links as $link)
           @if(isset($link['children']))
               <x-nav.group 

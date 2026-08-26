@@ -45,7 +45,7 @@
 
         <!-- authenticated login -->
         @auth
-            <a href="{{ url('/' . Auth::user()->user_type . '/dashboard') }}" 
+            <a href="{{ url('/' . Auth::user()->role . '/dashboard') }}"
               class="bg-white text-blue-900 font-semibold py-1 px-5 rounded-full hover:bg-neutral-200 transition-colors text-sm md:text-base cursor-pointer inline-block text-center border border-transparent">
               Login
             </a>

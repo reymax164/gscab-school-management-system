@@ -35,3 +35,30 @@ __Routes:__
 - `routes\registrar.php`
 - `routes\student.php`
 - `routes\teacher.php`
+
+__Views:__
+1. `resources\views\auth\enroll.blade.php`
+2. `resources\views\auth\staff.blade.php`
+3. `resources\views\auth\student.blade.php`
+
+4. `resources\views\components\footer.blade.php`
+5. `resources\views\components\table.blade.php`
+
+6. `resources\views\components\form\select.blade.php`
+7. `resources\views\components\guest\layout.blade.php`
+8. `resources\views\components\guest\nav-link.blade.php`
+
+9. `resources\views\components\layouts\app.blade.php`
+10. `resources\views\components\layouts\auth.blade.php`
+
+11. `resources\views\components\nav\bar.blade.php`
+12. `resources\views\components\nav\link.blade.php`
+13. `resources\views\components\nav\group.blade.php`
+
+14. `resources\views\components\table\cell.blade.php`
+15. `resources\views\components\table\row.blade.php`
+
+16. `resources\views\components\widgets\blank.blade.php`
+17. `resources\views\components\widgets\multi-col-scroll.blade.php`
+18. `resources\views\components\widgets\number.blade.php`
+19. `resources\views\components\widgets\scrollable.blade.php`

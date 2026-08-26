@@ -1,4 +1,4 @@
-{{-- base layout for all user types --}}
+{{-- base layout for all user roles --}}
 @php $user = auth()->user(); @endphp
 @props(['title' => 'Dashboard', 'header' => ''])
 
@@ -56,12 +56,12 @@
           {{ $user?->first_name ?? 'User' }} {{ $user?->last_name ?? '' }}
         </strong>
 
-        {{-- user type --}}
+        {{-- user role --}}
         <p class="text-sm text-gray-600 dark:text-neutral-300">
-            @if($user?->user_type === 'student')
+            @if($user?->role === 'student')
                 Grade {{ $user->student?->grade_level }}
             @else
-                {{ ucfirst(request('user_type') ?? $user?->user_type ?? 'user type') }}
+                {{ ucfirst(request('role') ?? $user?->role ?? 'role') }}
             @endif
         </p>
       </div>

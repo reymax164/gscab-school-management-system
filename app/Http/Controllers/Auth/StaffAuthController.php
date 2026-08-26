@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 
 class StaffAuthController extends Controller
 {
@@ -19,8 +19,7 @@ class StaffAuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // redirect based on user_type
-            return redirect()->intended(Auth::user()->user_type . '/dashboard');
+            return redirect()->intended(Auth::user()->role.'/dashboard');
         }
 
         return back()->withErrors([
