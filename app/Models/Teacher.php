@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Teacher extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'employee_id',
@@ -20,9 +23,15 @@ class Teacher extends Model
         return $this->belongsTo(User::class);
     }
 
-    // schedule
-    public function classSchedules(): HasMany
+    // sections this teacher advises
+    public function advisorySections(): HasMany
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(ClassSchedule::class, 'adviser_id');
+    }
+
+    // subjects this teacher handles across sections
+    public function subjectSchedules(): HasMany
+    {
+        return $this->hasMany(SubjectSchedule::class);
     }
 }

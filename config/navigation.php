@@ -50,7 +50,7 @@ return [
         ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
         ['route' => 'admin.students',  'label' => 'Manage Students',  'icon' => 'heroicon-s-user-group'],
         ['route' => 'admin.staffs',    'label' => 'Manage Staffs', 'icon' => 'heroicon-s-user-group'],
-        ['route' => 'admin.schedules',   'label' => 'Manage Schedules', 'icon' => 'heroicon-s-calendar'],
+        ['route' => 'admin.class-schedules.index',   'label' => 'Manage Schedules', 'icon' => 'heroicon-s-calendar'],
         ['route' => 'admin.news',  'label' => 'Post News',  'icon' => 'heroicon-s-newspaper'],
         ['route' => 'admin.feedbacks',  'label' => 'Read Feedbacks',  'icon' => 'heroicon-s-chat-bubble-left-right'],
     ],

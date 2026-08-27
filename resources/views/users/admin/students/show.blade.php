@@ -41,7 +41,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <span class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Email Address</span>
-                        <span class="text-gray-900 font-medium">{{ $enrollment->user->email }}</span>
+                        <span class="text-gray-900 font-medium">{{ $enrollment->user->email ?? 'N/A' }}</span>
                     </div>
                     <div>
                         <span class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Password</span>

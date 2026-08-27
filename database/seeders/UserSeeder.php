@@ -15,7 +15,18 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // TEST ACCOUNTS
+        $this->createTestAccounts();
+        $this->createStaff();
+        $this->createTeachers();
+        $this->createStudents();
+        $this->createEnrollmentApplications();
+    }
+
+    /**
+     * Named accounts used for manual login/testing (password: "password").
+     */
+    private function createTestAccounts(): void
+    {
         User::create([
             'first_name' => 'System',
             'last_name' => 'Admin',
@@ -40,7 +51,6 @@ class UserSeeder extends Seeder
             'role' => 'cashier',
         ]);
 
-        // Test Teacher
         $teacher = User::create([
             'first_name' => 'John',
             'last_name' => 'Doe',
@@ -49,15 +59,12 @@ class UserSeeder extends Seeder
             'role' => 'teacher',
         ]);
 
-        if (method_exists($teacher, 'teacherProfile')) {
-            $teacher->teacherProfile()->create([
-                'employee_id' => 'EMP-2026-01',
-                'department_id' => 'Mathematics',
-                'hire_date' => now(),
-            ]);
-        }
+        $teacher->teacherProfile()->create([
+            'employee_id' => 'EMP-2026-01',
+            'department_id' => 'Mathematics',
+            'hire_date' => now(),
+        ]);
 
-        // Test Student
         $student = User::create([
             'first_name' => 'Junior',
             'last_name' => 'Doe',
@@ -71,78 +78,53 @@ class UserSeeder extends Seeder
             'grade_level' => '1',
             'enrollment_status' => 'enrolled',
         ]);
+    }
 
-        // DUMMY DATA GENERATION - Staff halved to 5
-        for ($i = 0; $i < 5; $i++) {
-            User::create([
-                'first_name' => fake()->firstName(),
-                'last_name' => fake()->lastName(),
-                'email' => fake()->unique()->safeEmail(),
-                'password' => Hash::make('password'),
-                'role' => 'admin',
-            ]);
+    /**
+     * Dummy admin/registrar/cashier staff, 5 accounts each.
+     */
+    private function createStaff(): void
+    {
+        foreach (['admin', 'registrar', 'cashier'] as $role) {
+            User::factory()->count(5)->create(['role' => $role]);
         }
+    }
 
-        for ($i = 0; $i < 5; $i++) {
-            User::create([
-                'first_name' => fake()->firstName(),
-                'last_name' => fake()->lastName(),
-                'email' => fake()->unique()->safeEmail(),
-                'password' => Hash::make('password'),
-                'role' => 'registrar',
-            ]);
-        }
-
-        for ($i = 0; $i < 5; $i++) {
-            User::create([
-                'first_name' => fake()->firstName(),
-                'last_name' => fake()->lastName(),
-                'email' => fake()->unique()->safeEmail(),
-                'password' => Hash::make('password'),
-                'role' => 'cashier',
-            ]);
-        }
-
-        for ($i = 0; $i < 5; $i++) {
-            $fakeTeacher = User::create([
-                'first_name' => fake()->firstName(),
-                'middle_name' => fake()->lastName(),
-                'last_name' => fake()->lastName(),
-                'email' => fake()->unique()->safeEmail(),
-                'password' => Hash::make('password'),
-                'role' => 'teacher',
-            ]);
-
-            if (method_exists($fakeTeacher, 'teacherProfile')) {
-                $fakeTeacher->teacherProfile()->create([
-                    'employee_id' => 'EMP-2026-'.fake()->unique()->numerify('##'),
+    /**
+     * Dummy teachers with linked teacher profiles.
+     */
+    private function createTeachers(): void
+    {
+        User::factory()->count(5)->create(['role' => 'teacher'])
+            ->each(function (User $teacher) {
+                $teacher->teacherProfile()->create([
+                    'employee_id' => 'EMP-2026-'.fake()->unique()->numerify('####'),
                     'department_id' => fake()->randomElement(['Mathematics', 'Science', 'English', 'History', 'Mapeh']),
                     'hire_date' => fake()->dateTimeBetween('-5 years', 'now'),
                 ]);
-            }
-        }
+            });
+    }
 
-        // Generate 40 Students + Master Records (Quadrupled from 10)
-        for ($i = 0; $i < 40; $i++) {
-            $fakeLrn = fake()->unique()->numerify('2026-####');
+    /**
+     * Dummy enrolled students with linked student records.
+     */
+    private function createStudents(): void
+    {
+        User::factory()->count(40)->create(['role' => 'student'])
+            ->each(function (User $student) {
+                $student->student()->create([
+                    'lrn' => fake()->unique()->numerify('2026-####'),
+                    'grade_level' => fake()->randomElement(['Kinder', '1', '2', '3', '4', '5', '6', "7", "8", "9", "10"]),
+                    'enrollment_status' => 'enrolled',
+                ]);
+            });
+    }
 
-            $fakeStudent = User::create([
-                'first_name' => fake()->firstName(),
-                'middle_name' => fake()->lastName(),
-                'last_name' => fake()->lastName(),
-                'email' => fake()->unique()->safeEmail(),
-                'password' => Hash::make('password'),
-                'role' => 'student',
-            ]);
-
-            $fakeStudent->student()->create([
-                'lrn' => $fakeLrn,
-                'grade_level' => fake()->randomElement(['1', '2', '3', '4', '5', '6']),
-                'enrollment_status' => 'enrolled', // Forced to enrolled
-            ]);
-        }
-
-        // DUMMY ENROLLMENT APPLICATIONS (Quadrupled from 5 to 20)
+    /**
+     * Dummy enrollment applications with full hub-and-spoke records.
+     */
+    private function createEnrollmentApplications(): void
+    {
         for ($i = 0; $i < 20; $i++) {
             $applicantUser = User::create([
                 'first_name' => fake()->firstName(),

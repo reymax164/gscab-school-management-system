@@ -33,9 +33,11 @@
             {{-- Details Body --}}
             <div class="p-6 space-y-10">
 
-                {{-- Section 1: Account Details --}}
+            {{-- Section 1: Account Details --}}
                 <section x-data="{
                     password: '',
+                    visible: false,
+                    copied: false,
                     generatePassword() {
                         const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%';
                         let pass = '';
@@ -43,17 +45,74 @@
                             pass += chars.charAt(Math.floor(Math.random() * chars.length));
                         }
                         this.password = pass;
+                    },
+                    revealPassword() {
+                        this.visible = true;
+                        setTimeout(() => { this.visible = false }, 1500);
+                    },
+                    copyPassword() {
+                        if (!this.password) return;
+
+                        const triggerSuccess = () => {
+                            this.copied = true;
+                            setTimeout(() => { this.copied = false }, 1500);
+                        };
+
+                        // Use modern clipboard API if available and secure
+                        if (navigator.clipboard && window.isSecureContext) {
+                            navigator.clipboard.writeText(this.password).then(triggerSuccess);
+                        } else {
+                            // Fallback for non-HTTPS dev environments
+                            let textArea = document.createElement('textarea');
+                            textArea.value = this.password;
+                            textArea.style.position = 'fixed';
+                            textArea.style.opacity = '0';
+                            document.body.appendChild(textArea);
+                            textArea.focus();
+                            textArea.select();
+                            try {
+                                document.execCommand('copy');
+                                triggerSuccess();
+                            } catch (err) {
+                                console.error('Fallback: Oops, unable to copy', err);
+                            }
+                            document.body.removeChild(textArea);
+                        }
                     }
                 }">
                     <h3 class="text-lg font-semibold text-blue-900 border-b-2 border-gray-100 pb-2 mb-4">Account Details</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <x-form.input label="Email Address" name="email" type="email" value="{{ old('email', $enrollment->user->email) }}" required />
+                        <x-form.input label="Email Address" name="email" type="email" value="{{ old('email', $enrollment->user->email ?? 'N/A') }}" required />
                         <div>
                             <label for="password" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
                             <div class="flex gap-2">
-                                <input type="text" name="password" id="password" x-model="password"
-                                       placeholder="Leave blank to keep current password"
-                                       class="flex-1 bg-white border border-neutral-300 rounded-md px-3 py-2 text-sm text-gray-900 shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <div class="relative flex-1">
+                                    <input :type="visible ? 'text' : 'password'" name="password" id="password" x-model="password" readonly
+                                           placeholder="Use Generate Password to set a new password"
+                                           class="w-full bg-white border border-neutral-300 rounded-md pl-3 pr-10 py-2 text-sm text-gray-900 shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    <button type="button" @click="revealPassword()"
+                                            class="absolute inset-y-0 right-0 flex items-center px-2.5 text-gray-400 hover:text-gray-600">
+                                        <x-heroicon-o-eye class="w-5 h-5" />
+                                    </button>
+                                </div>
+                                
+                                {{-- Copy Button with Tooltip Indicator --}}
+                                <div class="relative flex items-center">
+                                    <button type="button" @click="copyPassword()" title="Copy password"
+                                            class="shrink-0 inline-flex items-center justify-center w-9 h-9 text-gray-500 bg-white hover:bg-gray-50 border border-neutral-300 rounded-md transition-colors relative">
+                                        <x-heroicon-o-clipboard-document class="w-4 h-4" x-show="!copied" />
+                                        <x-heroicon-o-clipboard-document-check class="w-4 h-4 text-green-600" x-show="copied" x-cloak />
+                                    </button>
+                                    
+                                    {{-- "Copied!" Floating Indicator --}}
+                                    <div x-show="copied" 
+                                         x-transition.opacity.duration.300ms 
+                                         x-cloak
+                                         class="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded shadow z-10 whitespace-nowrap pointer-events-none">
+                                        Copied!
+                                    </div>
+                                </div>
+
                                 <button type="button" @click="generatePassword()"
                                         class="shrink-0 inline-flex items-center px-3 py-2 text-sm font-medium text-blue-900 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-md transition-colors">
                                     Generate Password

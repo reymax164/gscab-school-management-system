@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enrollments\Enrollment;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -81,10 +82,12 @@ class StudentController extends Controller
             'contact_number' => ['nullable', 'string', 'max:20'],
         ]);
 
-        $enrollment->user->update([
-            'email' => $validated['email'],
-            ...(! empty($validated['password']) ? ['password' => Hash::make($validated['password'])] : []),
-        ]);
+        if ($enrollment->user) {
+            $enrollment->user->update([
+                'email' => $validated['email'],
+                ...(! empty($validated['password']) ? ['password' => Hash::make($validated['password'])] : []),
+            ]);
+        }
 
         $enrollment->update([
             'grade_level' => $validated['grade_level'],
@@ -114,6 +117,19 @@ class StudentController extends Controller
             'guardian_details' => $guardianDetails,
             'contact_person' => $contactPerson,
         ]);
+
+        // the student portal logs in via the `students` table (by LRN), which is separate
+        // from this enrollment record, so keep it in sync or the account can never log in
+        if ($enrollment->user) {
+            Student::updateOrCreate(
+                ['user_id' => $enrollment->user_id],
+                [
+                    'lrn' => $profile->lrn,
+                    'grade_level' => $validated['grade_level'],
+                    'enrollment_status' => 'enrolled',
+                ]
+            );
+        }
 
         return redirect()->route('admin.students.show', $enrollment->id)
             ->with('success', 'Student information updated successfully.');

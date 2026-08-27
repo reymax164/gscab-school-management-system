@@ -16,14 +16,17 @@ class StoreClassScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subject_id' => 'required|exists:subjects,id',
-            'teacher_id' => 'required|exists:teachers,id',
-            'classroom_id' => 'required|exists:classrooms,id',
-            'days' => 'required|string|max:50', // e.g., 'MWF', 'TTH'
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-            'semester' => 'required|string|max:50',
+            'grade_level' => 'required|string|max:50',
+            'adviser_id' => 'required|exists:teachers,id',
             'academic_year' => 'required|string|max:20',
+
+            'subject_schedules' => 'required|array|min:1',
+            'subject_schedules.*.subject_id' => 'required|exists:subjects,id',
+            'subject_schedules.*.teacher_id' => 'required|exists:teachers,id',
+            'subject_schedules.*.classroom_id' => 'required|exists:classrooms,id',
+            'subject_schedules.*.days' => 'required|string|max:50',
+            'subject_schedules.*.start_time' => 'required|date_format:H:i',
+            'subject_schedules.*.end_time' => 'required|date_format:H:i',
         ];
     }
 
@@ -31,35 +34,21 @@ class StoreClassScheduleRequest extends FormRequest
     {
         return [
             function (Validator $validator) {
-                $start = $this->start_time;
-                $end = $this->end_time;
-                $days = $this->days;
-                $semester = $this->semester;
-                $year = $this->academic_year;
-
-                // Standard time overlap formula: (NewStart < ExistingEnd) AND (NewEnd > ExistingStart)
-                $conflictQuery = DB::table('class_schedules')
-                    ->where('days', $days)
-                    ->where('semester', $semester)
-                    ->where('academic_year', $year)
-                    ->where('start_time', '<', $end)
-                    ->where('end_time', '>', $start);
-
-                // If updating an existing schedule, ignore its own ID
-                if ($this->route('class_schedule')) {
-                    $conflictQuery->where('id', '!=', $this->route('class_schedule')->id);
+                foreach ($this->input('subject_schedules', []) as $index => $slot) {
+                    if (! empty($slot['start_time']) && ! empty($slot['end_time']) && $slot['end_time'] <= $slot['start_time']) {
+                        $validator->errors()->add("subject_schedules.$index.end_time", 'End time must be after start time.');
+                    }
                 }
 
-                // 1. Check Teacher Conflict
-                $teacherConflict = (clone $conflictQuery)->where('teacher_id', $this->teacher_id)->exists();
-                if ($teacherConflict) {
-                    $validator->errors()->add('teacher_id', 'This teacher is already scheduled for another class during this time.');
-                }
+                // Each adviser is committed to one section for the whole school year
+                $adviserConflict = DB::table('class_schedules')
+                    ->where('academic_year', $this->academic_year)
+                    ->where('adviser_id', $this->adviser_id)
+                    ->when($this->route('class_schedule'), fn ($query, $classSchedule) => $query->where('id', '!=', $classSchedule->id))
+                    ->exists();
 
-                // 2. Check Classroom Conflict
-                $roomConflict = (clone $conflictQuery)->where('classroom_id', $this->classroom_id)->exists();
-                if ($roomConflict) {
-                    $validator->errors()->add('classroom_id', 'This classroom is already booked during this time.');
+                if ($adviserConflict) {
+                    $validator->errors()->add('adviser_id', 'This teacher is already advising another section for this school year.');
                 }
             },
         ];

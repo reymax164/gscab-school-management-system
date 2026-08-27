@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Classroom;
-use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,13 +15,9 @@ return new class extends Migration
     {
         Schema::create('class_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Subject::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Teacher::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Classroom::class)->constrained()->cascadeOnDelete();
-            $table->string('days'); // e.g., 'MWF' or 'TTH'
-            $table->time('start_time');
-            $table->time('end_time');
-            $table->string('semester');
+            $table->string('grade_level'); // e.g., '7', '8', 'Kinder'
+            $table->foreignIdFor(Classroom::class)->constrained()->cascadeOnDelete(); // room used for the whole day
+            $table->foreignIdFor(Teacher::class, 'adviser_id')->constrained('teachers')->cascadeOnDelete();
             $table->string('academic_year'); // e.g., '2026-2027'
             $table->timestamps();
         });

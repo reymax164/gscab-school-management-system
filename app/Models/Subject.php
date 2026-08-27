@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subject extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['code', 'title', 'units'];
 
-    public function classSchedules(): HasMany
+    public function subjectSchedules(): HasMany
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(SubjectSchedule::class);
     }
 }
