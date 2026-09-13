@@ -43,7 +43,7 @@ class User extends Authenticatable
         return $this->hasMany(Enrollment::class);
     }
 
-    public function teacherProfile(): HasOne
+    public function teacher(): HasOne
     {
         return $this->hasOne(Teacher::class);
     }

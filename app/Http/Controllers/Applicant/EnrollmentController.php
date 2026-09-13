@@ -11,6 +11,7 @@ use App\Mail\ApplicationSubmitted;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Enrollments\Enrollment;
 use App\Http\Requests\StoreEnrollmentRequest;
+use App\Models\Enrollments\DocumentRequirement;
 
 class EnrollmentController extends Controller
 {
@@ -137,11 +138,21 @@ class EnrollmentController extends Controller
         ]);
     });
 
-        // Send email
+        // send email
         // Mail::to($request->email)->send(new ApplicationSubmitted($referenceCode));
 
         // return redirect()->route('home')->with('success', 'Application submitted! Please check your email for your Reference Code.');
 
-        return redirect()->route('home')->with('success', 'Application submitted! Please save your Reference Code to track your status: ' . $referenceCode);
+        // return redirect()->route('home')->with('success', 'Application submitted! Please save your Reference Code to track your status: ' . $referenceCode);
+
+        return redirect()->route('enroll.success')->with('reference_code', $referenceCode);
+    }
+
+    public function success()
+    {
+        // fetch only the active documents required for submission
+        $requirements = DocumentRequirement::where('is_active', true)->get();
+
+        return view('auth.success', compact('requirements'));
     }
 }

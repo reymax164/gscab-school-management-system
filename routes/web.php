@@ -4,6 +4,7 @@ use App\Http\Controllers\Applicant\EnrollmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/enroll', [EnrollmentController::class, 'store'])->name('enroll.store');
+Route::get('/enroll/success', [EnrollmentController::class, 'success'])->name('enroll.success');
 
 Route::middleware(['auth'])->group(function () {});
 

@@ -15,13 +15,22 @@
     {{-- left section --}}
     <div class="col-span-1 md:col-span-3 flex flex-col sm:flex-row gap-4 items-center sm:items-start">
       
-      {{-- left --}}
+      {{-- left (action buttons) --}}
       <div class="w-full sm:w-48 shrink-0 flex flex-col items-center space-y-4">
-        <img src="images/" alt="" class="w-full h-32  bg-gray-200 object-contain rounded-md">
-        <a href="{{ route('auth.enroll') }}"
-           class="w-full sm:w-fit inline-flex items-center justify-center px-8 py-2 text-blue-900 dark:text-sky-300 border border-blue-900 dark:border-sky-300 font-bold rounded-full hover:bg-blue-900 hover:text-white transition-colors duration-200 text-sm cursor-pointer">
-          Enroll
-        </a>
+        <img src="images/" alt="" class="w-full h-32 bg-gray-200 object-contain rounded-md">
+        
+        <div class="flex flex-col w-full sm:w-fit space-y-2.5">
+            <a href="{{ route('auth.enroll') }}"
+               class="w-full inline-flex items-center justify-center px-8 py-2 text-blue-900 dark:text-sky-300 border border-blue-900 dark:border-sky-300 font-bold rounded-full hover:bg-blue-900 hover:text-white transition-colors duration-200 text-sm cursor-pointer">
+              Enroll
+            </a>
+            
+            {{-- Track Status Button (Solid) --}}
+            {{-- <a href="{{ route('track.form') }}"
+               class="w-full inline-flex items-center justify-center px-8 py-2 bg-blue-900 dark:bg-sky-600 text-white font-bold rounded-full hover:bg-blue-800 dark:hover:bg-sky-500 transition-colors duration-200 text-sm cursor-pointer shadow-sm">
+              Track Status
+            </a> --}}
+        </div>
       </div>
 
       {{-- right --}}

@@ -16,7 +16,7 @@
       {{-- logo --}}
       <div class="flex items-center order-1">
         <a href="/">
-          <img src="images/gscab-logo.svg" alt="gscab logo" class="w-8 h-8 mr-4" title="GSCAB Logo">
+          <img src="{{ asset('images/gscab-logo.svg') }}" alt="gscab logo" class="w-8 h-8 mr-4" title="GSCAB Logo">
         </a>
         <h1 class="font-serif tracking-tight text-lg">GSCAB</h1>
       </div>
@@ -27,7 +27,47 @@
           <x-guest.nav-link route="home" label="Home" />
           <x-guest.nav-link route="faqs" label="FAQs" />
           <x-guest.nav-link route="news" label="News" />
-          <x-guest.nav-link route="auth.enroll" label="Enroll" />
+          
+          {{-- admission dropdown --}}
+          <li x-data="{ open: false }" class="relative w-full md:w-auto flex flex-col items-center">
+              
+              {{-- dropdown trigger --}}
+              <button @click="open = !open" 
+                      @click.outside="open = false" 
+                      class="flex items-center gap-1 hover:text-gray-300 transition-colors focus:outline-none py-2 md:py-0">
+                  Enroll
+                  {{-- chevron icon --}}
+                  <svg class="w-4 h-4 transition-transform duration-200" 
+                       :class="open ? 'rotate-180' : ''" 
+                       fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+              </button>
+              
+              {{-- dropdown items --}}
+              <div x-show="open" 
+                   x-cloak
+                   x-transition:enter="transition ease-out duration-100"
+                   x-transition:enter-start="transform opacity-0 scale-95"
+                   x-transition:enter-end="transform opacity-100 scale-100"
+                   x-transition:leave="transition ease-in duration-75"
+                   x-transition:leave-start="transform opacity-100 scale-100"
+                   x-transition:leave-end="transform opacity-0 scale-95"
+                   class="md:absolute md:top-full md:left-1/2 md:-translate-x-1/2 mt-2 w-48 bg-neutral-50 dark:bg-slate-800 rounded-xs shadow-lg ring-1 ring-blue-900 ring-opacity-5 z-50 overflow-hidden flex flex-col"
+                   style="display: none;">
+                   
+                  <a href="{{ route('auth.enroll') }}" 
+                     class="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-slate-200 hover:bg-neutral-200 dark:hover:bg-slate-700 dark:hover:text-sky-300 transition-colors text-center md:text-left">
+                      Enroll Now
+                  </a>
+                  
+                  <a href="{{ route('track.form') }}" 
+                     class="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-slate-200 hover:bg-neutral-200 dark:hover:bg-slate-700 dark:hover:text-sky-300 transition-colors border-t border-gray-100 dark:border-slate-700 text-center md:text-left">
+                      Track Status
+                  </a>
+                  
+              </div>
+          </li>
         </ul>
       </nav>
 
@@ -46,7 +86,7 @@
         <!-- authenticated login -->
         @auth
             <a href="{{ url('/' . Auth::user()->role . '/dashboard') }}"
-              class="bg-white text-blue-900 font-semibold py-1 px-5 rounded-full hover:bg-neutral-200 transition-colors text-sm md:text-base cursor-pointer inline-block text-center border border-transparent">
+              class="bg-neutral-50 text-blue-900 font-semibold py-1 px-5 rounded-full hover:bg-neutral-100 transition-colors text-sm md:text-base cursor-pointer inline-block text-center border border-transparent">
               Login
             </a>
         @endauth
@@ -83,7 +123,7 @@
         
         <!-- modal -->
         <div 
-            class="relative bg-white p-8 rounded-lg shadow-lg border-t-blue-900 border-t-4 w-full max-w-sm mx-4 z-10"
+            class="relative bg-white p-8 rounded-xl shadow-lg border-t-blue-900 border-t-6 w-full max-w-sm mx-4 z-10"
             x-show="isOpen"
             x-transition
         >
@@ -109,7 +149,13 @@
                 </a>
                 
                 <!-- staff login -->
-                <a href="{{ route('auth.staff-login') }}" class="w-full px-4 py-2 border-2 border-blue-900 text-blue-900 font-medium bg-transparent rounded-full hover:bg-sky-200/35 focus:outline-none focus:ring focus:ring-blue-900 focus:ring-offset-2 transition-colors text-center">
+                <a href="{{ route('auth.staff-login') }}"
+                class="w-full px-4 py-2 rounded-full
+                       bg-transparent hover:bg-neutral-100
+                       border-2 border-neutral-500
+                       text-neutral-500 hover:text-neutral-600 font-medium text-center
+                       focus:outline-none focus:ring focus:ring-neutral-500 focus:ring-offset-2
+                       transition-colors">
                     Staff Login
                 </a>
                 

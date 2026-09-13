@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {
@@ -15,7 +16,8 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('/schedule', function (Request $request) {
-    $student = auth()->user()->student;
+    $student = Auth::user()?->student;
+
 
     $currentYear = now()->year;
     $selectedSy = $request->query('sy', "{$currentYear}-".($currentYear + 1));

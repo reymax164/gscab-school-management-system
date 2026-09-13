@@ -1,8 +1,8 @@
 <x-layouts.auth title="Login">
 
-  <div class="relative w-full max-w-md bg-white p-8 rounded-md shadow-lg border-t-blue-800 border-t-4">
-    
+  <div class="relative w-full max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg border-t-blue-900 border-t-6">
     <h1 class="text-2xl text-gray-800 font-semibold text-center mb-6">Student Portal</h1>
+    
     <img src="{{ asset('images/gscab-logo.webp') }}" alt="GSCAB Logo" class="mx-auto block h-24 w-auto mb-6 object-contain">
 
       <form action="{{ route('auth.student.authenticate') }}" method="POST" class="space-y-4">
@@ -46,7 +46,7 @@
       {{-- login button --}}
       <div class="pt-4">
         <button type="submit" 
-                class="w-full inline-flex items-center justify-center px-8 py-2 bg-blue-900 text-white font-bold rounded-full hover:bg-blue-800 transition-colors duration-200">
+                class="w-full inline-flex items-center justify-center px-8 py-2 bg-blue-900 text-white font-bold rounded-full hover:bg-blue-900/90 transition-colors duration-200">
           Log In
         </button>
       </div>

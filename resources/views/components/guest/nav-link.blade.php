@@ -10,7 +10,7 @@
       'block w-full py-2 md:py-0 rounded-lg transition-colors',
       
       // hover
-      'hover:text-yellow-300 hover:bg-blue-950/20 md:hover:bg-transparent',
+      'hover:text-gray-300 hover:bg-blue-950/20 md:hover:bg-transparent',
       
       // active
       'text-yellow-300 bg-blue-950/20 md:bg-transparent' => $isActive,

@@ -1,4 +1,4 @@
-<x-guest.layout class="bg-sky-200 py-10">
+<x-form.layout class="py-10">
 
     <style>
       [x-cloak] { display: none !important; }
@@ -629,4 +629,4 @@
 
         </form>
     </div>
-</x-guest.layout>
+</x-form.layout>
