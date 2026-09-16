@@ -1,23 +1,49 @@
-### GSCAB School Management System
+# GSCAB School Management System
 
-__Controllers:__
+## Controllers:
 - `app\Http\Controllers\Controller.php`
+
+### Admin Controllers
+- `app\Http\Controllers\Admin\ClassroomController.php`
+- `app\Http\Controllers\Admin\ClassScheduleController.php`
+- `app\Http\Controllers\Admin\SectioningController.php`
+- `app\Http\Controllers\Admin\StudentController.php`
+- `app\Http\Controllers\Admin\SubjectController.php`
+- `app\Http\Controllers\Admin\SystemSettingController.php`
+
+### Applicant Controllers
 - `app\Http\Controllers\Applicant\EnrollmentController.php`
+
+### Auth Controllers
+- `app\Http\Controllers\Auth\LogoutController.php`
+- `app\Http\Controllers\Auth\StaffAuthController.php`
+- `app\Http\Controllers\Auth\StudentAuthController.php`
+
+### Cashier Controllers
 - `app\Http\Controllers\Cashier\CashierEnrollmentController.php`
+
+### Registrar Controllers
 - `app\Http\Controllers\Registrar\RegistrarEnrolledController.php`
 - `app\Http\Controllers\Registrar\RegistrarEnrollmentController.php`
 
-__Models:__
+## Models:
+- `app\Models\Classroom.php`
+- `app\Models\ClassSchedule.php`
+- `app\Models\Student.php`
+- `app\Models\Subject.php`
+- `app\Models\SubjectSchedule.php`
+- `app\Models\SystemSetting.php`
+- `app\Models\Teacher.php`
+- `app\Models\User.php`
+
+### Enrollment Models
+- `app\Models\Enrollments\DocumentRequirement.php`
 - `app\Models\Enrollments\EducationalBackground.php`
 - `app\Models\Enrollments\Enrollment.php`
 - `app\Models\Enrollments\EnrollmentPayment.php`
 - `app\Models\Enrollments\StudentProfile.php`
-- `app\Models\Enrollments\DocumentRequirement.php`
-- `app\Models\Student.php`
-- `app\Models\Teacher.php`
-- `app\Models\User.php`
 
-__Migrations:__
+## Migrations:
 - `database\migrations\0001_01_01_000000_create_users_table.php`
 - `database\migrations\2026_08_18_055223_create_students_table.php`
 - `database\migrations\2026_08_18_055419_create_teachers_table.php`
@@ -26,8 +52,16 @@ __Migrations:__
 - `database\migrations\2026_08_19_101147_create_educational_backgrounds_table.php`
 - `database\migrations\2026_08_19_101158_create_enrollment_payments_table.php`
 - `database\migrations\2026_08_24_122913_create_document_requirements_table.php`
+- `database\migrations\2026_08_25_191146_add_reference_code_to_enrollments_table.php`
+- `database\migrations\2026_08_26_094252_create_subjects_table.php`
+- `database\migrations\2026_08_26_094305_create_classrooms_table.php`
+- `database\migrations\2026_08_26_094312_create_class_schedules_table.php`
+- `database\migrations\2026_08_26_094331_create_system_settings_table`
+- `database\migrations\2026_08_26_094335_create_class_schedule_student_table.php`
+- `database\migrations\2026_08_26_125845_rename_user_type_to_role_on_users_table.php`
+- `database\migrations\2026_08_27_000000_create_subject_schedules_table.php`
 
-__Routes:__
+## Routes:
 - `routes\web.php`
 - `routes\admin.php`
 - `routes\auth.php`
@@ -36,7 +70,7 @@ __Routes:__
 - `routes\student.php`
 - `routes\teacher.php`
 
-__Views:__
+## Views:
 1. `resources\views\auth\enroll.blade.php`
 2. `resources\views\auth\staff.blade.php`
 3. `resources\views\auth\student.blade.php`

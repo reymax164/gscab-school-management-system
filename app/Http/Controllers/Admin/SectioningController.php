@@ -30,7 +30,7 @@ class SectioningController extends Controller
 
     public function store(Request $request, ClassSchedule $class_schedule)
     {
-        // Expecting an array of student IDs from a multi-select or checkboxes
+        // expecting an array of student IDs from a multi-select or checkboxes
         $request->validate([
             'student_ids' => 'required|array',
             'student_ids.*' => 'exists:students,id',
