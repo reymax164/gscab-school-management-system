@@ -5,7 +5,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -58,25 +57,26 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
         ]);
 
-        // redirect unauthenticated users (Your existing logic)
+        // redirect unauthenticated users
         $middleware->redirectGuestsTo(function (Request $request) {
-
-            // to student login
             if ($request->is('student*')) {
                 return route('auth.student-login');
             }
-
-            // to the staff login
             return route('auth.staff-login');
         });
 
-        // redirect authenticated users
+        // redirect authenticated users securely using an allow-list
         $middleware->redirectUsersTo(function (Request $request) {
-            // gets the authenticated user
-            $user = Auth::user();
+            $role = $request->user()?->role;
 
-            // redirect to their dashboard
-            return '/'.$user->role.'/dashboard';
+            return match ($role) {
+                'admin'     => '/admin/dashboard',
+                'teacher'   => '/teacher/dashboard',
+                'student'   => '/student/dashboard',
+                'registrar' => '/registrar/dashboard',
+                'cashier'   => '/cashier/dashboard',
+                default     => '/',
+            };
         });
     })
     ->withExceptions(function (Exceptions $exceptions): void {

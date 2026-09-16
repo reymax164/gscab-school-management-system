@@ -6,25 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            // foreign key linking back to the User model
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('lrn')->unique()->nullable();
+            // LRN column removed from here
             $table->string('grade_level')->nullable();
             $table->string('enrollment_status')->default('pending');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('students');

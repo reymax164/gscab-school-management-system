@@ -8,15 +8,14 @@ Route::get('/enroll/success', [EnrollmentController::class, 'success'])->name('e
 
 Route::middleware(['auth'])->group(function () {});
 
-// track
+// application tracking routes
 Route::get('/track-status', [EnrollmentController::class, 'trackForm'])->name('track.form');
-Route::post('/track-status', [EnrollmentController::class, 'checkStatus'])->name('track.check');
+Route::post('/track-status', [EnrollmentController::class, 'checkStatus'])
+    ->middleware('throttle:5,1')
+    ->name('track.check');
 
+// requires auth.php routes
 require __DIR__.'/auth.php';
-
-Route::get('/login', function () {
-    return 'Please submit your login form here.';
-})->name('login');
 
 Route::get('/', function () {
     return view('guest.index');
@@ -37,8 +36,3 @@ Route::get('/contact', function () {
 Route::get('/faqs', function () {
     return view('guest.faqs');
 })->name('faqs');
-
-// allowing multiple roles (e.g., viewing schedules)
-// Route::middleware(['auth', 'role:admin,registrar'])->group(function () {
-//     // Route::get('/schedules/manage', ...);
-// });

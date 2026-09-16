@@ -10,7 +10,6 @@ class Student extends Model
 {
     protected $fillable = [
         'user_id',
-        'lrn',
         'grade_level',
         'enrollment_status',
     ];

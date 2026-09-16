@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Enrollments\Enrollment;
-use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+
+use App\Models\User;
+use App\Models\Student;
+use App\Models\Enrollments\Enrollment;
 
 class StudentController extends Controller
 {
@@ -82,20 +84,45 @@ class StudentController extends Controller
             'contact_number' => ['nullable', 'string', 'max:20'],
         ]);
 
-        if ($enrollment->user) {
-            $enrollment->user->update([
-                'email' => $validated['email'],
-                ...(! empty($validated['password']) ? ['password' => Hash::make($validated['password'])] : []),
-            ]);
+        $profile = $enrollment->studentProfile;
+
+        // 1. centralize user account creation & updates
+        $userData = [
+            'first_name' => $validated['first_name'],
+            'middle_name' => $validated['middle_name'] ?? null,
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'lrn' => $profile->lrn, // maps LRN to the users table
+            'role' => 'student',
+        ];
+
+        if (!empty($validated['password'])) {
+            $userData['password'] = Hash::make($validated['password']);
         }
 
+        if ($enrollment->user) {
+            // update existing user account
+            $enrollment->user->update($userData);
+            $userId = $enrollment->user_id;
+        } else {
+            // create a brand new user account for guest applicants
+            if (empty($validated['password'])) {
+                $userData['password'] = Hash::make('password'); // failsafe fallback
+            }
+            $user = User::create($userData);
+            $userId = $user->id;
+            
+            // link the new user to the enrollment hub
+            $enrollment->update(['user_id' => $userId]);
+        }
+
+        // update Enrollment Details
         $enrollment->update([
             'grade_level' => $validated['grade_level'],
             'student_status' => $validated['student_status'],
         ]);
 
-        $profile = $enrollment->studentProfile;
-
+        // update the temporary Student Profile Spoke
         $guardianDetails = $profile->guardian_details ?? [];
         $guardianDetails['name'] = $validated['guardian_name'] ?? null;
 
@@ -118,18 +145,14 @@ class StudentController extends Controller
             'contact_person' => $contactPerson,
         ]);
 
-        // the student portal logs in via the `students` table (by LRN), which is separate
-        // from this enrollment record, so keep it in sync or the account can never log in
-        if ($enrollment->user) {
-            Student::updateOrCreate(
-                ['user_id' => $enrollment->user_id],
-                [
-                    'lrn' => $profile->lrn,
-                    'grade_level' => $validated['grade_level'],
-                    'enrollment_status' => 'enrolled',
-                ]
-            );
-        }
+        // create/update the official student model 
+        Student::updateOrCreate(
+            ['user_id' => $userId],
+            [
+                'grade_level' => $validated['grade_level'],
+                'enrollment_status' => 'enrolled',
+            ]
+        );
 
         return redirect()->route('admin.students.show', $enrollment->id)
             ->with('success', 'Student information updated successfully.');
