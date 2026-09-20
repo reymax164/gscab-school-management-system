@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 
 use App\Models\User;
 use App\Models\Student;
+use App\Models\ClassSchedule;
 use App\Models\Enrollments\Enrollment;
 
 class StudentController extends Controller
@@ -86,7 +87,7 @@ class StudentController extends Controller
 
         $profile = $enrollment->studentProfile;
 
-        // 1. centralize user account creation & updates
+        // centralize user account creation & updates
         $userData = [
             'first_name' => $validated['first_name'],
             'middle_name' => $validated['middle_name'] ?? null,
@@ -146,13 +147,31 @@ class StudentController extends Controller
         ]);
 
         // create/update the official student model 
-        Student::updateOrCreate(
+        $student = Student::updateOrCreate(
             ['user_id' => $userId],
             [
                 'grade_level' => $validated['grade_level'],
                 'enrollment_status' => 'enrolled',
             ]
         );
+
+        // --- auto-section ---
+        // calculate the current academic year
+        $currentYear = now()->year;
+        $academicYear = now()->month >= 6 
+            ? $currentYear . '-' . ($currentYear + 1) 
+            : ($currentYear - 1) . '-' . $currentYear;
+
+        // check if there is exactly one schedule for a grade level in the active S.Y.
+        $schedules = ClassSchedule::where('grade_level', $student->grade_level)
+            ->where('academic_year', $academicYear)
+            ->get();
+
+        if ($schedules->count() === 1) {
+            $schedules->first()->students()->syncWithoutDetaching([
+                $student->id => ['status' => 'enrolled']
+            ]);
+        }
 
         return redirect()->route('admin.students.show', $enrollment->id)
             ->with('success', 'Student information updated successfully.');

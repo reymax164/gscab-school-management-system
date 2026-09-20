@@ -75,13 +75,11 @@
 - `database/migrations/2026_08_19_101147_create_educational_backgrounds_table.php`
 - `database/migrations/2026_08_19_101158_create_enrollment_payments_table.php`
 - `database/migrations/2026_08_24_122913_create_document_requirements_table.php`
-- `database/migrations/2026_08_25_191146_add_reference_code_to_enrollments_table.php`
 - `database/migrations/2026_08_26_094252_create_subjects_table.php`
 - `database/migrations/2026_08_26_094305_create_classrooms_table.php`
 - `database/migrations/2026_08_26_094312_create_class_schedules_table.php`
 - `database/migrations/2026_08_26_094331_create_system_settings_table`
 - `database/migrations/2026_08_26_094335_create_class_schedule_student_table.php`
-- `database/migrations/2026_08_26_125845_rename_user_type_to_role_on_users_table.php`
 - `database/migrations/2026_08_27_000000_create_subject_schedules_table.php`
 
 ## Routes

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Teacher\ScheduleController;
 
 Route::redirect('/', '/teacher/dashboard');
 
@@ -11,37 +12,7 @@ Route::get('/dashboard', function () {
     return view('users.teacher.dashboard');
 })->name('dashboard');
 
-Route::get('/schedule', function (Request $request) {
-    $teacher = Auth::user()?->teacher;
-
-    $currentYear = now()->year;
-    $selectedSy = $request->query('sy', "{$currentYear}-".($currentYear + 1));
-    $selectedDay = $request->query('day', 'Today');
-    $dayAbbr = $selectedDay === 'Today' ? now()->format('D') : substr($selectedDay, 0, 3);
-
-    $subjectSchedules = $teacher
-        ? $teacher->subjectSchedules()
-            ->with(['subject', 'classroom', 'classSchedule'])
-            ->whereHas('classSchedule', fn ($query) => $query->where('academic_year', $selectedSy))
-            ->get()
-        : collect();
-
-    $schedules = $subjectSchedules
-        ->filter(fn ($subjectSchedule) => in_array($dayAbbr, explode(',', $subjectSchedule->days)))
-        ->sortBy('start_time')
-        ->map(fn ($subjectSchedule) => (object) [
-            'subject' => $subjectSchedule->subject->title ?? 'N/A',
-            'grade' => $subjectSchedule->classSchedule->grade_level === 'Kinder'
-                ? 'Kindergarten'
-                : 'Grade '.($subjectSchedule->classSchedule->grade_level ?? 'N/A'),
-            'day' => $subjectSchedule->days,
-            'time' => Carbon::parse($subjectSchedule->start_time)->format('g:i A').' - '.Carbon::parse($subjectSchedule->end_time)->format('g:i A'),
-            'room' => $subjectSchedule->classroom->name ?? 'N/A',
-        ])
-        ->values();
-
-    return view('users.teacher.schedule', compact('schedules'));
-})->name('schedule');
+Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule');
 
 Route::get('/student_list', function (Request $request) {
     $currentYear = now()->year;

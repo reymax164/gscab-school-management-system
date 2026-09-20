@@ -12,7 +12,7 @@
     </div>
   @endif
 
-  @include('users.admin.class-schedules._form', [
+  @include('users.admin.class-schedules.form', [
       'formAction' => route('admin.class-schedules.store'),
       'formMethod' => 'POST',
   ])

@@ -3,14 +3,13 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Validator;
 
 class StoreClassScheduleRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // Middleware already handles authorization
+        return true;
     }
 
     public function rules(): array
@@ -40,16 +39,16 @@ class StoreClassScheduleRequest extends FormRequest
                     }
                 }
 
-                // Each adviser is committed to one section for the whole school year
-                $adviserConflict = DB::table('class_schedules')
-                    ->where('academic_year', $this->academic_year)
-                    ->where('adviser_id', $this->adviser_id)
-                    ->when($this->route('class_schedule'), fn ($query, $classSchedule) => $query->where('id', '!=', $classSchedule->id))
-                    ->exists();
+                // each adviser is committed to one section for the whole school year
+                // $adviserConflict = DB::table('class_schedules')
+                //     ->where('academic_year', $this->academic_year)
+                //     ->where('adviser_id', $this->adviser_id)
+                //     ->when($this->route('class_schedule'), fn ($query, $classSchedule) => $query->where('id', '!=', $classSchedule->id))
+                //     ->exists();
 
-                if ($adviserConflict) {
-                    $validator->errors()->add('adviser_id', 'This teacher is already advising another section for this school year.');
-                }
+                // if ($adviserConflict) {
+                //     $validator->errors()->add('adviser_id', 'This teacher is already advising another section for this school year.');
+                // }
             },
         ];
     }

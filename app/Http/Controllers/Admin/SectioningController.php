@@ -15,9 +15,9 @@ class SectioningController extends Controller
         $enrolledStudents = $class_schedule->students()->with('user')->get();
 
         // query ALL available fully enrolled students to show in a dropdown/list
-        // We eager-load 'user' so we can display their names (user->first_name, etc.)
+        // eager-loads 'user' to display names (user->first_name, etc.)
         $availableStudents = Student::with('user')
-            ->where('enrollment_status', 'enrolled') // Based on your Student model
+            ->where('enrollment_status', 'enrolled') // based on Student model
             // Optional: ->where('grade_level', $some_logic)
             ->get();
 
