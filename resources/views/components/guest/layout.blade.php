@@ -25,7 +25,6 @@
       <nav id="menu" class="hidden w-full md:flex md:w-auto mt-4 md:mt-0 order-3 md:order-2 md:ml-auto md:mr-8 transition-all duration-300">
         <ul class="flex flex-col md:flex-row w-full gap-2 md:gap-6 items-center justify-center tracking-wider text-base pb-4 md:pb-0">
           <x-guest.nav-link route="home" label="Home" />
-          <x-guest.nav-link route="faqs" label="FAQs" />
           <x-guest.nav-link route="news" label="News" />
           
           {{-- admission dropdown --}}
@@ -68,6 +67,8 @@
                   
               </div>
           </li>
+          
+          <x-guest.nav-link route="faqs" label="FAQs" />
         </ul>
       </nav>
 
