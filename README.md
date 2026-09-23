@@ -31,6 +31,8 @@
 
 - `app/Http/Controllers/Registrar/RegistrarEnrolledController.php`
 - `app/Http/Controllers/Registrar/RegistrarEnrollmentController.php`
+- `app/Http/Controllers/Registrar/RegistrarReportController.php`
+
 
 ## Middlewares
 
