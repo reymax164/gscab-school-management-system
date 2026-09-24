@@ -18,19 +18,19 @@ class ClassScheduleController extends Controller
     {
         $query = ClassSchedule::with(['classroom', 'adviser.user']);
 
-        // fetch distinct academic years for the filter dropdown
-        $academicYears = ClassSchedule::query()
+        // fetch distinct school years for the filter dropdown
+        $schoolYears = ClassSchedule::query()
             ->distinct()
-            ->orderByDesc('academic_year')
-            ->pluck('academic_year');
+            ->orderByDesc('school_year')
+            ->pluck('school_year');
 
         // determine the target school year for warning system.
-        // default to the requested 'sy', or if none is selected, the latest available academic year.
-        $targetSy = $request->filled('sy') ? $request->sy : $academicYears->first();
+        // default to the requested 'sy', or if none is selected, the latest available school year.
+        $targetSy = $request->filled('sy') ? $request->sy : $schoolYears->first();
 
         // apply the filter if requested
         if ($request->filled('sy')) {
-            $query->where('academic_year', $request->sy);
+            $query->where('school_year', $request->sy);
         }
 
         $schedules = $query->latest()->paginate(15)->withQueryString();
@@ -42,7 +42,7 @@ class ClassScheduleController extends Controller
             $standardGrades = collect(['Kinder', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
             
             // pluck the grade levels that currently have a schedule for the target S.Y.
-            $existingGrades = ClassSchedule::where('academic_year', $targetSy)
+            $existingGrades = ClassSchedule::where('school_year', $targetSy)
                 ->pluck('grade_level')
                 ->unique();
                 
@@ -51,8 +51,8 @@ class ClassScheduleController extends Controller
         }
 
         return view('users.admin.class-schedules.index', compact(
-            'schedules', 
-            'academicYears', 
+            'schedules',
+            'schoolYears',
             'targetSy', 
             'missingGrades'
         ));
@@ -76,7 +76,7 @@ class ClassScheduleController extends Controller
         $classSchedule = ClassSchedule::create([
             'grade_level' => $validated['grade_level'],
             'adviser_id' => $validated['adviser_id'],
-            'academic_year' => $validated['academic_year'],
+            'school_year' => $validated['school_year'],
             'classroom_id' => $validated['subject_schedules'][0]['classroom_id'],
         ]);
 
@@ -85,7 +85,7 @@ class ClassScheduleController extends Controller
         // --- auto-sectioning ---
         // check if this is the ONLY schedule for this grade and S.Y.
         $scheduleCount = ClassSchedule::where('grade_level', $validated['grade_level'])
-            ->where('academic_year', $validated['academic_year'])
+            ->where('school_year', $validated['school_year'])
             ->count();
 
         if ($scheduleCount === 1) {
@@ -93,7 +93,7 @@ class ClassScheduleController extends Controller
             $studentIds = Student::where('enrollment_status', 'enrolled')
                 ->where('grade_level', $validated['grade_level'])
                 ->whereDoesntHave('classSchedules', function ($query) use ($validated) {
-                    $query->where('academic_year', $validated['academic_year']);
+                    $query->where('school_year', $validated['school_year']);
                 })
                 ->pluck('id');
                 
@@ -138,7 +138,7 @@ class ClassScheduleController extends Controller
         $classSchedule->update([
             'grade_level' => $validated['grade_level'],
             'adviser_id' => $validated['adviser_id'],
-            'academic_year' => $validated['academic_year'],
+            'school_year' => $validated['school_year'],
             'classroom_id' => $validated['subject_schedules'][0]['classroom_id'],
         ]);
 
@@ -198,9 +198,9 @@ class ClassScheduleController extends Controller
             $query->where('id', '!=', $excludeId);
         }
         
-        return $query->select('academic_year', 'grade_level')
+        return $query->select('school_year', 'grade_level')
             ->get()
-            ->groupBy('academic_year')
+            ->groupBy('school_year')
             ->map(function ($yearGroup) {
                 return $yearGroup->groupBy('grade_level')->map->count();
             })
@@ -218,9 +218,9 @@ class ClassScheduleController extends Controller
             $query->where('id', '!=', $excludeId);
         }
         
-        return $query->select('academic_year', 'adviser_id')
+        return $query->select('school_year', 'adviser_id')
             ->get()
-            ->groupBy('academic_year')
+            ->groupBy('school_year')
             ->map(function ($yearGroup) {
                 return $yearGroup->groupBy('adviser_id')->map->count();
             })

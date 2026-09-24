@@ -12,7 +12,7 @@ class ApplicationSubmitted extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $referenceCode; // Add this property
+    public $referenceCode;
 
     public function __construct($referenceCode)
     {

@@ -34,7 +34,7 @@ class ScheduleController extends Controller
         $targetDay = $requestedDay === 'Today' ? now()->format('D') : ($dayMap[$requestedDay] ?? null);
 
         // fetch the schedule block
-        $classSchedule = $student ? $student->classSchedules()->where('academic_year', $sy)->first() : null;
+        $classSchedule = $student ? $student->classSchedules()->where('school_year', $sy)->first() : null;
         
         $schedules = collect();
 
@@ -64,14 +64,14 @@ class ScheduleController extends Controller
         }
 
         // fetch all distinct academic years that exist in the database
-        $academicYears = ClassSchedule::query()
+        $schoolYears = ClassSchedule::query()
             ->distinct()
-            ->orderByDesc('academic_year')
-            ->pluck('academic_year');
+            ->orderByDesc('school_year')
+            ->pluck('school_year');
 
         // failsafe: if the database is completely empty, ensure the current target S.Y. is available
-        if ($academicYears->isEmpty() || !$academicYears->contains($sy)) {
-            $academicYears->prepend($sy);
+        if ($schoolYears->isEmpty() || !$schoolYears->contains($sy)) {
+            $schoolYears->prepend($sy);
         }
 
         return view('users.student.schedule', [
@@ -79,6 +79,7 @@ class ScheduleController extends Controller
             'grade' => $student->grade_level ?? 'N/A',
             'activeSy' => $sy,
             'activeDay' => $requestedDay,
+            'schoolYears' => $schoolYears,
         ]);
     }
 }

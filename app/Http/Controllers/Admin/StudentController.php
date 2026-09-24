@@ -158,13 +158,13 @@ class StudentController extends Controller
         // --- auto-section ---
         // calculate the current academic year
         $currentYear = now()->year;
-        $academicYear = now()->month >= 6 
+        $schoolYear = now()->month >= 6
             ? $currentYear . '-' . ($currentYear + 1) 
             : ($currentYear - 1) . '-' . $currentYear;
 
         // check if there is exactly one schedule for a grade level in the active S.Y.
         $schedules = ClassSchedule::where('grade_level', $student->grade_level)
-            ->where('academic_year', $academicYear)
+            ->where('school_year', $schoolYear)
             ->get();
 
         if ($schedules->count() === 1) {

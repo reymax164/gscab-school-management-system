@@ -17,7 +17,7 @@ class StoreClassScheduleRequest extends FormRequest
         return [
             'grade_level' => 'required|string|max:50',
             'adviser_id' => 'required|exists:teachers,id',
-            'academic_year' => 'required|string|max:20',
+            'school_year' => 'required|string|max:20',
 
             'subject_schedules' => 'required|array|min:1',
             'subject_schedules.*.subject_id' => 'required|exists:subjects,id',
@@ -41,7 +41,7 @@ class StoreClassScheduleRequest extends FormRequest
 
                 // each adviser is committed to one section for the whole school year
                 // $adviserConflict = DB::table('class_schedules')
-                //     ->where('academic_year', $this->academic_year)
+                //     ->where('school_year', $this->school_year)
                 //     ->where('adviser_id', $this->adviser_id)
                 //     ->when($this->route('class_schedule'), fn ($query, $classSchedule) => $query->where('id', '!=', $classSchedule->id))
                 //     ->exists();

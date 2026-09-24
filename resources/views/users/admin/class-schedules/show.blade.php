@@ -11,7 +11,7 @@
 
       <div class="flex flex-col">
         <span class="text-xs font-medium text-neutral-500 uppercase tracking-wide">S.Y.</span>
-        <span class="font-semibold text-lg text-blue-900">{{ $classSchedule->academic_year }}</span>
+        <span class="font-semibold text-lg text-blue-900">{{ $classSchedule->school_year }}</span>
       </div>
 
       <div class="flex flex-col">

@@ -51,7 +51,7 @@ class EnrollmentController extends Controller
 
         DB::transaction(function () use ($request, $schoolYear, $referenceCode) {
 
-            // 1. create central hub record
+            // create central hub record
             // Auth::id() safely returns null for guest applicants, matching the nullable database column
             $enrollment = Enrollment::create(array_merge([
                 'reference_code' => $referenceCode,
@@ -60,7 +60,7 @@ class EnrollmentController extends Controller
                 'status' => 'submitted',
             ], $request->only(['grade_level', 'student_status', 'online_access', 'gadgets'])));
 
-            // 2. create connected spokes using helper methods
+            // create connected spokes using helper methods
             $enrollment->studentProfile()->create($this->mapStudentProfile($request));
             $enrollment->educationalBackground()->create($this->mapEducationalBackground($request));
 

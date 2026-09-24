@@ -11,11 +11,11 @@
                 <option value="">Class Adviser</option>
             </x-form.select>
 
-            {{-- academic year filter --}}
+            {{-- school year filter --}}
             <x-form.select label="S.Y." name="sy" onchange="this.form.submit()">
                 <option value="">All School Years</option>
-                @foreach ($academicYears as $academicYear)
-                    <option value="{{ $academicYear }}" {{ request('sy') == $academicYear ? 'selected' : '' }}>{{ $academicYear }}</option>
+                @foreach ($schoolYears as $schoolYear)
+                    <option value="{{ $schoolYear }}" {{ request('sy') == $schoolYear ? 'selected' : '' }}>{{ $schoolYear }}</option>
                 @endforeach
             </x-form.select>
         </form>
@@ -73,7 +73,7 @@
                         <!-- grade & S.Y. -->
                         <div class="flex flex-col">
                             <span class="font-semibold text-sm">{{ $schedule->grade_level === 'Kinder' ? '' : 'Grade ' }}{{ $schedule->grade_level }}</span>
-                            <span class="text-sm mt-1">S.Y. {{ $schedule->academic_year }}</span>
+                            <span class="text-sm mt-1">S.Y. {{ $schedule->school_year }}</span>
                         </div>
 
                         <!-- room -->

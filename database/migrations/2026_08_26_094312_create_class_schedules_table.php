@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('grade_level'); // e.g., '7', '8', 'Kinder'
             $table->foreignIdFor(Classroom::class)->constrained()->cascadeOnDelete(); // room used for the whole day
             $table->foreignIdFor(Teacher::class, 'adviser_id')->constrained('teachers')->cascadeOnDelete();
-            $table->string('academic_year'); // e.g., '2026-2027'
+            $table->string('school_year'); // e.g., '2026-2027'
             $table->timestamps();
         });
     }

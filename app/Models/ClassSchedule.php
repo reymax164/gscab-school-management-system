@@ -16,7 +16,7 @@ class ClassSchedule extends Model
         'grade_level',
         'classroom_id',
         'adviser_id',
-        'academic_year',
+        'school_year',
     ];
 
     public function classroom(): BelongsTo

@@ -38,7 +38,7 @@ class ScheduleController extends Controller
             $slots = $teacher->subjectSchedules()
                 ->with(['subject', 'classroom', 'classSchedule'])
                 ->whereHas('classSchedule', function ($query) use ($sy) {
-                    $query->where('academic_year', $sy);
+                    $query->where('school_year', $sy);
                 })
                 ->orderBy('start_time')
                 ->get();
@@ -64,21 +64,21 @@ class ScheduleController extends Controller
             });
         }
 
-        $academicYears = ClassSchedule::query()
+        $schoolYears = ClassSchedule::query()
             ->distinct()
-            ->orderByDesc('academic_year')
-            ->pluck('academic_year');
+            ->orderByDesc('school_year')
+            ->pluck('school_year');
 
         // Failsafe: if the database is completely empty, ensure the current target S.Y. is available
-        if ($academicYears->isEmpty() || !$academicYears->contains($sy)) {
-            $academicYears->prepend($sy);
+        if ($schoolYears->isEmpty() || !$schoolYears->contains($sy)) {
+            $schoolYears->prepend($sy);
         }
 
         return view('users.teacher.schedule', [
             'schedules' => $subjectSchedules,
             'activeSy' => $sy,
             'activeDay' => $requestedDay,
-            'academicYears' => $academicYears,
+            'schoolYears' => $schoolYears,
         ]);
     }
 }

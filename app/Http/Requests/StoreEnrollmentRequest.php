@@ -19,7 +19,7 @@ class StoreEnrollmentRequest extends FormRequest
             // --- enrollment data ---
             'grade_level' => ['required', 'string'],
             'student_status' => ['required', 'string', Rule::in(['new', 'existing', 'transferee'])],
-            'online_access' => ['required', 'string', Rule::in(['no', 'wifi', 'postpaid', 'prepaid'])], // FIX: Changed to string ENUMs
+            'online_access' => ['required', 'string', Rule::in(['no', 'wifi', 'postpaid', 'prepaid'])],
             'gadgets' => ['nullable', 'array'],
             'gadgets.*' => ['string'], 
             'email' => ['required', 'email'],

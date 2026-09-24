@@ -6,7 +6,7 @@
     
     // if editing, extract the first year from the existing "2026-2027" format
     if ($isEdit) {
-        $defaultStartYear = explode('-',$classSchedule->academic_year)[0];
+        $defaultStartYear = explode('-',$classSchedule->school_year)[0];
     }
     
     // retain old input if validation fails
@@ -46,7 +46,7 @@
       submitForm(e) {
           const form = e.target;
           const grade = form.querySelector('[name=\'grade_level\']').value;
-          const sy = form.querySelector('[name=\'academic_year\']').value;
+          const sy = form.querySelector('[name=\'school_year\']').value;
           const adviser = form.querySelector('[name=\'adviser_id\']').value;
 
           if (!grade || !sy || !adviser) return; 
@@ -151,7 +151,7 @@
                 
                 <span class="text-gray-600 font-medium whitespace-nowrap" x-text="start_year ? `- ${parseInt(start_year) + 1}` : '- YYYY'"></span>
                 
-                <input type="hidden" name="academic_year" :value="start_year ? `${start_year}-${parseInt(start_year) + 1}` : ''">
+                <input type="hidden" name="school_year" :value="start_year ? `${start_year}-${parseInt(start_year) + 1}` : ''">
             </div>
         </div>
 
@@ -408,7 +408,7 @@
                         
                         <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                             <div class="sm:flex sm:items-start">
-                                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <div class="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
                                     <svg class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                     </svg>

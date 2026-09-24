@@ -23,7 +23,7 @@
 
               {{-- year filter --}}
               <x-form.select name="sy" label="S.Y." onchange="this.form.submit()">
-                  @foreach ($academicYears as $year)
+                  @foreach ($schoolYears as $year)
                       <option value="{{ $year }}" {{ $activeSy == $year ? 'selected' : '' }}>
                           {{ $year }}
                       </option>

@@ -27,12 +27,12 @@ class ClassScheduleSeeder extends Seeder
         $classrooms = Classroom::factory()->count(6)->create();
         $teachers = Teacher::factory()->count(10)->create();
 
-        foreach (['2025-2026', '2026-2027'] as $academicYear) {
+        foreach (['2025-2026', '2026-2027'] as $schoolYear) {
             for ($i = 0; $i < 5; $i++) {
                 $section = ClassSchedule::factory()->create([
                     'classroom_id' => $classrooms->random()->id,
                     'adviser_id' => $teachers->random()->id,
-                    'academic_year' => $academicYear,
+                    'school_year' => $schoolYear,
                 ]);
 
                 for ($j = 0; $j < 3; $j++) {
