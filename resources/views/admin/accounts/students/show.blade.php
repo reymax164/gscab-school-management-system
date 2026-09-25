@@ -2,13 +2,13 @@
 
     {{-- Top Action Bar --}}
     <div class="flex justify-between items-center mb-4 px-2 md:px-0">
-        <a href="{{ route('admin.students') }}"
+        <a href="{{ route('admin.accounts.students.index') }}"
            class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-blue-900 transition-colors">
             <x-heroicon-o-arrow-left class="w-4 h-4 mr-1" />
             Back to Students
         </a>
 
-        <a href="{{ route('admin.students.edit', $enrollment->id) }}"
+        <a href="{{ route('admin.accounts.students.edit', $enrollment->id) }}"
            class="inline-flex items-center px-4 py-2 text-sm font-medium text-yellow-900 bg-yellow-400 hover:bg-yellow-500 rounded-md shadow-sm transition-colors">
             <x-heroicon-o-pencil-square class="w-4 h-4 mr-2" />
             Edit

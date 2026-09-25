@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ClassSchedule;
+use App\Models\Enrollments\Enrollment;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-
-use App\Models\User;
-use App\Models\Student;
-use App\Models\ClassSchedule;
-use App\Models\Enrollments\Enrollment;
 
 class StudentController extends Controller
 {
@@ -40,7 +39,7 @@ class StudentController extends Controller
 
         $students = $query->paginate(15)->withQueryString();
 
-        return view('users.admin.students.index', compact('students'));
+        return view('admin.accounts.students.index', compact('students'));
     }
 
     public function show(Enrollment $enrollment)
@@ -49,7 +48,7 @@ class StudentController extends Controller
 
         $enrollment->load(['studentProfile', 'educationalBackground', 'payment', 'user']);
 
-        return view('users.admin.students.show', compact('enrollment'));
+        return view('admin.accounts.students.show', compact('enrollment'));
     }
 
     public function edit(Enrollment $enrollment)
@@ -58,7 +57,7 @@ class StudentController extends Controller
 
         $enrollment->load(['studentProfile', 'user']);
 
-        return view('users.admin.students.edit', compact('enrollment'));
+        return view('admin.accounts.students.edit', compact('enrollment'));
     }
 
     public function update(Request $request, Enrollment $enrollment)
@@ -97,7 +96,7 @@ class StudentController extends Controller
             'role' => 'student',
         ];
 
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $userData['password'] = Hash::make($validated['password']);
         }
 
@@ -112,7 +111,7 @@ class StudentController extends Controller
             }
             $user = User::create($userData);
             $userId = $user->id;
-            
+
             // link the new user to the enrollment hub
             $enrollment->update(['user_id' => $userId]);
         }
@@ -146,7 +145,7 @@ class StudentController extends Controller
             'contact_person' => $contactPerson,
         ]);
 
-        // create/update the official student model 
+        // create/update the official student model
         $student = Student::updateOrCreate(
             ['user_id' => $userId],
             [
@@ -159,8 +158,8 @@ class StudentController extends Controller
         // calculate the current academic year
         $currentYear = now()->year;
         $schoolYear = now()->month >= 6
-            ? $currentYear . '-' . ($currentYear + 1) 
-            : ($currentYear - 1) . '-' . $currentYear;
+            ? $currentYear.'-'.($currentYear + 1)
+            : ($currentYear - 1).'-'.$currentYear;
 
         // check if there is exactly one schedule for a grade level in the active S.Y.
         $schedules = ClassSchedule::where('grade_level', $student->grade_level)
@@ -169,11 +168,11 @@ class StudentController extends Controller
 
         if ($schedules->count() === 1) {
             $schedules->first()->students()->syncWithoutDetaching([
-                $student->id => ['status' => 'enrolled']
+                $student->id => ['status' => 'enrolled'],
             ]);
         }
 
-        return redirect()->route('admin.students.show', $enrollment->id)
+        return redirect()->route('admin.accounts.students.show', $enrollment->id)
             ->with('success', 'Student information updated successfully.');
     }
 }

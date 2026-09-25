@@ -12,12 +12,12 @@ class ClassroomController extends Controller
     {
         $classrooms = Classroom::latest()->paginate(15);
 
-        return view('users.admin.classrooms.index', compact('classrooms'));
+        return view('admin.classrooms.index', compact('classrooms'));
     }
 
     public function create()
     {
-        return view('users.admin.classrooms.create');
+        return view('admin.classrooms.create');
     }
 
     public function store(Request $request)
@@ -36,7 +36,7 @@ class ClassroomController extends Controller
 
     public function edit(Classroom $classroom)
     {
-        return view('users.admin.classrooms.edit', compact('classroom'));
+        return view('admin.classrooms.edit', compact('classroom'));
     }
 
     public function update(Request $request, Classroom $classroom)

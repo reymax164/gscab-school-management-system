@@ -21,7 +21,7 @@ class SectioningController extends Controller
             // Optional: ->where('grade_level', $some_logic)
             ->get();
 
-        return view('users.admin.class-schedules.sectioning', compact(
+        return view('admin.class-schedules.sectioning', compact(
             'class_schedule',
             'enrolledStudents',
             'availableStudents'

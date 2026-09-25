@@ -2,14 +2,14 @@
 
     {{-- Top Action Bar --}}
     <div class="flex justify-between items-center mb-4 px-2 md:px-0">
-        <a href="{{ route('admin.students.show', $enrollment->id) }}"
+        <a href="{{ route('admin.accounts.students.show', $enrollment->id) }}"
            class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-blue-900 transition-colors">
             <x-heroicon-o-arrow-left class="w-4 h-4 mr-1" />
             Back to Student Details
         </a>
     </div>
 
-    <form action="{{ route('admin.students.update', $enrollment->id) }}" method="POST">
+    <form action="{{ route('admin.accounts.students.update', $enrollment->id) }}" method="POST">
         @csrf
         @method('PATCH')
 
@@ -187,7 +187,7 @@
 
             {{-- Footer Actions --}}
             <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3">
-                <a href="{{ route('admin.students.show', $enrollment->id) }}"
+                <a href="{{ route('admin.accounts.students.show', $enrollment->id) }}"
                    class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
                     Cancel
                 </a>

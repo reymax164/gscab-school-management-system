@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreClassScheduleRequest;
-
-use App\Models\Subject;
-use App\Models\Teacher;
-use App\Models\Student;
 use App\Models\Classroom;
 use App\Models\ClassSchedule;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class ClassScheduleController extends Controller
@@ -40,27 +39,27 @@ class ClassScheduleController extends Controller
         if ($targetSy) {
             // define the standard grade levels
             $standardGrades = collect(['Kinder', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
-            
+
             // pluck the grade levels that currently have a schedule for the target S.Y.
             $existingGrades = ClassSchedule::where('school_year', $targetSy)
                 ->pluck('grade_level')
                 ->unique();
-                
+
             // diff() to find what is missing
             $missingGrades = $standardGrades->diff($existingGrades)->values()->all();
         }
 
-        return view('users.admin.class-schedules.index', compact(
+        return view('admin.class-schedules.index', compact(
             'schedules',
             'schoolYears',
-            'targetSy', 
+            'targetSy',
             'missingGrades'
         ));
     }
 
     public function create()
     {
-        return view('users.admin.class-schedules.create', [
+        return view('admin.class-schedules.create', [
             'subjects' => $this->subjectOptions(),
             'teachers' => $this->teacherOptions(),
             'classrooms' => $this->classroomOptions(),
@@ -96,7 +95,7 @@ class ClassScheduleController extends Controller
                     $query->where('school_year', $validated['school_year']);
                 })
                 ->pluck('id');
-                
+
             if ($studentIds->isNotEmpty()) {
                 $pivotData = [];
                 foreach ($studentIds as $id) {
@@ -114,7 +113,7 @@ class ClassScheduleController extends Controller
     {
         $classSchedule->load('subjectSchedules');
 
-        return view('users.admin.class-schedules.edit', [
+        return view('admin.class-schedules.edit', [
             'classSchedule' => $classSchedule,
             'subjects' => $this->subjectOptions(),
             'teachers' => $this->teacherOptions(),
@@ -128,7 +127,7 @@ class ClassScheduleController extends Controller
     {
         $classSchedule->load(['classroom', 'adviser.user', 'subjectSchedules.subject', 'subjectSchedules.teacher.user', 'subjectSchedules.classroom']);
 
-        return view('users.admin.class-schedules.show', compact('classSchedule'));
+        return view('admin.class-schedules.show', compact('classSchedule'));
     }
 
     public function update(StoreClassScheduleRequest $request, ClassSchedule $classSchedule)
@@ -158,8 +157,8 @@ class ClassScheduleController extends Controller
     }
 
     /**
-        * @return array<int, array{id: int, label: string}>
-    */
+     * @return array<int, array{id: int, label: string}>
+     */
     private function subjectOptions(): array
     {
         return Subject::orderBy('title')->get()
@@ -193,11 +192,11 @@ class ClassScheduleController extends Controller
     private function getExistingScheduleCounts(?int $excludeId = null): array
     {
         $query = ClassSchedule::query();
-        
+
         if ($excludeId) {
             $query->where('id', '!=', $excludeId);
         }
-        
+
         return $query->select('school_year', 'grade_level')
             ->get()
             ->groupBy('school_year')
@@ -213,11 +212,11 @@ class ClassScheduleController extends Controller
     private function getAdviserCounts(?int $excludeId = null): array
     {
         $query = ClassSchedule::query();
-        
+
         if ($excludeId) {
             $query->where('id', '!=', $excludeId);
         }
-        
+
         return $query->select('school_year', 'adviser_id')
             ->get()
             ->groupBy('school_year')

@@ -12,12 +12,12 @@ class SubjectController extends Controller
     {
         $subjects = Subject::latest()->paginate(15);
 
-        return view('users.admin.subjects.index', compact('subjects'));
+        return view('admin.subjects.index', compact('subjects'));
     }
 
     public function create()
     {
-        return view('users.admin.subjects.create');
+        return view('admin.subjects.create');
     }
 
     public function store(Request $request)
@@ -36,7 +36,7 @@ class SubjectController extends Controller
 
     public function edit(Subject $subject)
     {
-        return view('users.admin.subjects.edit', compact('subject'));
+        return view('admin.subjects.edit', compact('subject'));
     }
 
     public function update(Request $request, Subject $subject)

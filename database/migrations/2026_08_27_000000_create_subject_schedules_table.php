@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Subject::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Teacher::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Classroom::class)->constrained()->cascadeOnDelete(); // room used for this subject/time slot
-            $table->string('days'); // e.g., 'Mon,Wed,Fri'
+            $table->string('days'); // e.g., 'Mon, Wed, Fri'
             $table->time('start_time');
             $table->time('end_time');
             $table->timestamps();

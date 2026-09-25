@@ -29,7 +29,7 @@ class RegistrarEnrolledController extends Controller
 
         $enrollments = $query->paginate(15)->withQueryString();
 
-        return view('users.registrar.enrolled.index', compact('enrollments'));
+        return view('registrar.enrolled.index', compact('enrollments'));
     }
 
     public function show(Enrollment $enrollment)
@@ -45,6 +45,6 @@ class RegistrarEnrolledController extends Controller
             'submittedDocuments', // Fetched via the pivot table
         ]);
 
-        return view('users.registrar.enrolled.show', compact('enrollment'));
+        return view('registrar.enrolled.show', compact('enrollment'));
     }
 }

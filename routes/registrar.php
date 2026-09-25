@@ -10,11 +10,11 @@ Route::redirect('/', '/registrar/dashboard');
 Route::get('/dashboard', function () {
     // count of pending applciations
     $pendingCount = Enrollment::where('status', 'submitted')->count();
-    
+
     // count of enrolled students
     $enrolledCount = Enrollment::where('status', 'enrolled')->count();
 
-    return view('users.registrar.dashboard', compact('pendingCount', 'enrolledCount'));
+    return view('registrar.dashboard', compact('pendingCount', 'enrolledCount'));
 })->name('dashboard');
 
 Route::get('/enrolled', [RegistrarEnrolledController::class, 'index'])->name('enrolled.index');
@@ -27,5 +27,5 @@ Route::patch('/applications/{enrollment}/admit', [RegistrarEnrollmentController:
 Route::patch('/applications/{enrollment}/deny', [RegistrarEnrollmentController::class, 'deny'])->name('applications.deny');
 
 Route::get('/reports', function () {
-    return view('users.registrar.reports');
+    return view('registrar.reports');
 })->name('reports');

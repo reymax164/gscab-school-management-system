@@ -37,7 +37,7 @@ class RegistrarEnrollmentController extends Controller
         // paginate and append query strings
         $applications = $query->paginate(10)->withQueryString();
 
-        return view('users.registrar.applications.index', compact('applications'));
+        return view('registrar.applications.index', compact('applications'));
     }
 
     public function show(Enrollment $enrollment)
@@ -47,7 +47,7 @@ class RegistrarEnrollmentController extends Controller
         $enrollment->load(['studentProfile', 'educationalBackground', 'payment']);
         $requirements = DocumentRequirement::where('is_active', true)->get();
 
-        return view('users.registrar.applications.show', compact('enrollment', 'requirements'));
+        return view('registrar.applications.show', compact('enrollment', 'requirements'));
     }
 
     public function admit(Request $request, Enrollment $enrollment)

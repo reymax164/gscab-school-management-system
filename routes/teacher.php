@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Teacher\ScheduleController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/teacher/dashboard');
 
 Route::get('/dashboard', function () {
-    return view('users.teacher.dashboard');
+    return view('teacher.dashboard');
 })->name('dashboard');
 
 Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule');
@@ -48,13 +46,13 @@ Route::get('/student_list', function (Request $request) {
 
     $classes = collect($classes);
 
-    return view('users.teacher.students', compact('selectedSy', 'classes'));
+    return view('teacher.students', compact('selectedSy', 'classes'));
 })->name('students');
 
 Route::get('/student_list/{id}', function ($id) {
-    return view('users.teacher.view-student-list', compact('id'));
+    return view('teacher.view-student-list', compact('id'));
 })->name('view-student-list.show');
 
 Route::get('/student_grades', function () {
-    return view('users.teacher.grades');
+    return view('teacher.grades');
 })->name('grades');

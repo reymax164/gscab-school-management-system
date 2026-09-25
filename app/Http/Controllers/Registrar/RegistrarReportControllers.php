@@ -11,13 +11,13 @@ class RegistrarReportController extends Controller
     {
         $schoolYears = ['2026-2027', '2025-2026', '2024-2025', '2023-2024'];
 
-        return view('users.registrar.reports', [
+        return view('registrar.reports', [
             'schoolYears' => $schoolYears,
             'selectedYear' => $request->query('school_year', $schoolYears[0]),
             'totalEnrollees' => 205,
             'growth' => 4.25,
             'yearlyDifference' => [
-                ['year' => 2026, 'difference' =>150],
+                ['year' => 2026, 'difference' => 150],
                 ['year' => 2025, 'difference' => 130],
                 ['year' => 2024, 'difference' => 120],
                 ['year' => 2023, 'difference' => 100],
@@ -33,7 +33,7 @@ class RegistrarReportController extends Controller
                 ['grade_level' => 'Grade 7', 'count' => 79],
                 ['grade_level' => 'Grade 8', 'count' => 77],
                 ['grade_level' => 'Grade 9', 'count' => 75],
-                ['grade_level' => 'Grade 10', 'count' =>73],
+                ['grade_level' => 'Grade 10', 'count' => 73],
             ],
         ]);
     }

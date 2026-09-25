@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Cashier\CashierEnrollmentController;
+use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/cashier/dashboard');
 
@@ -14,8 +14,8 @@ Route::get('/dashboard', function () {
         ['Ivan Reyes', '107440090193', 'Grade 6', '₱5,000.00', 'Cash', '2026-05-20'],
         ['Joy Bautista', '107440090104', 'Grade 8', '₱5,000.00', 'Cash', '2026-05-17'],
     ];
-    
-    return view('users.cashier.dashboard', compact('tableColumns', 'paymentRows'));
+
+    return view('cashier.dashboard', compact('tableColumns', 'paymentRows'));
 })->name('dashboard');
 
 // --- enrollment payment processing ---
@@ -24,13 +24,13 @@ Route::get('/enrollment-payments/{enrollment}', [CashierEnrollmentController::cl
 Route::patch('/enrollment-payments/{enrollment}/process', [CashierEnrollmentController::class, 'processPayment'])->name('enrollment.process');
 
 Route::get('/student-balances', function () {
-    return view('users.cashier.balances');
+    return view('cashier.balances');
 })->name('balances.index');
 
 Route::get('/reports', function () {
-    return view('users.cashier.reports');
+    return view('cashier.reports');
 })->name('reports');
 
 Route::get('/history', function () {
-    return view('users.cashier.history');
+    return view('cashier.history');
 })->name('history');

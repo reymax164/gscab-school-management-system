@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Student\ScheduleController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {
     return 'Please submit your login form here.';
@@ -10,20 +10,20 @@ Route::get('/login', function () {
 Route::redirect('/', '/student/dashboard');
 
 Route::get('/dashboard', function () {
-    return view('users.student.dashboard');
+    return view('student.dashboard');
 })->name('dashboard');
 
 // schedule route
 Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule');
 
 Route::get('/grades', function () {
-    return view('users.student.grades');
+    return view('student.grades');
 })->name('grades');
 
 Route::get('/balance', function () {
-    return view('users.student.balance');
+    return view('student.balance');
 })->name('balance');
 
 Route::get('/feedback', function () {
-    return view('users.student.feedback');
+    return view('student.feedback');
 })->name('feedback');

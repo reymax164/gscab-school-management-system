@@ -10,10 +10,10 @@
     foreach ($children as $child) {
         $childRoute = $child['route'] ?? '';
         
-        // Trim '.index' to get the base prefix, matching x-nav.link wildcard logic
+        // trim '.index' to get the base prefix, matching x-nav.link wildcard logic
         $baseRoute = str_ends_with($childRoute, '.index') ? substr($childRoute, 0, -6) : $childRoute;
         
-        // Flag active if current route matches child or any sub-route (e.g. .show, .edit)
+        // flag active if current route matches child or any sub-route (e.g. .show, .edit)
         if (request()->routeIs($childRoute, $baseRoute . '.*')) {
             $hasActiveChild = true;
             break;

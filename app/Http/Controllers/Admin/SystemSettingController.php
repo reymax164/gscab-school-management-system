@@ -12,12 +12,12 @@ class SystemSettingController extends Controller
     {
         $settings = SystemSetting::all();
 
-        return view('users.admin.system_settings.index', compact('settings'));
+        return view('admin.system_settings.index', compact('settings'));
     }
 
     public function create()
     {
-        return view('users.admin.system_settings.create');
+        return view('admin.system_settings.create');
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class SystemSettingController extends Controller
 
     public function edit(SystemSetting $systemSetting)
     {
-        return view('users.admin.system_settings.edit', compact('systemSetting'));
+        return view('admin.system_settings.edit', compact('systemSetting'));
     }
 
     public function update(Request $request, SystemSetting $systemSetting)

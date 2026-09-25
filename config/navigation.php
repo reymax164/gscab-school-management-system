@@ -22,9 +22,7 @@ return [
     'registrar' => [
         ['route' => 'registrar.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
         ['route' => 'registrar.enrolled.index',  'label' => 'Enrolled Students',  'icon' => 'heroicon-s-academic-cap'],
-
         ['route' => 'registrar.applications.index', 'label' => 'Applications & Admission', 'icon' => 'heroicon-s-user-plus'],
-
         ['route' => 'registrar.reports',   'label' => 'Reports', 'icon' => 'heroicon-s-chart-bar'],
     ],
 
@@ -48,8 +46,18 @@ return [
     // admin
     'admin' => [
         ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
-        ['route' => 'admin.students',  'label' => 'Manage Students',  'icon' => 'heroicon-s-user-group'],
-        ['route' => 'admin.staffs',    'label' => 'Manage Staffs', 'icon' => 'heroicon-s-user-group'],
+
+        [
+            'label' => 'Accounts',
+            'icon' => 'heroicon-s-user-group',
+            'children' => [
+                ['route' => 'admin.accounts.students.index', 'label' => 'Students'],
+                ['route' => 'admin.accounts.teachers.index', 'label' => 'Teachers'],
+                ['route' => 'admin.accounts.registrar.index', 'label' => 'Registrars'],
+                ['route' => 'admin.accounts.cashier.index', 'label' => 'Cashiers'],
+            ],
+
+        ],
         ['route' => 'admin.class-schedules.index',   'label' => 'Manage Schedules', 'icon' => 'heroicon-s-calendar'],
         ['route' => 'admin.news',  'label' => 'Post News',  'icon' => 'heroicon-s-newspaper'],
         ['route' => 'admin.feedbacks',  'label' => 'Read Feedbacks',  'icon' => 'heroicon-s-chat-bubble-left-right'],

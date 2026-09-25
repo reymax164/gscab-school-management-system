@@ -3,7 +3,7 @@
 {{-- filter & sort form --}}
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 px-2 md:px-0">
 
-        <form action="{{ route('admin.students') }}" method="GET" class="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-end gap-3 flex-wrap">
+        <form action="{{ route('admin.accounts.students.index') }}" method="GET" class="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-end gap-3 flex-wrap">
 
             {{-- grade level filter --}}
             <x-form.select label="Grade Level" name="grade_level" onchange="this.form.submit()">
@@ -30,7 +30,7 @@
 
             {{-- clear button --}}
             @if(request()->filled('grade_level') || request()->filled('sort_by') || request()->filled('sort_dir'))
-                <a href="{{ route('admin.students') }}"
+                <a href="{{ route('admin.accounts.students.index') }}"
                    class="inline-flex justify-center items-center text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 text-sm font-medium transition-colors rounded-md px-3 py-2.5 h-10.5 shrink-0">
                     Clear
                 </a>
@@ -78,7 +78,7 @@
                                     </button>
 
                                     {{-- View Details Button --}}
-                                    <a href="{{ route('admin.students.show', $student->id) }}"
+                                    <a href="{{ route('admin.accounts.students.show', $student->id) }}"
                                     class="bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium px-4 py-2 rounded-md transition-colors shadow-sm">
                                         View Details
                                     </a>

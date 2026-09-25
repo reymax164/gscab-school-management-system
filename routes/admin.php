@@ -17,16 +17,48 @@ Route::get('/dashboard', function () {
     $studentCount = Student::where('enrollment_status', 'enrolled')->count();
     $staffCount = User::whereIn('role', ['admin', 'registrar', 'cashier', 'teacher'])->count();
 
-    return view('users.admin.dashboard', compact('studentCount', 'staffCount'));
+    return view('admin.dashboard', compact('studentCount', 'staffCount'));
 })->name('dashboard');
 
-Route::get('/students', [StudentController::class, 'index'])->name('students');
-Route::get('/students/{enrollment}/edit', [StudentController::class, 'edit'])->name('students.edit');
-Route::patch('/students/{enrollment}', [StudentController::class, 'update'])->name('students.update');
-Route::get('/students/{enrollment}', [StudentController::class, 'show'])->name('students.show');
-Route::get('/staff', fn () => view('users.admin.staffs'))->name('staffs');
-Route::get('/news', fn () => view('users.admin.news'))->name('news');
-Route::get('/feedbacks', fn () => view('users.admin.feedbacks'))->name('feedbacks');
+Route::get('/staff', fn () => view('admin.staffs'))->name('staffs');
+Route::get('/news', fn () => view('admin.news'))->name('news');
+Route::get('/feedbacks', fn () => view('admin.feedbacks'))->name('feedbacks');
+
+// ACCOUNTS MANAGEMENT
+Route::prefix('accounts')->name('accounts.')->group(function () {
+
+    // students
+    Route::prefix('students')->name('students.')->group(function () {
+        Route::get('/', [StudentController::class, 'index'])->name('index');
+        Route::get('/{enrollment}', [StudentController::class, 'show'])->name('show');
+        Route::get('/{enrollment}/edit', [StudentController::class, 'edit'])->name('edit');
+        Route::patch('/{enrollment}', [StudentController::class, 'update'])->name('update');
+    });
+
+    // teachers
+    Route::prefix('teachers')->name('teachers.')->group(function () {
+        Route::get('/', fn () => view('admin.accounts.teachers.index'))->name('index');
+        Route::get('/create', fn () => view('admin.accounts.teachers.create'))->name('create');
+        Route::get('/{teacher}', fn () => view('admin.accounts.teachers.show'))->name('show');
+        Route::get('/{teacher}/edit', fn () => view('admin.accounts.teachers.edit'))->name('edit');
+    });
+
+    // registrar
+    Route::prefix('registrar')->name('registrar.')->group(function () {
+        Route::get('/', fn () => view('admin.accounts.registrar.index'))->name('index');
+        Route::get('/create', fn () => view('admin.accounts.registrar.create'))->name('create');
+        Route::get('/{registrar}', fn () => view('admin.accounts.registrar.show'))->name('show');
+        Route::get('/{registrar}/edit', fn () => view('admin.accounts.registrar.edit'))->name('edit');
+    });
+
+    // cashier
+    Route::prefix('cashier')->name('cashier.')->group(function () {
+        Route::get('/', fn () => view('admin.accounts.cashier.index'))->name('index');
+        Route::get('/create', fn () => view('admin.accounts.cashier.create'))->name('create');
+        Route::get('/{cashier}', fn () => view('admin.accounts.cashier.show'))->name('show');
+        Route::get('/{cashier}/edit', fn () => view('admin.accounts.cashier.edit'))->name('edit');
+    });
+});
 
 // HUB-AND-SPOKE RESOURCES
 Route::resource('subjects', SubjectController::class);
