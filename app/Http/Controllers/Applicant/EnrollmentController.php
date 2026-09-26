@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Enrollments\DocumentRequirement;
 use App\Models\Enrollments\Enrollment;
+use App\Models\SystemSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -64,10 +65,10 @@ class EnrollmentController extends Controller
             $enrollment->studentProfile()->create($this->mapStudentProfile($request));
             $enrollment->educationalBackground()->create($this->mapEducationalBackground($request));
 
-            $enrollment->payment()->create([
+            $enrollment->payment()->create(array_merge([
                 'payment_scheme' => $request->payment_scheme,
                 'payment_status' => 'pending',
-            ]);
+            ], $this->calculatePaymentBreakdown($request->payment_scheme)));
         });
 
         return redirect()->route('enroll.success')->with('reference_code', $referenceCode);
@@ -142,5 +143,46 @@ class EnrollmentController extends Controller
             'gen_ave' => $request->gen_ave,
             'talent_skills' => $request->talent_skills,
         ];
+    }
+
+    /**
+     * Translate the chosen payment scheme into fee amounts using the configurable SystemSetting rates
+     */
+    private function calculatePaymentBreakdown(string $scheme): array
+    {
+        $tuitionFee = (float) (SystemSetting::where('key', 'tuition_fee')->value('value') ?? 0);
+        $miscFee = (float) (SystemSetting::where('key', 'misc_fee')->value('value') ?? 0);
+        $booksFee = (float) (SystemSetting::where('key', 'books_fee')->value('value') ?? 0);
+
+        return match ($scheme) {
+            // tuition + misc + books, less a 10% discount on tuition
+            'full' => [
+                'tuition_fee' => $tuitionFee,
+                'misc_fee' => $miscFee + $booksFee,
+                'discount_amount' => $tuitionFee * 0.10,
+                'total_amount' => $tuitionFee + $miscFee + $booksFee - ($tuitionFee * 0.10),
+            ],
+            // books + misc, tuition is paid separately in installments
+            'option1' => [
+                'tuition_fee' => 0,
+                'misc_fee' => $miscFee + $booksFee,
+                'discount_amount' => 0,
+                'total_amount' => $miscFee + $booksFee,
+            ],
+            // books + 1/4 misc
+            'option2' => [
+                'tuition_fee' => 0,
+                'misc_fee' => $booksFee + ($miscFee / 4),
+                'discount_amount' => 0,
+                'total_amount' => $booksFee + ($miscFee / 4),
+            ],
+            // special schemes require manual assessment by the cashier/admin
+            default => [
+                'tuition_fee' => 0,
+                'misc_fee' => 0,
+                'discount_amount' => 0,
+                'total_amount' => 0,
+            ],
+        };
     }
 }

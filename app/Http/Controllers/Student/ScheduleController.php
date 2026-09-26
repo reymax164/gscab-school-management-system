@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\ClassSchedule;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -34,14 +34,14 @@ class ScheduleController extends Controller
         $targetDay = $requestedDay === 'Today' ? now()->format('D') : ($dayMap[$requestedDay] ?? null);
 
         // fetch the schedule block
-        $classSchedule = $student ? $student->classSchedules()->where('school_year', $sy)->first() : null;
+        $section = $student ? $student->sections()->where('school_year', $sy)->first() : null;
 
         $schedules = collect();
 
         // query and map timeslots to avoid N+1 and format data cleanly for the view
-        if ($classSchedule) {
+        if ($section) {
             // eager load nested relationships
-            $slots = $classSchedule->subjectSchedules()
+            $slots = $section->subjectSchedules()
                 ->with(['subject', 'teacher.user', 'classroom'])
                 ->orderBy('start_time')
                 ->get();
@@ -64,7 +64,7 @@ class ScheduleController extends Controller
         }
 
         // fetch all distinct academic years that exist in the database
-        $schoolYears = ClassSchedule::query()
+        $schoolYears = Section::query()
             ->distinct()
             ->orderByDesc('school_year')
             ->pluck('school_year');

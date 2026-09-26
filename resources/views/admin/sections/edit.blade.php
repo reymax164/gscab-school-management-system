@@ -1,4 +1,4 @@
-<x-layouts.app title="Admin | Create Schedule" header="Create Class Schedule"
+<x-layouts.app title="Admin | Edit Schedule" header="Edit Class Schedule"
   class="p-4 md:p-6 flex flex-col">
 
   @if ($errors->any())
@@ -12,9 +12,10 @@
     </div>
   @endif
 
-  @include('admin.class-schedules.form', [
-      'formAction' => route('admin.class-schedules.store'),
-      'formMethod' => 'POST',
+  @include('admin.sections.form', [
+      'formAction' => route('admin.sections.update', $section),
+      'formMethod' => 'PUT',
+      'classSchedule' => $section,
   ])
 
 </x-layouts.app>

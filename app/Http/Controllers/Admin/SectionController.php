@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreClassScheduleRequest;
+use App\Http\Requests\StoreSectionRequest;
 use App\Models\Classroom;
-use App\Models\ClassSchedule;
+use App\Models\Section;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 
-class ClassScheduleController extends Controller
+class SectionController extends Controller
 {
     public function index(Request $request)
     {
-        $query = ClassSchedule::with(['classroom', 'adviser.user']);
+        $query = Section::with(['classroom', 'adviser.user']);
 
         // fetch distinct school years for the filter dropdown
-        $schoolYears = ClassSchedule::query()
+        $schoolYears = Section::query()
             ->distinct()
             ->orderByDesc('school_year')
             ->pluck('school_year');
@@ -41,7 +41,7 @@ class ClassScheduleController extends Controller
             $standardGrades = collect(['Kinder', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
 
             // pluck the grade levels that currently have a schedule for the target S.Y.
-            $existingGrades = ClassSchedule::where('school_year', $targetSy)
+            $existingGrades = Section::where('school_year', $targetSy)
                 ->pluck('grade_level')
                 ->unique();
 
@@ -49,7 +49,7 @@ class ClassScheduleController extends Controller
             $missingGrades = $standardGrades->diff($existingGrades)->values()->all();
         }
 
-        return view('admin.class-schedules.index', compact(
+        return view('admin.sections.index', compact(
             'schedules',
             'schoolYears',
             'targetSy',
@@ -59,7 +59,7 @@ class ClassScheduleController extends Controller
 
     public function create()
     {
-        return view('admin.class-schedules.create', [
+        return view('admin.sections.create', [
             'subjects' => $this->subjectOptions(),
             'teachers' => $this->teacherOptions(),
             'classrooms' => $this->classroomOptions(),
@@ -68,22 +68,22 @@ class ClassScheduleController extends Controller
         ]);
     }
 
-    public function store(StoreClassScheduleRequest $request)
+    public function store(StoreSectionRequest $request)
     {
         $validated = $request->validated();
 
-        $classSchedule = ClassSchedule::create([
+        $section = Section::create([
             'grade_level' => $validated['grade_level'],
             'adviser_id' => $validated['adviser_id'],
             'school_year' => $validated['school_year'],
             'classroom_id' => $validated['subject_schedules'][0]['classroom_id'],
         ]);
 
-        $classSchedule->subjectSchedules()->createMany($validated['subject_schedules']);
+        $section->subjectSchedules()->createMany($validated['subject_schedules']);
 
         // --- auto-sectioning ---
         // check if this is the ONLY schedule for this grade and S.Y.
-        $scheduleCount = ClassSchedule::where('grade_level', $validated['grade_level'])
+        $scheduleCount = Section::where('grade_level', $validated['grade_level'])
             ->where('school_year', $validated['school_year'])
             ->count();
 
@@ -91,7 +91,7 @@ class ClassScheduleController extends Controller
             // find all enrolled students for this grade level who don't have a schedule for this S.Y. yet
             $studentIds = Student::where('enrollment_status', 'enrolled')
                 ->where('grade_level', $validated['grade_level'])
-                ->whereDoesntHave('classSchedules', function ($query) use ($validated) {
+                ->whereDoesntHave('sections', function ($query) use ($validated) {
                     $query->where('school_year', $validated['school_year']);
                 })
                 ->pluck('id');
@@ -101,58 +101,58 @@ class ClassScheduleController extends Controller
                 foreach ($studentIds as $id) {
                     $pivotData[$id] = ['status' => 'enrolled'];
                 }
-                $classSchedule->students()->syncWithoutDetaching($pivotData);
+                $section->students()->syncWithoutDetaching($pivotData);
             }
         }
 
-        return redirect()->route('admin.class-schedules.index')
+        return redirect()->route('admin.sections.index')
             ->with('success', 'Class schedule created successfully.');
     }
 
-    public function edit(ClassSchedule $classSchedule)
+    public function edit(Section $section)
     {
-        $classSchedule->load('subjectSchedules');
+        $section->load('subjectSchedules');
 
-        return view('admin.class-schedules.edit', [
-            'classSchedule' => $classSchedule,
+        return view('admin.sections.edit', [
+            'section' => $section,
             'subjects' => $this->subjectOptions(),
             'teachers' => $this->teacherOptions(),
             'classrooms' => $this->classroomOptions(),
-            'existingCounts' => $this->getExistingScheduleCounts($classSchedule->id),
-            'adviserCounts' => $this->getAdviserCounts($classSchedule->id),
+            'existingCounts' => $this->getExistingScheduleCounts($section->id),
+            'adviserCounts' => $this->getAdviserCounts($section->id),
         ]);
     }
 
-    public function show(ClassSchedule $classSchedule)
+    public function show(Section $section)
     {
-        $classSchedule->load(['classroom', 'adviser.user', 'subjectSchedules.subject', 'subjectSchedules.teacher.user', 'subjectSchedules.classroom']);
+        $section->load(['classroom', 'adviser.user', 'subjectSchedules.subject', 'subjectSchedules.teacher.user', 'subjectSchedules.classroom']);
 
-        return view('admin.class-schedules.show', compact('classSchedule'));
+        return view('admin.sections.show', compact('section'));
     }
 
-    public function update(StoreClassScheduleRequest $request, ClassSchedule $classSchedule)
+    public function update(StoreSectionRequest $request, Section $section)
     {
         $validated = $request->validated();
 
-        $classSchedule->update([
+        $section->update([
             'grade_level' => $validated['grade_level'],
             'adviser_id' => $validated['adviser_id'],
             'school_year' => $validated['school_year'],
             'classroom_id' => $validated['subject_schedules'][0]['classroom_id'],
         ]);
 
-        $classSchedule->subjectSchedules()->delete();
-        $classSchedule->subjectSchedules()->createMany($validated['subject_schedules']);
+        $section->subjectSchedules()->delete();
+        $section->subjectSchedules()->createMany($validated['subject_schedules']);
 
-        return redirect()->route('admin.class-schedules.index')
+        return redirect()->route('admin.sections.index')
             ->with('success', 'Class schedule updated successfully.');
     }
 
-    public function destroy(ClassSchedule $classSchedule)
+    public function destroy(Section $section)
     {
-        $classSchedule->delete();
+        $section->delete();
 
-        return redirect()->route('admin.class-schedules.index')
+        return redirect()->route('admin.sections.index')
             ->with('success', 'Class schedule deleted successfully.');
     }
 
@@ -191,7 +191,7 @@ class ClassScheduleController extends Controller
      */
     private function getExistingScheduleCounts(?int $excludeId = null): array
     {
-        $query = ClassSchedule::query();
+        $query = Section::query();
 
         if ($excludeId) {
             $query->where('id', '!=', $excludeId);
@@ -211,7 +211,7 @@ class ClassScheduleController extends Controller
      */
     private function getAdviserCounts(?int $excludeId = null): array
     {
-        $query = ClassSchedule::query();
+        $query = Section::query();
 
         if ($excludeId) {
             $query->where('id', '!=', $excludeId);

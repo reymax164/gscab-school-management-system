@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ClassSchedule;
+use App\Models\Section;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
 class SectioningController extends Controller
 {
-    public function index(ClassSchedule $class_schedule)
+    public function index(Section $section)
     {
         // get students currently assigned to this schedule
-        $enrolledStudents = $class_schedule->students()->with('user')->get();
+        $enrolledStudents = $section->students()->with('user')->get();
 
         // query ALL available fully enrolled students to show in a dropdown/list
         // eager-loads 'user' to display names (user->first_name, etc.)
@@ -21,14 +21,14 @@ class SectioningController extends Controller
             // Optional: ->where('grade_level', $some_logic)
             ->get();
 
-        return view('admin.class-schedules.sectioning', compact(
-            'class_schedule',
+        return view('admin.sections.sectioning', compact(
+            'section',
             'enrolledStudents',
             'availableStudents'
         ));
     }
 
-    public function store(Request $request, ClassSchedule $class_schedule)
+    public function store(Request $request, Section $section)
     {
         // expecting an array of student IDs from a multi-select or checkboxes
         $request->validate([
@@ -45,20 +45,20 @@ class SectioningController extends Controller
             $pivotData[$id] = ['status' => 'enrolled'];
         }
 
-        $class_schedule->students()->syncWithoutDetaching($pivotData);
+        $section->students()->syncWithoutDetaching($pivotData);
 
-        return redirect()->route('admin.class-schedules.sectioning', $class_schedule->id)
+        return redirect()->route('admin.sections.sectioning', $section->id)
             ->with('success', 'Students successfully added to the class.');
     }
 
     // method to drop a student from a class
-    public function destroy(ClassSchedule $class_schedule, Student $student)
+    public function destroy(Section $section, Student $student)
     {
         // detaches them from the pivot table entirely
-        $class_schedule->students()->detach($student->id);
+        $section->students()->detach($student->id);
 
         // if keep the record but mark as dropped:
-        // $class_schedule->students()->updateExistingPivot($student->id, ['status' => 'dropped']);
+        // $section->students()->updateExistingPivot($student->id, ['status' => 'dropped']);
 
         return back()->with('success', 'Student removed from the schedule.');
     }

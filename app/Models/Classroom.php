@@ -12,8 +12,8 @@ class Classroom extends Model
 
     protected $fillable = ['name', 'capacity', 'building_name'];
 
-    public function classSchedules(): HasMany
+    public function sections(): HasMany
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(Section::class);
     }
 }

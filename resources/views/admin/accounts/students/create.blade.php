@@ -1,16 +1,16 @@
-<x-layouts.app title="Admin | Add Teacher" header="Add New Teacher" class="p-4 md:p-6">
+<x-layouts.app title="Admin | Add Student" header="Add New Student" class="p-4 md:p-6">
 
     {{-- Top Action Bar --}}
     <div class="flex justify-between items-center mb-4 px-2 md:px-0">
-        <a href="{{ route('admin.accounts.teachers.index') }}"
+        <a href="{{ route('admin.accounts.students.index') }}"
            class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-blue-900 transition-colors">
             <x-heroicon-o-arrow-left class="w-4 h-4 mr-1" />
-            Back to Teachers
+            Back to Students
         </a>
     </div>
 
-    {{-- TODO: controller/route for storing teachers does not exist yet (admin.accounts.teachers.store) --}}
-    <form action="{{ route('admin.accounts.teachers.store') }}" method="POST">
+    {{-- TODO: controller/route for storing students does not exist yet (admin.accounts.students.store) --}}
+    <form action="{{ route('admin.accounts.students.store') }}" method="POST">
         @csrf
 
         {{-- Main Profile Container --}}
@@ -18,8 +18,8 @@
 
             {{-- Header Section --}}
             <div class="px-6 py-5 border-b border-gray-200 bg-gray-50">
-                <h2 class="text-lg font-semibold text-gray-900">New Teacher Account</h2>
-                <p class="text-sm text-gray-500 mt-1">Fill in the details below to register a new teacher.</p>
+                <h2 class="text-lg font-semibold text-gray-900">New Student Account</h2>
+                <p class="text-sm text-gray-500 mt-1">Fill in the details below to register a new student.</p>
             </div>
 
             {{-- Details Body --}}
@@ -114,33 +114,64 @@
                     </div>
                 </section>
 
-                {{-- Section 2: Employment Information --}}
+                {{-- Section 2: Academic Information --}}
                 <section>
-                    <h3 class="text-lg font-semibold text-blue-900 border-b-2 border-gray-100 pb-2 mb-4">Employment Information</h3>
+                    <h3 class="text-lg font-semibold text-blue-900 border-b-2 border-gray-100 pb-2 mb-4">Academic Information</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <x-form.input label="Employee ID" name="employee_id" value="{{ old('employee_id') }}" required />
+                        <x-form.input label="LRN" name="lrn" value="{{ old('lrn') }}" required />
 
                         <div class="flex flex-col gap-1">
-                            <label for="department_id" class="text-sm font-medium text-gray-700">Department</label>
-                            <select name="department_id" id="department_id" required
+                            <label for="grade_level" class="text-sm font-medium text-gray-700">Grade Level</label>
+                            <select name="grade_level" id="grade_level" required
                                     class="bg-white border border-neutral-300 rounded-md px-3 py-2 text-sm text-gray-900 shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                @foreach (['Mathematics', 'Science', 'English', 'History', 'Mapeh'] as $department)
-                                    <option value="{{ $department }}" {{ old('department_id') == $department ? 'selected' : '' }}>{{ $department }}</option>
-                                @endforeach
+                                <option value="Kinder" {{ old('grade_level') == 'Kinder' ? 'selected' : '' }}>Kindergarten</option>
+                                @for ($i = 1; $i <= 10; $i++)
+                                    <option value="{{ $i }}" {{ old('grade_level') == $i ? 'selected' : '' }}>Grade {{ $i }}</option>
+                                @endfor
                             </select>
                         </div>
 
-                        <x-form.input label="Hire Date" name="hire_date" type="date" value="{{ old('hire_date') }}" required />
+                        <div class="flex flex-col gap-1">
+                            <label for="student_status" class="text-sm font-medium text-gray-700">Student Type</label>
+                            <select name="student_status" id="student_status" required
+                                    class="bg-white border border-neutral-300 rounded-md px-3 py-2 text-sm text-gray-900 shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <option value="new" {{ old('student_status', 'new') == 'new' ? 'selected' : '' }}>New</option>
+                                <option value="existing" {{ old('student_status') == 'existing' ? 'selected' : '' }}>Existing</option>
+                                <option value="transferee" {{ old('student_status') == 'transferee' ? 'selected' : '' }}>Transferee</option>
+                            </select>
+                        </div>
                     </div>
                 </section>
 
-                {{-- Section 3: Personal Details --}}
+                {{-- Section 3: Personal Information --}}
                 <section>
                     <h3 class="text-lg font-semibold text-blue-900 border-b-2 border-gray-100 pb-2 mb-4">Personal Details</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <x-form.input label="Last Name" name="last_name" value="{{ old('last_name') }}" required />
                         <x-form.input label="First Name" name="first_name" value="{{ old('first_name') }}" required />
                         <x-form.input label="Middle Name" name="middle_name" value="{{ old('middle_name') }}" />
+
+                        <x-form.input label="Date of Birth" name="birthdate" type="date" value="{{ old('birthdate') }}" required />
+
+                        <div class="flex flex-col gap-1">
+                            <label for="gender" class="text-sm font-medium text-gray-700">Gender</label>
+                            <select name="gender" id="gender" required
+                                    class="bg-white border border-neutral-300 rounded-md px-3 py-2 text-sm text-gray-900 shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                                <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
+                            </select>
+                        </div>
+
+                        <x-form.input label="Age" name="age" type="number" min="0" max="120" value="{{ old('age') }}" required />
+
+                        <x-form.input label="Birthplace" name="birthplace" value="{{ old('birthplace') }}" />
+                        <x-form.input label="Guardian" name="guardian_name" value="{{ old('guardian_name') }}" />
+                        <x-form.input label="Contact Number" name="contact_number" value="{{ old('contact_number') }}" />
+
+                        <x-form.input label="House No." name="house_no" value="{{ old('house_no') }}" />
+                        <x-form.input label="Sitio/Subdivision" name="sitio_subdivision" value="{{ old('sitio_subdivision') }}" />
+                        <x-form.input label="Barangay" name="barangay" value="{{ old('barangay') }}" />
+                        <x-form.input label="Zip Code" name="zip" value="{{ old('zip') }}" />
                     </div>
                 </section>
 
@@ -148,13 +179,13 @@
 
             {{-- Footer Actions --}}
             <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3">
-                <a href="{{ route('admin.accounts.teachers.index') }}"
+                <a href="{{ route('admin.accounts.students.index') }}"
                    class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
                     Cancel
                 </a>
                 <button type="submit"
                         class="px-4 py-2 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 rounded-md shadow-sm transition-colors">
-                    Create Teacher
+                    Register Student
                 </button>
             </div>
         </div>

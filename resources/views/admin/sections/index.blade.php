@@ -2,7 +2,7 @@
     class="p-4 md:p-6 flex flex-col">
 
     <div class="w-full flex justify-between flex-row items-center">
-        <form action="{{ route('admin.class-schedules.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 mb-6 max-w-md grow">
+        <form action="{{ route('admin.sections.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 mb-6 max-w-md grow">
             <x-form.select name="sort" id="" label="Sort by" class="w-52">
                 <option value="">Grade Level (Acending)</option>
                 <option value="">Grade Level (Descending)</option>
@@ -21,7 +21,7 @@
         </form>
 
         <div>
-            <a href="{{ route('admin.class-schedules.create') }}" class="bg-blue-900 hover:bg-blue-900/90 text-white text-sm px-3 py-2 rounded-sm inline-flex items-center gap-2 transition-colors">
+            <a href="{{ route('admin.sections.create') }}" class="bg-blue-900 hover:bg-blue-900/90 text-white text-sm px-3 py-2 rounded-sm inline-flex items-center gap-2 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
@@ -92,10 +92,10 @@
 
                     <!-- action links -->
                     <div class="flex items-center gap-2 w-full md:w-auto justify-end font-medium text-white">
-                        <a href="{{ route('admin.class-schedules.show', $schedule) }}" class="text-xs w-16 text-center hover:underline bg-green-600 rounded-sm px-3 py-2">View</a>
-                        <a href="{{ route('admin.class-schedules.edit', $schedule) }}" class="text-xs w-16 text-center hover:underline bg-yellow-600 rounded-sm px-3 py-2">Edit</a>
+                        <a href="{{ route('admin.sections.show', $schedule) }}" class="text-xs w-16 text-center hover:underline bg-green-600 rounded-sm px-3 py-2">View</a>
+                        <a href="{{ route('admin.sections.edit', $schedule) }}" class="text-xs w-16 text-center hover:underline bg-yellow-600 rounded-sm px-3 py-2">Edit</a>
                         
-                        <form action="{{ route('admin.class-schedules.destroy', $schedule) }}" method="POST" class="inline m-0 p-0">
+                        <form action="{{ route('admin.sections.destroy', $schedule) }}" method="POST" class="inline m-0 p-0">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-xs w-16 text-center hover:underline bg-red-600 rounded-sm px-3 py-2" onclick="return confirm('Are you sure?')">Delete</button>

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Classroom;
-use App\Models\ClassSchedule;
+use App\Models\Section;
 use App\Models\Subject;
 use App\Models\SubjectSchedule;
 use App\Models\Teacher;
@@ -27,7 +27,7 @@ class SubjectScheduleFactory extends Factory
         $startTime = fake()->randomElement(['07:00', '08:00', '09:00', '10:00', '13:00', '14:00']);
 
         return [
-            'class_schedule_id' => ClassSchedule::factory(),
+            'section_id' => Section::factory(),
             'subject_id' => Subject::factory(),
             'teacher_id' => Teacher::factory(),
             'classroom_id' => Classroom::factory(),

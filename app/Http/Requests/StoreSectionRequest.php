@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
-class StoreClassScheduleRequest extends FormRequest
+class StoreSectionRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -40,10 +40,10 @@ class StoreClassScheduleRequest extends FormRequest
                 }
 
                 // each adviser is committed to one section for the whole school year
-                // $adviserConflict = DB::table('class_schedules')
+                // $adviserConflict = DB::table('sections')
                 //     ->where('school_year', $this->school_year)
                 //     ->where('adviser_id', $this->adviser_id)
-                //     ->when($this->route('class_schedule'), fn ($query, $classSchedule) => $query->where('id', '!=', $classSchedule->id))
+                //     ->when($this->route('section'), fn ($query, $section) => $query->where('id', '!=', $section->id))
                 //     ->exists();
 
                 // if ($adviserConflict) {

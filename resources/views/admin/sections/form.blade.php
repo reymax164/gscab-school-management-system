@@ -377,7 +377,7 @@
 
         <!-- actions (cancel & save) -->
         <div class="bg-white flex justify-end gap-3 px-4 py-4 border-t border-gray-200">
-            <a href="{{ route('admin.class-schedules.index') }}"
+            <a href="{{ route('admin.sections.index') }}"
                 class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium px-4 py-2 rounded-md transition-colors">
                 Cancel
             </a>

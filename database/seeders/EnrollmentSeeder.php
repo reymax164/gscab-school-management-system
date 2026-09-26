@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Enrollments\Enrollment;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -15,14 +16,20 @@ class EnrollmentSeeder extends Seeder
      */
     public function run(): void
     {
-        /**
-        * Dummy enrollment applications with full hub-and-spoke records.
-        */
         for ($i = 0; $i < 20; $i++) {
+            $status = match (true) {
+                $i < 6 => 'submitted',
+                $i < 12 => 'registrar_approved',
+                $i < 18 => 'enrolled',
+                default => 'rejected',
+            };
+            $lrn = fake()->unique()->numerify('2026######');
+
             $applicantUser = User::create([
                 'first_name' => fake()->firstName(),
                 'last_name' => fake()->lastName(),
                 'email' => fake()->unique()->safeEmail(),
+                'lrn' => $lrn,
                 'password' => Hash::make('password'),
                 'role' => 'student',
             ]);
@@ -34,14 +41,14 @@ class EnrollmentSeeder extends Seeder
                 'school_year' => '2026-2027',
                 'grade_level' => fake()->randomElement(['7', '8', '9', '10']),
                 'student_status' => 'new',
-                'status' => 'enrolled',
+                'status' => $status,
                 'online_access' => 'wifi',
                 'gadgets' => ['Smartphone', 'Laptop'],
             ]);
 
             // create the Student Profile Spoke
             $enrollment->studentProfile()->create([
-                'lrn' => fake()->unique()->numerify('10########'),
+                'lrn' => $lrn,
                 'email' => $applicantUser->email,
                 'religion' => 'Catholic',
                 'last_name' => $applicantUser->last_name,
@@ -58,7 +65,6 @@ class EnrollmentSeeder extends Seeder
                 'barangay' => 'Kumintang Ibaba',
                 'zip' => '4200',
 
-                // pack the flat form data into JSON arrays exactly like the controller
                 'father_details' => [
                     'deceased' => 'no',
                     'last_name' => fake()->lastName(),
@@ -104,12 +110,25 @@ class EnrollmentSeeder extends Seeder
                 'talent_skills' => 'Singing',
             ]);
 
-            // create the Payment Spoke
+            // create the Payment Spoke, keeping payment_status aligned with the enrollment status
+            // dummy
             $enrollment->payment()->create([
                 'payment_scheme' => 'full',
-                'payment_status' => 'pending',
+                'tuition_fee' => 15000.00,
+                'misc_fee' => 6000.00,
+                'discount_amount' => 1500.00,
+                'total_amount' => 19500.00,
+                'payment_status' => $status === 'enrolled' ? 'paid' : 'pending',
             ]);
-        }
 
+            // only fully enrolled applicants get a Student record so they can be attached to a section
+            if ($status === 'enrolled') {
+                Student::create([
+                    'user_id' => $applicantUser->id,
+                    'grade_level' => $enrollment->grade_level,
+                    'enrollment_status' => 'enrolled',
+                ]);
+            }
+        }
     }
 }

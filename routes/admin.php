@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\CashierController;
 use App\Http\Controllers\Admin\ClassroomController;
-use App\Http\Controllers\Admin\ClassScheduleController;
+use App\Http\Controllers\Admin\RegistrarController;
+use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SectioningController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\SystemSettingController;
+use App\Http\Controllers\Admin\TeacherController;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -37,26 +40,32 @@ Route::prefix('accounts')->name('accounts.')->group(function () {
 
     // teachers
     Route::prefix('teachers')->name('teachers.')->group(function () {
-        Route::get('/', fn () => view('admin.accounts.teachers.index'))->name('index');
-        Route::get('/create', fn () => view('admin.accounts.teachers.create'))->name('create');
-        Route::get('/{teacher}', fn () => view('admin.accounts.teachers.show'))->name('show');
-        Route::get('/{teacher}/edit', fn () => view('admin.accounts.teachers.edit'))->name('edit');
+        Route::get('/', [TeacherController::class, 'index'])->name('index');
+        Route::get('/create', [TeacherController::class, 'create'])->name('create');
+        Route::post('/', [TeacherController::class, 'store'])->name('store');
+        Route::get('/{teacher}', [TeacherController::class, 'show'])->name('show');
+        Route::get('/{teacher}/edit', [TeacherController::class, 'edit'])->name('edit');
+        Route::patch('/{teacher}', [TeacherController::class, 'update'])->name('update');
     });
 
     // registrar
     Route::prefix('registrar')->name('registrar.')->group(function () {
-        Route::get('/', fn () => view('admin.accounts.registrar.index'))->name('index');
-        Route::get('/create', fn () => view('admin.accounts.registrar.create'))->name('create');
-        Route::get('/{registrar}', fn () => view('admin.accounts.registrar.show'))->name('show');
-        Route::get('/{registrar}/edit', fn () => view('admin.accounts.registrar.edit'))->name('edit');
+        Route::get('/', [RegistrarController::class, 'index'])->name('index');
+        Route::get('/create', [RegistrarController::class, 'create'])->name('create');
+        Route::post('/', [RegistrarController::class, 'store'])->name('store');
+        Route::get('/{registrar}', [RegistrarController::class, 'show'])->name('show');
+        Route::get('/{registrar}/edit', [RegistrarController::class, 'edit'])->name('edit');
+        Route::patch('/{registrar}', [RegistrarController::class, 'update'])->name('update');
     });
 
     // cashier
     Route::prefix('cashier')->name('cashier.')->group(function () {
-        Route::get('/', fn () => view('admin.accounts.cashier.index'))->name('index');
-        Route::get('/create', fn () => view('admin.accounts.cashier.create'))->name('create');
-        Route::get('/{cashier}', fn () => view('admin.accounts.cashier.show'))->name('show');
-        Route::get('/{cashier}/edit', fn () => view('admin.accounts.cashier.edit'))->name('edit');
+        Route::get('/', [CashierController::class, 'index'])->name('index');
+        Route::get('/create', [CashierController::class, 'create'])->name('create');
+        Route::post('/', [CashierController::class, 'store'])->name('store');
+        Route::get('/{cashier}', [CashierController::class, 'show'])->name('show');
+        Route::get('/{cashier}/edit', [CashierController::class, 'edit'])->name('edit');
+        Route::patch('/{cashier}', [CashierController::class, 'update'])->name('update');
     });
 });
 
@@ -64,14 +73,14 @@ Route::prefix('accounts')->name('accounts.')->group(function () {
 Route::resource('subjects', SubjectController::class);
 Route::resource('classrooms', ClassroomController::class);
 Route::resource('system-settings', SystemSettingController::class);
-Route::resource('class-schedules', ClassScheduleController::class);
+Route::resource('sections', SectionController::class);
 
 // SECTIONING
-Route::get('class-schedules/{class_schedule}/sectioning', [SectioningController::class, 'index'])
-    ->name('class-schedules.sectioning');
+Route::get('sections/{section}/sectioning', [SectioningController::class, 'index'])
+    ->name('sections.sectioning');
 
-Route::post('class-schedules/{class_schedule}/sectioning', [SectioningController::class, 'store'])
-    ->name('class-schedules.sectioning.store');
+Route::post('sections/{section}/sectioning', [SectioningController::class, 'store'])
+    ->name('sections.sectioning.store');
 
-Route::delete('class-schedules/{class_schedule}/sectioning/{student}', [SectioningController::class, 'destroy'])
-    ->name('class-schedules.sectioning.destroy');
+Route::delete('sections/{section}/sectioning/{student}', [SectioningController::class, 'destroy'])
+    ->name('sections.sectioning.destroy');

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ClassSchedule;
 use App\Models\Enrollments\Enrollment;
+use App\Models\Section;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -162,7 +162,7 @@ class StudentController extends Controller
             : ($currentYear - 1).'-'.$currentYear;
 
         // check if there is exactly one schedule for a grade level in the active S.Y.
-        $schedules = ClassSchedule::where('grade_level', $student->grade_level)
+        $schedules = Section::where('grade_level', $student->grade_level)
             ->where('school_year', $schoolYear)
             ->get();
 

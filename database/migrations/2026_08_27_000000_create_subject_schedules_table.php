@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Classroom;
-use App\Models\ClassSchedule;
+use App\Models\Section;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Database\Migrations\Migration;
@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('subject_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(ClassSchedule::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Section::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Subject::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Teacher::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Classroom::class)->constrained()->cascadeOnDelete(); // room used for this subject/time slot

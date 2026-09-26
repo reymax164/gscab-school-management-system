@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\ClassSchedule;
+use App\Models\Section;
 use App\Models\Student;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('class_schedule_student', function (Blueprint $table) {
+        Schema::create('section_student', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(ClassSchedule::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Section::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Student::class)->constrained()->cascadeOnDelete();
             $table->string('status')->default('enrolled');
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('class_schedule_student');
+        Schema::dropIfExists('section_student');
     }
 };

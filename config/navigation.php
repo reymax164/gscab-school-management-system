@@ -13,8 +13,8 @@ return [
     // teacher
     'teacher' => [
         ['route' => 'teacher.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
-        ['route' => 'teacher.schedule',  'label' => 'Class Schedule',  'icon' => 'heroicon-s-calendar'],
-        ['route' => 'teacher.students',  'label' => 'Student List',  'icon' => 'heroicon-s-user-group'],
+        ['route' => 'teacher.schedules.index',  'label' => 'Class Schedule',  'icon' => 'heroicon-s-calendar'],
+        ['route' => 'teacher.students.index',  'label' => 'Student List',  'icon' => 'heroicon-s-user-group'],
         ['route' => 'teacher.grades',    'label' => 'Student Grades',    'icon' => 'heroicon-s-academic-cap'],
     ],
 
@@ -58,7 +58,7 @@ return [
             ],
 
         ],
-        ['route' => 'admin.class-schedules.index',   'label' => 'Manage Schedules', 'icon' => 'heroicon-s-calendar'],
+        ['route' => 'admin.sections.index',   'label' => 'Manage Schedules', 'icon' => 'heroicon-s-calendar'],
         ['route' => 'admin.news',  'label' => 'Post News',  'icon' => 'heroicon-s-newspaper'],
         ['route' => 'admin.feedbacks',  'label' => 'Read Feedbacks',  'icon' => 'heroicon-s-chat-bubble-left-right'],
     ],

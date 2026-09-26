@@ -9,12 +9,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            SystemSettingSeeder::class,
             DocumentRequirementSeeder::class,
             StaffSeeder::class,
             TeacherSeeder::class,
             StudentSeeder::class,
             EnrollmentSeeder::class,
-            ClassScheduleSeeder::class,
+            SectionSeeder::class,
         ]);
     }
 }

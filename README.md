@@ -7,7 +7,7 @@
 ### Admin Controllers
 
 - `app/Http/Controllers/Admin/ClassroomController.php`
-- `app/Http/Controllers/Admin/ClassScheduleController.php`
+- `app/Http/Controllers/Admin/SectionController.php`
 - `app/Http/Controllers/Admin/SectioningController.php`
 - `app/Http/Controllers/Admin/StudentController.php`
 - `app/Http/Controllers/Admin/SubjectController.php`
@@ -41,7 +41,7 @@
 
 ## Requests
 
-- `app/Http/Requests/StoreClassScheduleRequest.php`
+- `app/Http/Requests/StoreSectionRequest.php`
 - `app/Http/Requests/StoreEnrollmentRequest.php`
 
 ## Mail
@@ -51,7 +51,7 @@
 ## Models
 
 - `app/Models/Classroom.php`
-- `app/Models/ClassSchedule.php`
+- `app/Models/Section.php`
 - `app/Models/Student.php`
 - `app/Models/Subject.php`
 - `app/Models/SubjectSchedule.php`
@@ -79,9 +79,9 @@
 - `database/migrations/2026_08_24_122913_create_document_requirements_table.php`
 - `database/migrations/2026_08_26_094252_create_subjects_table.php`
 - `database/migrations/2026_08_26_094305_create_classrooms_table.php`
-- `database/migrations/2026_08_26_094312_create_class_schedules_table.php`
+- `database/migrations/2026_08_26_094312_create_sections_table.php`
 - `database/migrations/2026_08_26_094331_create_system_settings_table`
-- `database/migrations/2026_08_26_094335_create_class_schedule_student_table.php`
+- `database/migrations/2026_08_26_094335_create_section_student_table.php`
 - `database/migrations/2026_08_27_000000_create_subject_schedules_table.php`
 
 ## Routes

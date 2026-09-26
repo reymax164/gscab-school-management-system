@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('class_schedules', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id();
             $table->string('grade_level'); // e.g., '7', '8', 'Kinder'
             $table->foreignIdFor(Classroom::class)->constrained()->cascadeOnDelete(); // room used for the whole day
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('class_schedules');
+        Schema::dropIfExists('sections');
     }
 };

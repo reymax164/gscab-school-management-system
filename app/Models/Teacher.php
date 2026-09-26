@@ -26,7 +26,7 @@ class Teacher extends Model
     // sections this teacher advises
     public function advisorySections(): HasMany
     {
-        return $this->hasMany(ClassSchedule::class, 'adviser_id');
+        return $this->hasMany(Section::class, 'adviser_id');
     }
 
     // subjects this teacher handles across sections
