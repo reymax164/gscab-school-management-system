@@ -10,7 +10,7 @@
   <x-widgets.number
     title="Pending Grades"
     footer="View Student Grades"
-    :href="route('teacher.grades')"
+    :href="route('teacher.grades.index')"
   />
 
   <x-widgets.blank

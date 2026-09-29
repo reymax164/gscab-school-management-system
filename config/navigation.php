@@ -15,7 +15,7 @@ return [
         ['route' => 'teacher.dashboard', 'label' => 'Dashboard', 'icon' => 'heroicon-s-squares-2x2'],
         ['route' => 'teacher.schedules.index',  'label' => 'Class Schedule',  'icon' => 'heroicon-s-calendar'],
         ['route' => 'teacher.students.index',  'label' => 'Student List',  'icon' => 'heroicon-s-user-group'],
-        ['route' => 'teacher.grades',    'label' => 'Student Grades',    'icon' => 'heroicon-s-academic-cap'],
+        ['route' => 'teacher.grades.index',    'label' => 'Student Grades',    'icon' => 'heroicon-s-academic-cap'],
     ],
 
     // registrar

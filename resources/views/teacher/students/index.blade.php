@@ -35,7 +35,7 @@
                                 @if ($section->subjectSchedules->isNotEmpty())
                                     {{ $section->subjectSchedules->pluck('subject.title')->unique()->implode(', ') }}
                                 @elseif ($section->adviser_id === optional(auth()->user()->teacher)->id)
-                                    Adviser
+                                    Homeroom/Adviser
                                 @else
                                     N/A
                                 @endif

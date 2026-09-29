@@ -27,7 +27,7 @@ Route::get('/staff', fn () => view('admin.staffs'))->name('staffs');
 Route::get('/news', fn () => view('admin.news'))->name('news');
 Route::get('/feedbacks', fn () => view('admin.feedbacks'))->name('feedbacks');
 
-// ACCOUNTS MANAGEMENT
+// accounts management
 Route::prefix('accounts')->name('accounts.')->group(function () {
 
     // students

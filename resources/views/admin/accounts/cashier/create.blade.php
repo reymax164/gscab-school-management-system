@@ -9,7 +9,6 @@
         </a>
     </div>
 
-    {{-- TODO: routes/admin.php uses an inline closure with no controller; admin.accounts.cashier.store does not exist yet --}}
     <form action="{{ route('admin.accounts.cashier.store') }}" method="POST">
         @csrf
         <input type="hidden" name="role" value="cashier">

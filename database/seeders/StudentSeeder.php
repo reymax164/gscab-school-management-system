@@ -83,7 +83,7 @@ class StudentSeeder extends Seeder
             'last_name' => 'Doe',
             'email' => 'student@gscab.edu',
             'lrn' => '2026000001',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('student.403159'),
             'role' => 'student',
         ]);
 

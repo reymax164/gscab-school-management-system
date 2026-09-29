@@ -25,49 +25,9 @@
       <nav id="menu" class="hidden w-full md:flex md:w-auto mt-4 md:mt-0 order-3 md:order-2 md:ml-auto md:mr-8 transition-all duration-300">
         <ul class="flex flex-col md:flex-row w-full gap-2 md:gap-6 items-center justify-center tracking-wider text-base pb-4 md:pb-0">
           <x-guest.nav-link route="home" label="Home" />
+          <x-guest.nav-link route="auth.enroll" label="Enroll" />
+          <x-guest.nav-link route="track.form" label="Track Status" />
           <x-guest.nav-link route="news" label="News" />
-          
-          {{-- admission dropdown --}}
-          <li x-data="{ open: false }" class="relative w-full md:w-auto flex flex-col items-center">
-              
-              {{-- dropdown trigger --}}
-              <button @click="open = !open" 
-                      @click.outside="open = false" 
-                      class="flex items-center gap-1 hover:text-gray-300 transition-colors focus:outline-none py-2 md:py-0">
-                  Enroll
-                  {{-- chevron icon --}}
-                  <svg class="w-4 h-4 transition-transform duration-200" 
-                       :class="open ? 'rotate-180' : ''" 
-                       fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
-              </button>
-              
-              {{-- dropdown items --}}
-              <div x-show="open" 
-                   x-cloak
-                   x-transition:enter="transition ease-out duration-100"
-                   x-transition:enter-start="transform opacity-0 scale-95"
-                   x-transition:enter-end="transform opacity-100 scale-100"
-                   x-transition:leave="transition ease-in duration-75"
-                   x-transition:leave-start="transform opacity-100 scale-100"
-                   x-transition:leave-end="transform opacity-0 scale-95"
-                   class="md:absolute md:top-full md:left-1/2 md:-translate-x-1/2 mt-2 w-48 bg-neutral-50 dark:bg-slate-800 rounded-xs shadow-lg ring-1 ring-blue-900 ring-opacity-5 z-50 overflow-hidden flex flex-col"
-                   style="display: none;">
-                   
-                  <a href="{{ route('auth.enroll') }}" 
-                     class="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-slate-200 hover:bg-neutral-200 dark:hover:bg-slate-700 dark:hover:text-sky-300 transition-colors text-center md:text-left">
-                      Enroll Now
-                  </a>
-                  
-                  <a href="{{ route('track.form') }}" 
-                     class="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-slate-200 hover:bg-neutral-200 dark:hover:bg-slate-700 dark:hover:text-sky-300 transition-colors border-t border-gray-100 dark:border-slate-700 text-center md:text-left">
-                      Track Status
-                  </a>
-                  
-              </div>
-          </li>
-          
           <x-guest.nav-link route="faqs" label="FAQs" />
         </ul>
       </nav>

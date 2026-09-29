@@ -16,7 +16,7 @@ class ApplicationSubmitted extends Mailable
 
     public function __construct($referenceCode)
     {
-        $this->referenceCode = $referenceCode; // Assign it
+        $this->referenceCode = $referenceCode;
     }
 
     public function envelope(): Envelope

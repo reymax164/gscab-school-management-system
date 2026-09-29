@@ -9,6 +9,11 @@
           step: 1, 
           totalSteps: 6,
           reviewData: [],
+          scrollToTop() {
+              const formElement = document.getElementById('enrollment-form');
+              const offsetPosition = formElement.getBoundingClientRect().top + window.scrollY - 50;
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+          },
           validateAndNext() {
               let currentStepDiv = document.getElementById('step-' + this.step);
               let inputs = Array.from(currentStepDiv.querySelectorAll('input[required], select[required]'));
@@ -27,6 +32,7 @@
                   if (this.step === this.totalSteps) {
                       this.updateReviewDetails();
                   }
+                  this.scrollToTop();
               }
           },
           updateReviewDetails() {
@@ -92,7 +98,7 @@
             @endif
 
           {{-- Section 1: ACADEMIC AND ONLINE ACCESS --}}
-          <div id="step-1" x-show="step === 1" x-transition.opacity.duration.300ms>
+          <div id="step-1" x-show="step === 1" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
               <h2 class="text-xl font-bold text-gray-800 mb-6">Academic & Online Access</h2>
                 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
@@ -229,7 +235,7 @@
           </div>
 
           {{-- Section 2: PAYMENT SCHEME --}}
-          <div id="step-2" x-show="step === 2" x-transition.opacity.duration.300ms>
+          <div id="step-2" x-show="step === 2" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
               <h2 class="text-xl font-bold text-gray-800 mb-6">Payment Scheme</h2>
               
               <div class="space-y-4">
@@ -290,7 +296,7 @@
           </div>
 
           {{-- Section 3: PERSONAL INFORMATION --}}
-          <div id="step-3" x-show="step === 3" x-transition.opacity.duration.300ms>
+          <div id="step-3" x-show="step === 3" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
               <h2 class="text-xl font-bold text-gray-800 mb-2">Student Personal Information</h2>
               <p class="text-sm font-semibold text-red-600 mb-6">* Please type names exactly as they appear on the Birth Certificate, in CAPITAL LETTERS.<br>(Magbase sa kung ano ang nakasulat sa Birth Certificate)</p>
               
@@ -376,7 +382,7 @@
           </div>
 
           {{-- Section 4: FAMILY BACKGROUND --}}
-          <div id="step-4" x-show="step === 4" x-transition.opacity.duration.300ms>
+          <div id="step-4" x-show="step === 4" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
               <h2 class="text-xl font-bold text-gray-800 mb-6">Family Background</h2>
               
               <div class="space-y-8">
@@ -534,7 +540,7 @@
           </div>
 
           {{-- Section 5: EDUCATIONAL BACKGROUND --}}
-          <div id="step-5" x-show="step === 5" x-transition.opacity.duration.300ms>
+          <div id="step-5" x-show="step === 5" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
               <h2 class="text-xl font-bold text-gray-800 mb-6">Applicant's Educational Background</h2>
               
               <div class="p-5 border border-gray-300 rounded-lg bg-gray-50 shadow-sm">
@@ -579,7 +585,7 @@
           </div>
 
           {{-- Section 6: REVIEW INFORMATION --}}
-          <div id="step-6" x-show="step === 6" x-transition.opacity.duration.300ms>
+          <div id="step-6" x-show="step === 6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
               <h2 class="text-xl font-bold text-gray-800 mb-2">Review Your Information</h2>
               <p class="text-sm font-semibold text-gray-600 mb-6">Please check if all the details below are correct before submitting the form.</p>
               
@@ -602,7 +608,7 @@
                 <div>
                     <button type="button" 
                             x-show="step > 1" 
-                            @click="step--" 
+                            @click="step--; scrollToTop()" 
                             class="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                          Previous
                     </button>

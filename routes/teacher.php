@@ -21,5 +21,9 @@ Route::prefix('students')->name('students.')->group(function () {
 });
 
 Route::get('/student_grades', function () {
-    return view('teacher.grades');
-})->name('grades');
+    return view('teacher.grades.index');
+})->name('grades.index');
+
+Route::get('/student_grades/{student}', function ($student) {
+    return view('teacher.grades.show');
+})->name('grades.show');
