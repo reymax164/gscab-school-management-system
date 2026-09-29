@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Teacher\GradeController;
 use App\Http\Controllers\Teacher\ScheduleController;
 use App\Http\Controllers\Teacher\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -20,10 +21,8 @@ Route::prefix('students')->name('students.')->group(function () {
     Route::get('/{section}', [StudentController::class, 'show'])->name('show');
 });
 
-Route::get('/student_grades', function () {
-    return view('teacher.grades.index');
-})->name('grades.index');
-
-Route::get('/student_grades/{student}', function ($student) {
-    return view('teacher.grades.show');
-})->name('grades.show');
+Route::prefix('grades')->name('grades.')->group(function () {
+    Route::get('/', [GradeController::class, 'index'])->name('index');
+    Route::get('/{subjectSchedule}', [GradeController::class, 'show'])->name('show');
+    Route::patch('/{subjectSchedule}', [GradeController::class, 'update'])->name('update');
+});
