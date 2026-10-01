@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Support\Facades\URL;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -24,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
         // scope {registrar}/{cashier} route-model binding to their role to prevent cross-role IDOR
         Route::bind('registrar', fn (string $value) => User::where('role', 'registrar')->findOrFail($value));
         Route::bind('cashier', fn (string $value) => User::where('role', 'cashier')->findOrFail($value));
+
+        if (app()->environment('staging', 'production')) {
+            URL::forceScheme('https');
+        }
     }
 }
