@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            // LRN column removed from here
+
             $table->string('grade_level')->nullable();
             $table->string('enrollment_status')->default('pending');
             $table->timestamps();

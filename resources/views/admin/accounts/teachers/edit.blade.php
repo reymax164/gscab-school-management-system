@@ -9,7 +9,6 @@
         </a>
     </div>
 
-    {{-- TODO: controller/route for updating teachers does not exist yet (admin.accounts.teachers.update) --}}
     <form action="{{ route('admin.accounts.teachers.update', $teacher->id) }}" method="POST">
         @csrf
         @method('PATCH')

@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEnrollmentRequest;
+use App\Jobs\SendSmsNotification;
+use App\Mail\ApplicationSubmitted;
 use App\Models\Enrollments\DocumentRequirement;
 use App\Models\Enrollments\Enrollment;
 use App\Models\SystemSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class EnrollmentController extends Controller
@@ -71,7 +75,31 @@ class EnrollmentController extends Controller
             ], $this->calculatePaymentBreakdown($request->payment_scheme)));
         });
 
+        $this->sendApplicationNotifications($request->email, $request->con_person_number, $referenceCode);
+
         return redirect()->route('enroll.success')->with('reference_code', $referenceCode);
+    }
+
+    /**
+     * Notify the applicant of their reference code via email and SMS.
+     * Failures are logged but must not affect the already-saved enrollment.
+     */
+    private function sendApplicationNotifications(string $email, string $contactNumber, string $referenceCode): void
+    {
+        try {
+            Mail::to($email)->queue(new ApplicationSubmitted($referenceCode));
+        } catch (\Throwable $e) {
+            Log::error('Failed to queue application submitted email', ['error' => $e->getMessage()]);
+        }
+
+        try {
+            SendSmsNotification::dispatch(
+                $contactNumber,
+                "Your GSCAB enrollment application has been submitted. Your reference code is {$referenceCode}."
+            );
+        } catch (\Throwable $e) {
+            Log::error('Failed to dispatch application submitted SMS', ['error' => $e->getMessage()]);
+        }
     }
 
     public function success()

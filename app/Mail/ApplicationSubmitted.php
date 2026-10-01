@@ -3,26 +3,22 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ApplicationSubmitted extends Mailable
+class ApplicationSubmitted extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $referenceCode;
-
-    public function __construct($referenceCode)
-    {
-        $this->referenceCode = $referenceCode;
-    }
+    public function __construct(public string $referenceCode) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your Application Reference Code',
+            subject: 'Application Reference Code - GSCAB',
         );
     }
 
@@ -30,6 +26,7 @@ class ApplicationSubmitted extends Mailable
     {
         return new Content(
             view: 'emails.application-submitted',
+            with: ['referenceCode' => $this->referenceCode],
         );
     }
 }

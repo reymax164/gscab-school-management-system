@@ -70,7 +70,7 @@
         @empty
             {{-- empty --}}
             <div class="col-span-full text-center py-12 text-neutral-500 bg-white dark:bg-neutral-800 rounded-md shadow-sm border border-neutral-200 dark:border-neutral-700">
-                <p>No grades found for the selected school year.</p>
+                <p>No grades available.</p>
             </div>
         @endforelse
     </div>

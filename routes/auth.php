@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\StaffAuthController;
 use App\Http\Controllers\Auth\StudentAuthController;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,9 @@ Route::post('/staff-login', [StaffAuthController::class, 'authenticate'])->name(
 
 // logout
 Route::post('/logout', LogoutController::class)->name('logout');
+
+// profile (available to any authenticated role)
+Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', [ProfileController::class, 'show'])->name('show');
+    Route::post('/photo', [ProfileController::class, 'updatePhoto'])->name('photo.update');
+});

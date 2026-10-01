@@ -8,62 +8,8 @@
 
         <h1 class="text-3xl font-bold text-gray-800 mb-2">Application Submitted!</h1>
         <p class="text-gray-600 mb-8">
-            Application submitted successfully. Please remember your reference code for tracking your application status and submit the required documents.
+            Application submitted successfully. Please check your email and phone for your reference code, which you'll need to track your application status and submit the required documents.
         </p>
-
-        {{-- reference code --}}
-        @if(session('reference_code'))
-            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-5 mb-8 text-left rounded-r-md shadow-sm" 
-                x-data="{ 
-                    copied: false,
-                    copyToClipboard(text) {
-                        if (navigator.clipboard && window.isSecureContext) {
-                            navigator.clipboard.writeText(text);
-                        } else {
-                            // Fallback for HTTP / .test local domains
-                            let tempInput = document.createElement('input');
-                            tempInput.value = text;
-                            document.body.appendChild(tempInput);
-                            tempInput.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(tempInput);
-                        }
-                        this.copied = true;
-                        setTimeout(() => this.copied = false, 2500);
-                    }
-                }">
-                <div class="flex items-start">
-                    <div class="shrink-0 mt-0.5">
-                        <x-heroicon-s-exclamation-triangle class="h-6 w-6 text-yellow-600" />
-                    </div>
-                    <div class="ml-3 w-full">
-                        <h3 class="text-lg font-bold text-yellow-800">Save Your Reference Code!</h3>
-                        <div class="mt-2 text-sm text-yellow-700">
-                            <p>Because email notifications are currently unavailable, you <strong>must</strong> copy and save this code. You will need it to track your admission status.</p>
-                            
-                            {{-- White Inner Div with Copy Button --}}
-                            <div class="mt-4 p-3 bg-white border border-yellow-200 rounded flex items-center justify-between transition-colors"
-                                :class="copied ? 'border-green-300 bg-green-50/30' : ''">
-                                <span class="text-2xl font-mono font-bold tracking-wider transition-colors"
-                                    :class="copied ? 'text-green-800' : 'text-gray-900'">
-                                    {{ session('reference_code') }}
-                                </span>
-                                
-                                <button type="button"
-                                    @click="copyToClipboard('{{ session('reference_code') }}')"
-                                    class="inline-flex items-center px-3 py-1.5 border shadow-sm text-sm font-medium rounded focus:outline-none transition-all duration-200"
-                                    :class="copied ? 'bg-green-100 border-green-300 text-green-800' : 'border-gray-300 text-gray-700 bg-gray-50 hover:bg-gray-100'"
-                                >
-                                    <x-heroicon-o-clipboard-document class="w-4 h-4 mr-1.5" x-show="!copied" />
-                                    <x-heroicon-o-check-circle class="w-4 h-4 mr-1.5 text-green-600" x-show="copied" style="display: none;" />
-                                    <span x-text="copied ? 'Copied Successfully!' : 'Copy'"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
 
         {{-- document checklist --}}
         @if($requirements->isNotEmpty())

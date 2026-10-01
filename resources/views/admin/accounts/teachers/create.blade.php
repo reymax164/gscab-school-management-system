@@ -9,7 +9,6 @@
         </a>
     </div>
 
-    {{-- TODO: controller/route for storing teachers does not exist yet (admin.accounts.teachers.store) --}}
     <form action="{{ route('admin.accounts.teachers.store') }}" method="POST">
         @csrf
 

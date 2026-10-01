@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('lrn')->unique()->nullable();
             $table->string('password');
             $table->string('role');
+            $table->string('profile_photo_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
