@@ -79,10 +79,10 @@ class StudentSeeder extends Seeder
 
         // test student account
         $student = User::create([
-            'first_name' => 'Junior',
-            'last_name' => 'Doe',
-            'email' => 'student@gscab.edu',
-            'lrn' => '2026000001',
+            'first_name' => 'Nashley Cedrick',
+            'last_name' => 'Almazan',
+            # 'email' => 'student@gscab.edu',
+            'lrn' => '2026403159',
             'password' => Hash::make('student.403159'),
             'role' => 'student',
         ]);

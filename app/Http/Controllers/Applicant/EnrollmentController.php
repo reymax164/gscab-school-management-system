@@ -105,8 +105,9 @@ class EnrollmentController extends Controller
     public function success()
     {
         $requirements = DocumentRequirement::where('is_active', true)->get();
+        $referenceCode = session('reference_code');
 
-        return view('enrollment.success', compact('requirements'));
+        return view('enrollment.success', compact('requirements', 'referenceCode'));
     }
 
     /**
